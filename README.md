@@ -1,6 +1,23 @@
 # Photobooth
 Réalisation d'un photobooth
 
+## Concept 
+
+### En 2 mots 
+La borne photomaton permettent aux festivaliers de se prendre en photo. Leur photo s’imprime sur du papier thermique (comme les tickets de caisse). En leur posant quelques questions, on peut leur donner le ‘profil militant’ qui leur correspond. Un masque photo spécifique correspond à chacun des profils. Ils trouvent sur le ticket, avec leur photo, une url qui les envoie (s’ils le souhaitent) vers une webapp avec plus d’infos sur leur profil militant. Ils y découvrent aussi plusieurs manières de s’engager qui correspondent à leur profil. 
+
+### Techniquement 
+
+- Borne fabriquée en contreplaqué CNC 
+- UI : Open Frameworks 
+- webapp : Kirby CMS 
+
+### Réalisation 
+
+- DA + contenu + webapp : thecamp 
+- Fabrication : ICI Marseille 
+- Code : Pascal Baltazar 
+
 ## Bill of materials 
 
 | Quoi ?                     | Lien                                                                                                               | Qté | Prix    |
@@ -23,5 +40,4 @@ Réalisation d'un photobooth
 | Câble 2.5 mm2 bleu         | https://www.leroymerlin.fr/v3/p/produits/fil-electrique-h07vu-bleu-2-5-mm2-l-100-m-e1401480576                     | 1   | 19.90€  |
 | Câble 2.5 mm2 rouge        | https://www.leroymerlin.fr/v3/p/produits/fil-electrique-h07vu-rouge-2-5-mm2-l-100-m-e1401480578                    | 1   | 21.50€  |
 | Rallonge électrique        | https://www.leroymerlin.fr/v3/p/produits/rallonge-electrique-menager-1-prise-de-16-a-l-3-m-electraline-e1400119493 | 3   | 3.50€   |
-
 
