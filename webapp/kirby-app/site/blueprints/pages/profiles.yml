@@ -1,0 +1,22 @@
+title: Profiles
+icon: 📖
+
+columns:
+  - width: 1/2
+    sections:
+      drafts:
+        extends: sections/profiles
+        headline: Drafts
+        status: draft
+
+      unlisted:
+        extends: sections/profiles
+        headline: In Review
+        status: unlisted
+
+  - width: 1/2
+    sections:
+      listed:
+        extends: sections/profiles
+        headline: Published
+        status: listed

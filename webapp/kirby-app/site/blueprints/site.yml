@@ -1,0 +1,14 @@
+title: Site
+
+columns:
+
+  - width: 2/2
+    sections:
+      notes: sections/profiles
+      pages:
+        type: pages
+        create: default
+        template:
+          - about
+          - home
+          - default
