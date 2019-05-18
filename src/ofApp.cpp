@@ -3,7 +3,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+    //___________________________
     // Camera setup
+    
     // uncomment to get a list of connected cams:
     /*
     vector<ofVideoDevice> devices = cams[0].listDevices();
@@ -27,7 +29,22 @@ void ofApp::setup(){
     //___________________________
     // Loading Background Images:
     for (size_t i = 0; i < States::END; ++i){
-        
+        switch(i){
+            case QUESTION:{
+                for (size_t j = 0; j < nQuestions; ++j){
+                    
+                }
+            }
+            case PROFILE: {
+                
+            }
+            case FRAME: {
+                
+            }
+            default: {
+                
+            }
+        }
     }
 
 }

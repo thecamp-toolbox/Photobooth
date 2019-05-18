@@ -13,16 +13,19 @@ public:
     void windowResized(int w, int h);
     void gotMessage(ofMessage msg);
     
+    
     ofVideoGrabber cams[2];
-    int camWidth{1920}, camHeight{1080};
+    const int camWidth{1920}, camHeight{1080};
     bool currentCam{0};
     
     // coordonnées du cadre principal
-    int posMainCamX{493}, posMainCamY{73},
+    const int
+        posMainCamX{493}, posMainCamY{73},
         sizeMainCamX{934}, sizeMainCamY{934},
     // coordonnées du cadre secondaire
         posSecCamX{1500}, posSecCamY{677},
         sizeSecCamX{330}, sizeSecCamY{330};
+    
     
     enum States {
         INIT,
@@ -57,7 +60,6 @@ public:
         END
     } currentState{CAM_CHOICE};
     
-    ofImage backgrounds[States::END];
     string backgroundFiles[States::END]
     {
         "init.png",
@@ -73,9 +75,10 @@ public:
         "flash.png",
         "result.png",
         "printing.png",
-        "bye.png"  
+        "bye.png"
     };
     
+    static const int nQuestions{10};
     
     enum Profiles {
         AGRI,
@@ -84,8 +87,16 @@ public:
         EDUCULT,
         GEEK,
         HOMER,
-        SJW
+        SJW,
+        NR
     } profile{};
+    
+    static const int nImages =
+                        States::END
+                        +nQuestions-1
+                        +(Profiles::NR-1)*2;
+    
+    ofImage backgrounds[nImages];
     
     
     
