@@ -16,23 +16,38 @@ public:
     posSecCamX{1500}, posSecCamY{677},
     sizeSecCamX{330}, sizeSecCamY{330};
     
-    int maxTimer{120};
-    int maxCountDownTimer{30};
+    // Timers:
+    int antibounceTimer{30};
+    int mainTimer{120};
+    int questionTimer{120};
+    int compileTimer{120};
+    int profileTimer{120};
+    int flashTimer{120};
+    int countDownTimer{30};
+    int printingTimer{120};
     
+    // Tailes des caméras:
     const int cam1Width{1280}, cam1Height{720};
     const int cam2Width{1280}, cam2Height{720};
   
 //---------------------------------------------------------
     
+    // Methods:
+    
     void setup();
     void update();
     void draw();
+    void exit();
     
     void keyPressed(int key);
     void keyReleased(int key);
     void windowResized(int w, int h);
     void gotMessage(ofMessage msg);
+    void getButtons();
+    void resetButtons();
     
+    //______________________
+    // Components:
     
     ofVideoGrabber cams[2];
     bool currentCam{0};
@@ -115,6 +130,9 @@ public:
     
     ofImage result;
     
-    
+    bool buttonLPressed{0},
+         buttonRPressed{0},
+         keyLreleased{1},
+         keyRreleased{1};
     
 };
