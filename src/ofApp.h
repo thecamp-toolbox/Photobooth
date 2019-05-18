@@ -4,6 +4,26 @@
 
 class ofApp : public ofBaseApp{
 public:
+    
+//---------------------------------------------------------
+// User-defined variables:
+    
+    // coordonnées du cadre principal
+    const int
+    posMainCamX{493}, posMainCamY{73},
+    sizeMainCamX{934}, sizeMainCamY{934},
+    // coordonnées du cadre secondaire
+    posSecCamX{1500}, posSecCamY{677},
+    sizeSecCamX{330}, sizeSecCamY{330};
+    
+    int maxTimer{120};
+    int maxCountDownTimer{30};
+    
+    const int cam1Width{1280}, cam1Height{720};
+    const int cam2Width{1280}, cam2Height{720};
+  
+//---------------------------------------------------------
+    
     void setup();
     void update();
     void draw();
@@ -15,17 +35,7 @@ public:
     
     
     ofVideoGrabber cams[2];
-    const int camWidth{1920}, camHeight{1080};
     bool currentCam{0};
-    
-    // coordonnées du cadre principal
-    const int
-        posMainCamX{493}, posMainCamY{73},
-        sizeMainCamX{934}, sizeMainCamY{934},
-    // coordonnées du cadre secondaire
-        posSecCamX{1500}, posSecCamY{677},
-        sizeSecCamX{330}, sizeSecCamY{330};
-    
     
     enum States {
         INIT,
@@ -58,7 +68,7 @@ public:
         PRINTING,
         BYE,
         ST_NR
-    } currentState{CAM_CHOICE};
+    } currentState{INIT};
     
     string backgroundFiles[ST_NR]
     {
@@ -79,6 +89,7 @@ public:
     };
     
     static const int nQuestions{10};
+    int currentQuestion {0};
     
     enum Profiles {
         AGRI,
@@ -92,13 +103,17 @@ public:
     } profile{};
     
     static const int nCountdown{5};
+    int currentCountdown{0};
     
     ofImage backgrounds[ST_NR];
     ofImage questions[nQuestions];
     ofImage profiles[PR_NR];
+    ofImage frames[PR_NR];
     ofImage countdowns[nCountdown];
     
+    int PBtimer{0};
     
+    ofImage result;
     
     
     
