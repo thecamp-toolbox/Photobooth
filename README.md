@@ -16,7 +16,7 @@ La borne photomaton permettent aux festivaliers de se prendre en photo. Leur pho
 
 - DA + contenu + webapp : thecamp 
 - Fabrication : ICI Marseille 
-- Code : Pascal Baltazar 
+- Code openframeworks: Pascal Baltazar 
 
 ## Bill of materials 
 
@@ -41,3 +41,8 @@ La borne photomaton permettent aux festivaliers de se prendre en photo. Leur pho
 | Câble 2.5 mm2 rouge        | https://www.leroymerlin.fr/v3/p/produits/fil-electrique-h07vu-rouge-2-5-mm2-l-100-m-e1401480578                    | 1   | 21.50€  |
 | Rallonge électrique        | https://www.leroymerlin.fr/v3/p/produits/rallonge-electrique-menager-1-prise-de-16-a-l-3-m-electraline-e1400119493 | 3   | 3.50€   |
 
+# openframeworks install
+
+Runs with of 0.10.1
+Required addons:
+ - [ofxImageSequence](https://github.com/Flightphase/ofxImageSequence)
