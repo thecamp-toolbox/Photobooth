@@ -57,10 +57,10 @@ public:
         RESULT,
         PRINTING,
         BYE,
-        END
+        ST_NR
     } currentState{CAM_CHOICE};
     
-    string backgroundFiles[States::END]
+    string backgroundFiles[ST_NR]
     {
         "init.png",
         "standby.png",
@@ -88,15 +88,16 @@ public:
         GEEK,
         HOMER,
         SJW,
-        NR
+        PR_NR
     } profile{};
     
-    static const int nImages =
-                        States::END
-                        +nQuestions-1
-                        +(Profiles::NR-1)*2;
+    static const int nCountdown{5};
     
-    ofImage backgrounds[nImages];
+    ofImage backgrounds[ST_NR];
+    ofImage questions[nQuestions];
+    ofImage profiles[PR_NR];
+    ofImage countdowns[nCountdown];
+    
     
     
     

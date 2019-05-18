@@ -28,22 +28,41 @@ void ofApp::setup(){
     
     //___________________________
     // Loading Background Images:
-    for (size_t i = 0; i < States::END; ++i){
+    for (size_t i = 0; i < ST_NR; ++i){
         switch(i){
-            case QUESTION:{
+            case QUESTION:
                 for (size_t j = 0; j < nQuestions; ++j){
-                    
+                    questions[j].load("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
+                    ofLog() << ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
                 }
-            }
-            case PROFILE: {
+                break;
                 
-            }
-            case FRAME: {
+            case PROFILE:
+                for (size_t j = 0; j < PR_NR; ++j){
+                    profiles[j].load("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
+                    ofLog() << ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
+                }
+                break;
                 
-            }
-            default: {
-                
-            }
+            case FRAME:
+                for (size_t j = 0; j < PR_NR; ++j){
+                    profiles[j].load("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
+                    ofLog() << ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
+                }
+                break;
+            
+            case COUNTDOWN:
+                for (size_t j = 0; j < nCountdown; ++j){
+                    profiles[j].load("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
+                    ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
+                }
+                break;
+            
+            default:
+                backgrounds[i].load("/data/BG/"+backgroundFiles[i]);
+                ofLog() << ("/data/BG/"+backgroundFiles[i]);
+                break;
+            
         }
     }
 
@@ -110,10 +129,6 @@ void ofApp::update(){
             
             break;
         }
-        case END: {
-            
-            break;
-        }
     }
 
 }
@@ -176,10 +191,6 @@ void ofApp::draw(){
             break;
         }
         case BYE: {
-            
-            break;
-        }
-        case END: {
             
             break;
         }
