@@ -15,7 +15,14 @@ public:
     
     ofVideoGrabber cams[2];
     int camWidth{1920}, camHeight{1080};
+    bool currentCam{0};
     
+    // coordonnées du cadre principal
+    int posMainCamX{493}, posMainCamY{73},
+        sizeMainCamX{934}, sizeMainCamY{934},
+    // coordonnées du cadre secondaire
+        posSecCamX{1500}, posSecCamY{677},
+        sizeSecCamX{330}, sizeSecCamY{330};
     
     enum States {
         INIT,
@@ -48,7 +55,27 @@ public:
         PRINTING,
         BYE,
         END
-    } currentState{};
+    } currentState{CAM_CHOICE};
+    
+    ofImage backgrounds[States::END];
+    string backgroundFiles[States::END]
+    {
+        "init.png",
+        "standby.png",
+        "welcome.png",
+        "explain.png",
+        "question",
+        "compiling.png",
+        "profile",
+        "cam_choice.png",
+        "frame",
+        "countdown",
+        "flash.png",
+        "result.png",
+        "printing.png",
+        "bye.png"  
+    };
+    
     
     enum Profiles {
         AGRI,

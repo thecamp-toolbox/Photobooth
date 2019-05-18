@@ -3,13 +3,13 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    //cams = new ofVideoGrabber[2];
-    
     // Camera setup
     // uncomment to get a list of connected cams:
+    /*
     vector<ofVideoDevice> devices = cams[0].listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) ofLog() << c.deviceName << " / ID: " << c.id;
+     */
     
     cams[0].setDeviceID(1);
     cams[0].setDesiredFrameRate(30);
@@ -23,27 +23,156 @@ void ofApp::setup(){
     
     ofLog() << "size 1: " << cams[0].getWidth() << " / " << cams[0].getHeight();
     ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
+    
+    //___________________________
+    // Loading Background Images:
+    for (size_t i = 0; i < States::END; ++i){
+        
+    }
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    cams[0].update();
-    cams[1].update();
+    switch (currentState) {
+        case INIT: {
+            
+            break;
+        }
+        case STANDBY: {
+            
+            break;
+        }
+        case WELCOME: {
+            
+            break;
+        }
+        case EXPLAIN: {
+            
+            break;
+        }
+        case QUESTION: {
+            
+            break;
+        }
+        case COMPILING: {
+            
+            break;
+        }
+        case PROFILE: {
+            
+            break;
+        }
+        case CAM_CHOICE: {
+            cams[currentCam].update();
+            cams[!currentCam].update();
+            break;
+        }
+        case FRAME: {
+            cams[currentCam].update();
+            break;
+        }
+        case COUNTDOWN: {
+            cams[currentCam].update();
+            break;
+        }
+        case FLASH: {
+            
+            break;
+        }
+        case RESULT: {
+            
+            break;
+        }
+        case PRINTING: {
+            
+            break;
+        }
+        case BYE: {
+            
+            break;
+        }
+        case END: {
+            
+            break;
+        }
+    }
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-    cams[0].draw(300, 100, 620, 680);
-    cams[1].draw(930, 100, 620, 680);
+    switch (currentState) {
+        case INIT: {
+            
+            break;
+        }
+        case STANDBY: {
+            
+            break;
+        }
+        case WELCOME: {
+            
+            break;
+        }
+        case EXPLAIN: {
+            
+            break;
+        }
+        case QUESTION: {
+            
+            break;
+        }
+        case COMPILING: {
+            
+            break;
+        }
+        case PROFILE: {
+            
+            break;
+        }
+        case CAM_CHOICE: {
+            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            cams[!currentCam].draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
+            break;
+        }
+        case FRAME: {
+            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            break;
+        }
+        case COUNTDOWN: {
+            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            break;
+        }
+        case FLASH: {
+            
+            break;
+        }
+        case RESULT: {
+            
+            break;
+        }
+        case PRINTING: {
+            
+            break;
+        }
+        case BYE: {
+            
+            break;
+        }
+        case END: {
+            
+            break;
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    currentCam = !currentCam;
 }
 
 //--------------------------------------------------------------
