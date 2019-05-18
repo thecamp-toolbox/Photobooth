@@ -29,6 +29,11 @@ public:
     // Tailes des caméras:
     const int cam1Width{1280}, cam1Height{720};
     const int cam2Width{1280}, cam2Height{720};
+    
+    // Other stuff:
+    bool logToFile{true}; // set this to true to write the Log to a file
+    
+    ///TODO: do this with ofParameters ?
   
 //---------------------------------------------------------
     
@@ -117,6 +122,16 @@ public:
         PR_NR
     } profile{};
     
+    string profileNames[PR_NR]{
+        "agri",
+        "ecowarrior",
+        "sporty",
+        "educulteur",
+        "guique",
+        "habitateur",
+        "islamogauchiste"
+    };
+    
     static const int nCountdown{5};
     int currentCountdown{0};
     
@@ -134,5 +149,7 @@ public:
          buttonRPressed{0},
          keyLreleased{1},
          keyRreleased{1};
+    
+    string photoPath {"/data/photos/"};
     
 };

@@ -71,6 +71,12 @@ void ofApp::setup(){
     //
     ofEnableAlphaBlending();
     
+    ///TODO: save to a different file tagged with event+date+time
+    if (logToFile) ofLogToFile("/data/logs/myLogFile.txt", true);
+    
+    
+    ///TODO: load CSV for profiles weights for questions
+    
 }
 
 //--------------------------------------------------------------
@@ -119,6 +125,8 @@ void ofApp::update(){
         case QUESTION: {
             if (PBtimer==1) ofLog() << "QUESTION #" << currentQuestion+1 ;
             
+            ///TODO: parse results with timer weighting
+            
             if (PBtimer>questionTimer) {
                 resetButtons();
                 currentQuestion++;
@@ -127,12 +135,12 @@ void ofApp::update(){
             } else if (buttonLPressed) {
                 resetButtons();
                 currentQuestion++;
-                ofLog() << "Choice A for Question: " << currentQuestion << " with Score: " << PBtimer << " / " << questionTimer << " -> " << float(100*PBtimer/questionTimer);
+                ofLog() << "Choice A for Question: " << currentQuestion << " with Score: " << float(100*PBtimer/questionTimer) << "%";
                 PBtimer = 0;
             } else if (buttonRPressed) {
                 resetButtons();
                 currentQuestion++;
-                ofLog() << "Choice B for Question: " << currentQuestion << " with Score: " << PBtimer << " / " << questionTimer << " -> " << float(100*PBtimer/questionTimer);
+                ofLog() << "Choice B for Question: " << currentQuestion << " with Score: " <<  float(100*PBtimer/questionTimer) << "%";
                 PBtimer = 0;
             }
             if (currentQuestion==nQuestions) {
@@ -228,6 +236,8 @@ void ofApp::update(){
         case PRINTING: {
             if (PBtimer==1) ofLog() << "PRINTING";
             
+            ///TODO: do the blasted actual printing
+            
             if (PBtimer>printingTimer){
                 currentState = BYE;
                 PBtimer = 0;
@@ -302,9 +312,12 @@ void ofApp::draw(){
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frames[profile].draw(0,0);
             if (PBtimer == 1){
-            result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            string fileName = "/data/photos/snapshot_"+ofToString(int(ofRandom(1000)))+".png";
-            result.save(fileName);
+                result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+                
+                ///TODO: save photo with profile name and actual Time+Date + event
+                string fileName = "snapshot_"+profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
+                ofLog() << "Photo saved as: " << fileName;
+                result.save(photoPath+fileName);
             }
             break;
         }
@@ -336,14 +349,14 @@ void ofApp::keyPressed(int key){
     else if (key == 57356 && keyLreleased ) {
         buttonLPressed = 1;
         keyLreleased = 0;
-        ofLog() << "left button pressed";
+        //ofLog() << "left button pressed";
     }
     else if (key == 57358 && keyRreleased ) {
         buttonRPressed = 1;
         keyRreleased = 0;
-        ofLog() << "right button pressed";
+        //ofLog() << "right button pressed";
     }
-    ofLog() << key;
+    //ofLog() << key;
 }
 
 //--------------------------------------------------------------
@@ -353,7 +366,6 @@ void ofApp::keyReleased(int key){
     else if (key == 57358) {keyRreleased = 1; }
     
 }
-
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
@@ -367,6 +379,8 @@ void ofApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void ofApp::getButtons(){
+    
+    ///TODO: get buttons from GPIOs
     
 }
 
