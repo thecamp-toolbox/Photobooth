@@ -85,6 +85,7 @@ public:
     ofxPanel gui;
     ofParameterGroup parameters;
     bool GUIhide{1};
+    ofXml settings;
     
     ofVideoGrabber cams[2];
     bool currentCam{0};

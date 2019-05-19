@@ -82,6 +82,8 @@ void ofApp::update(){
                 PBtimer = 0;
                 loadCSV();
                 setupCams();
+                ofSerialize(settings,parameters);
+                settings.save("/data/settings.xml");
             }
             break;
         }
@@ -166,6 +168,7 @@ void ofApp::update(){
                 }
                 ofLog() << "Profil choisi: " << profileNames[profile];
                 currentState = PROFILE;
+                resetButtons();
                 PBtimer = 0;
             }
             break;
@@ -212,6 +215,7 @@ void ofApp::update(){
             cams[currentCam].update();
             if (PBtimer>countDownTimer){
                 currentCountdown++;
+                resetButtons();
                 PBtimer = 0;
                 if (currentCountdown==5){
                     currentCountdown=0;
@@ -224,6 +228,7 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "FLASH";
 
             if (PBtimer>flashTimer){
+                resetButtons();
                 currentState = RESULT;
                 PBtimer = 0;
             }
@@ -249,6 +254,7 @@ void ofApp::update(){
             ///TODO: do the blasted actual printing
             
             if (PBtimer>printingTimer){
+                resetButtons();
                 currentState = BYE;
                 PBtimer = 0;
             }
@@ -260,6 +266,8 @@ void ofApp::update(){
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
                 ///TODO: save photo with profile name and actual Time+Date + event
                 string fileName = eventName;
+                fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
+                         +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
                 fileName+=profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
@@ -376,6 +384,14 @@ void ofApp::keyPressed(int key){
         keyRreleased = 0;
         //ofLog() << "right button pressed";
     }
+    if(key=='s'){
+        ofSerialize(settings,parameters);
+        settings.save("/data/settings.xml");
+    }
+    if(key=='l'){
+        settings.load("/data/settings.xml");
+        ofDeserialize(settings, parameters);
+    }
     //ofLog() << key;
 }
 
@@ -416,30 +432,30 @@ void ofApp::setupGUI(){
 
     // GUI/settings setup:
 
-    parameters.setName("reglages");
+    parameters.setName("Reglages");
     
-    event.setName("Evenment :");
-    event.add(eventName.set("Nom :", "VYV-solidarites19"));
-    event.add(year.set("Annee : ", 2019, 2019, 2029));
-    event.add(month.set("Mois : ", 6, 1, 12));
-    event.add(day.set("Jour : ", 7, 1, 31));
-    event.add(hour.set("Heure : ", 10, 0, 23));
-    event.add(min.set("Minute : ", 30, 0, 59));
+    event.setName("Evenement");
+    event.add(eventName.set("Nom", "VYV-solidarites19"));
+    event.add(year.set("Annee", 2019, 2019, 2029));
+    event.add(month.set("Mois", 6, 1, 12));
+    event.add(day.set("Jour", 7, 1, 31));
+    event.add(hour.set("Heure", 10, 0, 23));
+    event.add(min.set("Minute", 30, 0, 59));
     //
     parameters.add(event);
     
-    files.setName("Fichiers :");
+    files.setName("Fichiers");
     //
-    files.add(logToFile.set("Log / fichier ?", 1));
+    files.add(logToFile.set("Log/fichier", 1));
     //
-    questionsFile.setName("Questions :");
+    questionsFile.setName("Questions");
     questionsFile.add(weightsFilePath.set("Chemin", "questions.csv"));
     questionsFile.add(weightsCSVcolOffset.set("Col offset", 2, 0, 10));
     //
     files.add(questionsFile);
     parameters.add(files);
     
-    coords.setName("Coordonnees displays:");
+    coords.setName("Coordonnees displays");
     // coordonnées du cadre principal
     main.setName("Principal");
     main.add(posMainCamX.set("position  X", 493, 0, ofGetWidth()));
@@ -457,25 +473,25 @@ void ofApp::setupGUI(){
     coords.add(sec);
     parameters.add(coords);
     
-    cameras.setName("Cameras :");
+    cameras.setName("Cameras");
     // Choix des caméras
-    cameras.add(cam1Device.set("Camera 1: ", 0, 0, nCams));
-    cameras.add(cam2Device.set("Camera 2: ", 1, 0, nCams));
+    cameras.add(cam1Device.set("Camera 1", 0, 0, nCams));
+    cameras.add(cam2Device.set("Camera 2", 1, 0, nCams));
     // Dimensions des caméras
-    cameras.add(cam1Width.set ("Camera 1 largeur :", 1920, 0, maxCamW));
-    cameras.add(cam1Height.set("Camera 1 hauteur :", 1080, 0, maxCamH));
-    cameras.add(cam2Width.set ("Camera 2 largeur :", 1920, 0, maxCamW));
-    cameras.add(cam2Height.set("Camera 2 hauteur :", 1080, 0, maxCamH));
+    cameras.add(cam1Width.set ("Camera 1 largeur", 1920, 0, maxCamW));
+    cameras.add(cam1Height.set("Camera 1 hauteur", 1080, 0, maxCamH));
+    cameras.add(cam2Width.set ("Camera 2 largeur", 1920, 0, maxCamW));
+    cameras.add(cam2Height.set("Camera 2 hauteur", 1080, 0, maxCamH));
     //
     parameters.add(cameras);
     
-    timers.setName("Timers :");
+    timers.setName("Timers");
     //
     timers.add(mainTimer.set("Defaut",  120, 0, maxTimer));
     timers.add(compileTimer.set("Compilation",  120, 0, maxTimer));
     timers.add(profileTimer.set("profil",  120, 0, maxTimer));
     timers.add(flashTimer.set("flash",  120, 0, maxTimer));
-    timers.add(countDownTimer.set("countdown",  300, 0, maxTimer));
+    timers.add(countDownTimer.set("countdown",  30, 0, maxTimer));
     timers.add(printingTimer.set("Print",  120, 0, maxTimer));
     timers.add(questionTimer.set("question",  133, 0, maxTimer));
     timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
@@ -483,6 +499,11 @@ void ofApp::setupGUI(){
     parameters.add(timers);
     
     gui.setup(parameters);
+    
+    gui.loadFromFile("/data/settings.xml");
+    
+    settings.load("/data/settings.xml");
+    ofDeserialize(settings, parameters);
 
 }
 
