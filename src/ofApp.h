@@ -20,7 +20,7 @@ public:
     // Timers:
     int antibounceTimer{30};
     int mainTimer{120};
-    int questionTimer{120};
+    float questionTimer{133};
     int compileTimer{120};
     int profileTimer{120};
     int flashTimer{120};
@@ -33,6 +33,10 @@ public:
     
     // Other stuff:
     bool logToFile{false}; // set this to true to write the Log to a file
+    
+    // CSV file for questions weights
+    string weightsFilePath {"questions.csv"};
+    int weightsCSVcolOffset {2}; // the number of cols to offset in the  spreadsheet
     
     ///TODO: do this with ofParameters ?
   

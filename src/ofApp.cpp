@@ -76,34 +76,21 @@ void ofApp::setup(){
     ///TODO: save to a different file tagged with event+date+time
     if (logToFile) ofLogToFile("/data/logs/myLogFile.txt", true);
     
-    
-    ///TODO: load CSV for profiles weights for questions
-    // Load a CSV File.
-    csv.loadFile(ofToDataPath("/data/questions.csv"));
-    //questions
+
+    // Load a CSV File for profiles weights for questions
+    csv.loadFile(ofToDataPath("/data/"+weightsFilePath));
     
     // Print out all rows and cols.
-    for(int i=0; i<csv.numRows/2; i++) {
-        ofLog() << "Question #" << i+1 << '\t' << csv.data[i*2][1] << " / " << csv.data[i*2+1][1] << " : ";
-        for(int j=2; j<csv.data[i*2].size(); j++) {
-            ofLog() << "-> " << profileNames[j-2] <<  " : " <<'\t' << '\t' <<  (weightsL[i*2][j-2] = ofFromString<int>(csv.data[i*2][j])) << " __ ou __ " << (weightsR[i*2+1][j-2] = ofFromString<int>(csv.data[i*2+1][j])) ;            //string res =  csv.data[i][j];
-            //cout << r << " / ";
-            /*
-            cout << ofFromString<int>(res) << " -> ";
-            for (char c : res) {
-                switch (c) {
-                    case 32:
-                        break;
-                    default:
-                        cout << int(c);
-                        break;
-                }
-            }
-            
-            */
-            //cout << csv.getString(j, j) << " / ";
+    for(int i=0; i<nQuestions; i++) {
+        ofLog() << "Question #" << i+1 << " :" << '\t' << csv.data[i*2][1] << " / " << csv.data[i*2+1][1] << " : ";
+        for(int j=0; j<PR_NR; j++) {
+            ofLog() << "-> " <<
+            profileNames[j] <<  " : " <<'\t' << '\t' <<
+                (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2][j+weightsCSVcolOffset]))
+            << " __ ou __ " <<
+                (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset])) ;
         }
-        cout << '\n';
+        ofLog() << '\n';
     }
     
 }
@@ -297,6 +284,11 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "BYE";
             
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+                ///TODO: save photo with profile name and actual Time+Date + event
+                string fileName = "snapshot_"+profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
+                ofLog() << "Photo saved as: " << fileName;
+                result.save(photoPath+fileName);
+                
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
@@ -372,10 +364,6 @@ void ofApp::draw(){
         }
         case PRINTING: {
             backgrounds[PRINTING].draw(0,0);
-            ///TODO: save photo with profile name and actual Time+Date + event
-            string fileName = "snapshot_"+profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
-            ofLog() << "Photo saved as: " << fileName;
-            result.save(photoPath+fileName);
             break;
         }
         case BYE: {
