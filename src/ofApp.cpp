@@ -4,31 +4,25 @@
 void ofApp::setup(){
     
     ofSetFrameRate(30);
+
     
     //___________________________
     // Camera setup
     
-    // uncomment to get a list of connected cams:
-    /*
     vector<ofVideoDevice> devices = cams[0].listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) {
         ofLog() << c.deviceName << " / ID: " << c.id;
+        nCams++;
     }
-    */
+    nCams = devices.size();
+    ofLog() << "nombre de caméras: " << nCams;
     
-    cams[0].setDeviceID(0);
-    cams[0].setDesiredFrameRate(30);
-    cams[0].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[0].setup(cam1Width, cam1Height);
+    //___________________________
+    // Setings + GUI setup
     
-    cams[1].setDeviceID(1);
-    cams[1].setDesiredFrameRate(30);
-    cams[1].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[1].setup(cam2Width, cam2Height);
+    setupGUI();
     
-    ofLog() << "size 1: " << cams[0].getWidth() << " / " << cams[0].getHeight();
-    ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
     
     //___________________________
     // Loading Background Images:
@@ -69,32 +63,9 @@ void ofApp::setup(){
         }
     }
     
-    //___________________________
-    //
     ofEnableAlphaBlending();
-    
-    ///TODO: save to a different file tagged with event+date+time
-    if (logToFile) ofLogToFile("/data/logs/myLogFile.txt", true);
 
-    // Load a CSV File for profiles weights for questions
-    csv.loadFile(ofToDataPath("/data/"+weightsFilePath));
-    ofLog() << '\n';
     
-    for(int j=0; j<PR_NR; j++) {
-        profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
-    }
-    // Print out all rows and cols.
-    for(int i=0; i<nQuestions; i++) {
-        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
-        for(int j=0; j<PR_NR; j++) {
-            ofLog() << "-> " <<
-            tabText(profileNames[j],17) <<'\t' << '\t' <<
-                (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
-            << " __ ou __ " <<
-                (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
-        }
-        ofLog() << '\n';
-    }
     
 }
 
@@ -105,10 +76,12 @@ void ofApp::update(){
         case INIT: {
             if (PBtimer==1) ofLog() << "INIT";
             
-            if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+            if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
+                loadCSV();
+                setupCams();
             }
             break;
         }
@@ -286,7 +259,8 @@ void ofApp::update(){
             
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
                 ///TODO: save photo with profile name and actual Time+Date + event
-                string fileName = "snapshot_"+profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
+                string fileName = eventName;
+                fileName+=profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
                 
@@ -306,9 +280,12 @@ void ofApp::draw(){
     switch (currentState) {
         case INIT: {
             backgrounds[INIT].draw(0,0);
+            ofShowCursor();
+            gui.draw();
             break;
         }
         case STANDBY: {
+            ofHideCursor();
             backgrounds[STANDBY].draw(0,0);
             break;
         }
@@ -372,6 +349,8 @@ void ofApp::draw(){
             break;
         }
     }
+    
+    //if (!GUIhide) gui.draw();
 
 }
 
@@ -382,7 +361,11 @@ void ofApp::exit(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if (key == 13) currentCam = !currentCam;
+    if (key == 13) {
+        GUIhide = !GUIhide;
+        if (GUIhide) ofHideCursor();
+        else         ofShowCursor();
+    }
     else if (key == 57356 && keyLreleased ) {
         buttonLPressed = 1;
         keyLreleased = 0;
@@ -425,6 +408,129 @@ void ofApp::getButtons(){
 void ofApp::resetButtons(){
     buttonLPressed = 0;
     buttonRPressed = 0;
+}
+
+
+//--------------------------------------------------------------
+void ofApp::setupGUI(){
+
+    // GUI/settings setup:
+
+    parameters.setName("reglages");
+    
+    event.setName("Evenment :");
+    event.add(eventName.set("Nom :", "VYV-solidarites19"));
+    event.add(year.set("Annee : ", 2019, 2019, 2029));
+    event.add(month.set("Mois : ", 6, 1, 12));
+    event.add(day.set("Jour : ", 7, 1, 31));
+    event.add(hour.set("Heure : ", 10, 0, 23));
+    event.add(min.set("Minute : ", 30, 0, 59));
+    //
+    parameters.add(event);
+    
+    files.setName("Fichiers :");
+    //
+    files.add(logToFile.set("Log / fichier ?", 1));
+    //
+    questionsFile.setName("Questions :");
+    questionsFile.add(weightsFilePath.set("Chemin", "questions.csv"));
+    questionsFile.add(weightsCSVcolOffset.set("Col offset", 2, 0, 10));
+    //
+    files.add(questionsFile);
+    parameters.add(files);
+    
+    coords.setName("Coordonnees displays:");
+    // coordonnées du cadre principal
+    main.setName("Principal");
+    main.add(posMainCamX.set("position  X", 493, 0, ofGetWidth()));
+    main.add(posMainCamY.set("position Y", 73, 0, ofGetHeight()));
+    main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
+    main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
+    // coordonnées du cadre secondaire
+    sec.setName("Secondaire");
+    sec.add(posSecCamX.set("position X", 1500, 0, ofGetWidth()));
+    sec.add(posSecCamY.set("position Y", 677, 0, ofGetHeight()));
+    sec.add(sizeSecCamX.set("taille X", 330, 0, ofGetWidth()));
+    sec.add(sizeSecCamY.set("taille Y", 330, 0, ofGetHeight()));
+    //
+    coords.add(main);
+    coords.add(sec);
+    parameters.add(coords);
+    
+    cameras.setName("Cameras :");
+    // Choix des caméras
+    cameras.add(cam1Device.set("Camera 1: ", 0, 0, nCams));
+    cameras.add(cam2Device.set("Camera 2: ", 1, 0, nCams));
+    // Dimensions des caméras
+    cameras.add(cam1Width.set ("Camera 1 largeur :", 1920, 0, maxCamW));
+    cameras.add(cam1Height.set("Camera 1 hauteur :", 1080, 0, maxCamH));
+    cameras.add(cam2Width.set ("Camera 2 largeur :", 1920, 0, maxCamW));
+    cameras.add(cam2Height.set("Camera 2 hauteur :", 1080, 0, maxCamH));
+    //
+    parameters.add(cameras);
+    
+    timers.setName("Timers :");
+    //
+    timers.add(mainTimer.set("Defaut",  120, 0, maxTimer));
+    timers.add(compileTimer.set("Compilation",  120, 0, maxTimer));
+    timers.add(profileTimer.set("profil",  120, 0, maxTimer));
+    timers.add(flashTimer.set("flash",  120, 0, maxTimer));
+    timers.add(countDownTimer.set("countdown",  300, 0, maxTimer));
+    timers.add(printingTimer.set("Print",  120, 0, maxTimer));
+    timers.add(questionTimer.set("question",  133, 0, maxTimer));
+    timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
+    //
+    parameters.add(timers);
+    
+    gui.setup(parameters);
+
+}
+
+//--------------------------------------------------------------
+void ofApp::loadCSV(){
+    
+    if (logToFile){
+        string logPath = eventName;
+        ofLogToFile("/data/logs/"+logPath+".txt", true);
+    }
+    
+    // Load a CSV File for profiles weights for questions
+    string csvPath = weightsFilePath;
+    csv.loadFile(ofToDataPath("/data/"+csvPath));
+    ofLog() << '\n';
+    
+    for(int j=0; j<PR_NR; j++) {
+        profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
+    }
+    // Print out all rows and cols.
+    for(int i=0; i<nQuestions; i++) {
+        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
+        for(int j=0; j<PR_NR; j++) {
+            ofLog() << "-> " <<
+            tabText(profileNames[j],17) <<'\t' << '\t' <<
+            (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
+            << " __ ou __ " <<
+            (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
+        }
+        ofLog() << '\n';
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::setupCams(){
+    
+    cams[0].setDeviceID(cam1Device);
+    cams[0].setDesiredFrameRate(30);
+    cams[0].setPixelFormat(OF_PIXELS_NATIVE);
+    cams[0].setup(cam1Width, cam1Height);
+    
+    cams[1].setDeviceID(cam2Device);
+    cams[1].setDesiredFrameRate(30);
+    cams[1].setPixelFormat(OF_PIXELS_NATIVE);
+    cams[1].setup(cam2Width, cam2Height);
+    
+    ofLog() << "size 1: " << cams[0].getWidth() << " / " << cams[0].getHeight();
+    ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
 }
 
 //--------------------------------------------------------------

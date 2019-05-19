@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 #include "ofxCsv.h"
+#include "ofParameterGroup.h"
+#include "ofParameter.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -9,36 +12,51 @@ public:
 //---------------------------------------------------------
 // User-defined variables:
     
+    ofParameterGroup event;
+    ofParameter<string> eventName;
+    ofParameter<int>
+    year, month, day, hour, min;
+    
+    ofParameterGroup files;
+    // Other stuff:
+    ofParameter<bool> logToFile{false}; // set this to true to write the Log to a file
+    
+    ofParameterGroup questionsFile;
+    // CSV file for questions weights
+    ofParameter<string> weightsFilePath {"questions.csv"};
+    ofParameter<int> weightsCSVcolOffset {2}; // the number of cols to offset in the  spreadsheet
+    
+    ofParameterGroup coords;
     // coordonnées du cadre principal
-    const int
+    ofParameterGroup main;
+    ofParameter<int>
     posMainCamX{493}, posMainCamY{73},
-    sizeMainCamX{934}, sizeMainCamY{934},
+    sizeMainCamX{934}, sizeMainCamY{934};
+    ofParameterGroup sec;
     // coordonnées du cadre secondaire
+    ofParameter<int>
     posSecCamX{1500}, posSecCamY{677},
     sizeSecCamX{330}, sizeSecCamY{330};
     
-    // Timers:
-    int antibounceTimer{30};
-    int mainTimer{120};
-    float questionTimer{133};
-    int compileTimer{120};
-    int profileTimer{120};
-    int flashTimer{120};
-    int countDownTimer{30};
-    int printingTimer{120};
-    
+    ofParameterGroup cameras;
     // Tailes des caméras:
-    const int cam1Width{1280}, cam1Height{720};
-    const int cam2Width{1280}, cam2Height{720};
+    ofParameter<int> cam1Device{0},   cam2Device{1},
+                     cam1Width{1280}, cam1Height{720},
+                     cam2Width{1280}, cam2Height{720};
     
-    // Other stuff:
-    bool logToFile{false}; // set this to true to write the Log to a file
+    ofParameterGroup timers;
+    ofParameter<int> frameRate;
+    // Timers:
+    ofParameter<float>  antibounceTimer{30},
+                        mainTimer{120},
+                        compileTimer{120},
+                        profileTimer{120},
+                        flashTimer{120},
+                        countDownTimer{30},
+                        printingTimer{120},
+                        questionTimer{133};
     
-    // CSV file for questions weights
-    string weightsFilePath {"questions.csv"};
-    int weightsCSVcolOffset {2}; // the number of cols to offset in the  spreadsheet
     
-    ///TODO: do this with ofParameters ?
   
 //---------------------------------------------------------
     
@@ -55,13 +73,25 @@ public:
     void gotMessage(ofMessage msg);
     void getButtons();
     void resetButtons();
+    void setupGUI();
+    void loadCSV();
+    void setupCams();
     string tabText(string& s, int offset);
+    
     
     //______________________
     // Components:
     
+    ofxPanel gui;
+    ofParameterGroup parameters;
+    bool GUIhide{1};
+    
     ofVideoGrabber cams[2];
     bool currentCam{0};
+    int nCams{0};
+    
+    int maxCamW{1920},
+        maxCamH{1080};
     
     enum States {
         INIT,
@@ -148,6 +178,7 @@ public:
     ofImage countdowns[nCountdown];
     
     int PBtimer{0};
+    int maxTimer{1000};
     
     ofImage result;
     
