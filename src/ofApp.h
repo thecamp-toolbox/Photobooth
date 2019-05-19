@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxCsv.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -31,7 +32,7 @@ public:
     const int cam2Width{1280}, cam2Height{720};
     
     // Other stuff:
-    bool logToFile{true}; // set this to true to write the Log to a file
+    bool logToFile{false}; // set this to true to write the Log to a file
     
     ///TODO: do this with ofParameters ?
   
@@ -123,13 +124,13 @@ public:
     } profile{};
     
     string profileNames[PR_NR]{
-        "agri",
+        "agrikool",
         "ecowarrior",
-        "sporty",
+        "sportify",
         "educulteur",
-        "guique",
+        "gik2point0",
         "habitateur",
-        "islamogauchiste"
+        "essejivé"
     };
     
     static const int nCountdown{5};
@@ -151,5 +152,14 @@ public:
          keyRreleased{1};
     
     string photoPath {"/data/photos/"};
+    
+    wng::ofxCsv csv;
+    
+    int weightsL[nQuestions][PR_NR];
+    int weightsR[nQuestions][PR_NR];
+    
+    float score;
+    float profileCounts[PR_NR];
+
     
 };
