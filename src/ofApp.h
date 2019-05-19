@@ -55,6 +55,7 @@ public:
     void gotMessage(ofMessage msg);
     void getButtons();
     void resetButtons();
+    string tabText(string& s, int offset);
     
     //______________________
     // Components:

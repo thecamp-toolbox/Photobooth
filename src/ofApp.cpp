@@ -75,20 +75,23 @@ void ofApp::setup(){
     
     ///TODO: save to a different file tagged with event+date+time
     if (logToFile) ofLogToFile("/data/logs/myLogFile.txt", true);
-    
 
     // Load a CSV File for profiles weights for questions
     csv.loadFile(ofToDataPath("/data/"+weightsFilePath));
+    ofLog() << '\n';
     
+    for(int j=0; j<PR_NR; j++) {
+        profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
+    }
     // Print out all rows and cols.
     for(int i=0; i<nQuestions; i++) {
-        ofLog() << "Question #" << i+1 << " :" << '\t' << csv.data[i*2][1] << " / " << csv.data[i*2+1][1] << " : ";
+        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
         for(int j=0; j<PR_NR; j++) {
             ofLog() << "-> " <<
-            profileNames[j] <<  " : " <<'\t' << '\t' <<
-                (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2][j+weightsCSVcolOffset]))
+            tabText(profileNames[j],17) <<'\t' << '\t' <<
+                (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
             << " __ ou __ " <<
-                (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset])) ;
+                (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
         }
         ofLog() << '\n';
     }
@@ -144,8 +147,6 @@ void ofApp::update(){
         }
         case QUESTION: {
             if (PBtimer==1) ofLog() << "QUESTION #" << currentQuestion+1 ;
-            
-            ///TODO: parse results with timer weighting
             
             if (PBtimer>questionTimer) {
                 resetButtons();
@@ -424,4 +425,15 @@ void ofApp::getButtons(){
 void ofApp::resetButtons(){
     buttonLPressed = 0;
     buttonRPressed = 0;
+}
+
+//--------------------------------------------------------------
+string ofApp::tabText(string& s, int offset){
+    string res = s;
+    int spaces = offset-s.size();
+    for (size_t i = 0; i< spaces; ++i) {
+        res+=' ';
+    }
+    res+= " : ";
+    return res;
 }
