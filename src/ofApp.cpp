@@ -4,7 +4,7 @@
 void ofApp::setup(){
     
     ofSetFrameRate(30);
-
+    
     
     //___________________________
     // Camera setup
@@ -26,56 +26,71 @@ void ofApp::setup(){
     
     //___________________________
     // Loading Background Images:
-    for (size_t i = 0; i < ST_NR; ++i){
-        switch(i){
-            case QUESTION:
-                for (size_t j = 0; j < nQuestions; ++j){
-                    questions[j].load("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
-                    ofLog() << ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
-                }
-                break;
-                
-            case PROFILE:
-                for (size_t j = 0; j < nProfiles; ++j){
-                    profiles[j].load("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
-                    ofLog() << ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
-                }
-                break;
-                
-            case FRAME:
-                for (size_t j = 0; j < nProfiles; ++j){
-                    frames[j].load("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
-                    ofLog() << ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
-                }
-                break;
-            
-            case COUNTDOWN:
-                for (size_t j = 0; j < nCountdown; ++j){
-                    countdowns[j].load("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
-                    ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
-                }
-                break;
-            
-            default:
-                backgrounds[i].load("/data/BG/"+backgroundFiles[i]);
-                ofLog() << ("/data/BG/"+backgroundFiles[i]);
-                break;
-        }
+    
+    /*
+     for (size_t i = 0; i < ST_NR; ++i){
+     switch(i){
+     case QUESTION:
+     for (size_t j = 0; j < nQuestions; ++j){
+     ofLoadImage(questions[j], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png"));
+     ofLog() << ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
+     }
+     break;
+     
+     case PROFILE:
+     for (size_t j = 0; j < nProfiles; ++j){
+     ofLoadImage(profiles[j], ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png"));
+     ofLog() << ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
+     }
+     break;
+     
+     case FRAME:
+     for (size_t j = 0; j < nProfiles; ++j){
+     ofLoadImage(frames[j], ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png"));
+     ofLog() << ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
+     }
+     break;
+     
+     case COUNTDOWN:
+     for (size_t j = 0; j < nCountdown; ++j){
+     ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
+     ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
+     }
+     break;
+     
+     default:
+     ofLoadImage(backgrounds[i], ("/data/BG/"+backgroundFiles[i]));
+     ofLog() << ("/data/BG/"+backgroundFiles[i]);
+     break;
+     }
+     }
+     */
+    
+    for (size_t j = 0; j < nCountdown; ++j){
+        ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
+        ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
     
+    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[INIT]));
+    textureToken=!textureToken;
+    
     ofEnableAlphaBlending();
-
+    
     
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
     PBtimer++;
     switch (currentState) {
         case INIT: {
-            if (PBtimer==1) ofLog() << "INIT";
-            
+            if (PBtimer==1) {
+                ofLog() << "INIT";
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
+                textureToken=!textureToken;
+            }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
@@ -86,11 +101,15 @@ void ofApp::update(){
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
             }
+            
             break;
         }
         case STANDBY: {
-            if (PBtimer==1) ofLog() << "STANDBY";
-            
+            if (PBtimer==1) {
+                ofLog() << "STANDBY";
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[WELCOME]));
+                textureToken=!textureToken;
+            }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = WELCOME;
@@ -103,7 +122,11 @@ void ofApp::update(){
             break;
         }
         case WELCOME: {
-            if (PBtimer==1) ofLog() << "WELCOME";
+            if (PBtimer==1) {
+                ofLog() << "WELCOME";
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[EXPLAIN]));
+                textureToken=!textureToken;
+            }
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = EXPLAIN;
@@ -112,8 +135,12 @@ void ofApp::update(){
             break;
         }
         case EXPLAIN: {
-            if (PBtimer==1) ofLog() << "EXPLAIN";
-            
+            if (PBtimer==1) {
+                ofLog() << "EXPLAIN";
+            } else if (PBtimer==2) {
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                textureToken=!textureToken;
+            }
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = QUESTION;
@@ -122,13 +149,28 @@ void ofApp::update(){
             break;
         }
         case QUESTION: {
-            if (PBtimer==1) ofLog() << "QUESTION #" << currentQuestion+1 ;
+            if (PBtimer==1) {
+                ofLog() << "QUESTION #" << currentQuestion+1;
+            } else if (PBtimer==2) {
+                //currentQuestion++;
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                //textureToken=!textureToken;
+            }
             
             if (PBtimer>questionTimer) {
                 resetButtons();
-                currentQuestion++;
                 PBtimer = 0;
-                ofLog() << "No Choice for Question: " << currentQuestion;
+                if (currentQuestion<nQuestions-1) {
+                    currentQuestion++;
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                    textureToken=!textureToken;
+                    ofLog() << "No Choice for Question: " << currentQuestion;
+                } else {
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
+                    textureToken=!textureToken;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
             } else if (buttonLPressed) {
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
@@ -136,8 +178,17 @@ void ofApp::update(){
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsL[currentQuestion][i];
                 }
-                currentQuestion++;
                 PBtimer = 0;
+                if (currentQuestion<nQuestions-1) {
+                    currentQuestion++;
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                    textureToken=!textureToken;
+                } else {
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
+                    textureToken=!textureToken;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
             } else if (buttonRPressed) {
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
@@ -145,20 +196,23 @@ void ofApp::update(){
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsR[currentQuestion][i];
                 }
-                currentQuestion++;
                 PBtimer = 0;
+                if (currentQuestion<nQuestions-1) {
+                    currentQuestion++;
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                    textureToken=!textureToken;
+                } else {
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
+                    textureToken=!textureToken;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
             }
-            if (currentQuestion==nQuestions) {
-                currentQuestion = 0;
-                currentState = COMPILING;
-            }
-            
             break;
         }
         case COMPILING: {
-            if (PBtimer==1) ofLog() << "COMPILING";
-            
-            if (PBtimer>compileTimer){
+            if (PBtimer==1) {
+                ofLog() << "COMPILING";
                 float max=0;
                 for (size_t i =0; i< nProfiles;++i){
                     ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i];
@@ -168,6 +222,12 @@ void ofApp::update(){
                     }
                 }
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
+            } else if (PBtimer==2) {
+                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[CAM_CHOICE]));
+                textureToken=!textureToken;
+            } else if (PBtimer>compileTimer){
                 currentState = PROFILE;
                 resetButtons();
                 PBtimer = 0;
@@ -175,8 +235,9 @@ void ofApp::update(){
             break;
         }
         case PROFILE: {
-            if (PBtimer==1) ofLog() << "PROFILE #" << currentProfile+1;
-            
+            if (PBtimer==1) {
+                ofLog() << "PROFILE #" << currentProfile+1;
+            }
             if (PBtimer>profileTimer || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = CAM_CHOICE;
@@ -185,7 +246,11 @@ void ofApp::update(){
             break;
         }
         case CAM_CHOICE: {
-            if (PBtimer==1) ofLog() << "CAM_CHOICE";
+            if (PBtimer==1) {
+                ofLog() << "CAM_CHOICE";
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
+                textureToken=!textureToken;
+            }
             if (buttonRPressed) {
                 resetButtons();
                 currentCam = !currentCam;
@@ -196,6 +261,7 @@ void ofApp::update(){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
+                textureToken=!textureToken;
             }
             break;
         }
@@ -226,8 +292,11 @@ void ofApp::update(){
             break;
         }
         case FLASH: {
-            if (PBtimer==1) ofLog() << "FLASH";
-
+            if (PBtimer==1) {
+                ofLog() << "FLASH";
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
+                textureToken=!textureToken;
+            }
             if (PBtimer>flashTimer){
                 resetButtons();
                 currentState = RESULT;
@@ -236,7 +305,12 @@ void ofApp::update(){
             break;
         }
         case RESULT: {
-            if (PBtimer==1) ofLog() << "RESULT";
+            if (PBtimer==1) {
+                ofLog() << "RESULT";
+            } else if (PBtimer==2) {
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[PRINTING]));
+                textureToken=!textureToken;
+            }
             if (buttonRPressed) {
                 resetButtons();
                 currentState = COUNTDOWN;
@@ -250,11 +324,22 @@ void ofApp::update(){
             break;
         }
         case PRINTING: {
-            if (PBtimer==1) ofLog() << "PRINTING";
-            
-            ///TODO: do the blasted actual printing
-            
-            if (PBtimer>printingTimer){
+            if (PBtimer==1) {
+                ofLog() << "PRINTING";
+            } else if (PBtimer==2) {
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[BYE]));
+                textureToken=!textureToken;
+            } else if (PBtimer==3) {
+                
+                ///TODO: do the blasted actual printing
+                
+                string fileName = eventName;
+                fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
+                +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
+                fileName+=profileNames[currentProfile]+".png";
+                ofLog() << "Photo saved as: " << fileName;
+                result.save(photoPath+fileName);
+            } else if (PBtimer>printingTimer){
                 resetButtons();
                 currentState = BYE;
                 PBtimer = 0;
@@ -262,16 +347,13 @@ void ofApp::update(){
             break;
         }
         case BYE: {
-            if (PBtimer==1) ofLog() << "BYE";
-            
+            if (PBtimer==1) {
+                ofLog() << "BYE";
+            } else if (PBtimer==2) {
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
+                textureToken=!textureToken;
+            }
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
-                string fileName = eventName;
-                fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
-                         +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
-                fileName+=profileNames[currentProfile]+".png";
-                ofLog() << "Photo saved as: " << fileName;
-                result.save(photoPath+fileName);
-                
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
@@ -279,87 +361,86 @@ void ofApp::update(){
             break;
         }
     }
-
+    
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    
     switch (currentState) {
         case INIT: {
-            backgrounds[INIT].draw(0,0);
+            buffer[textureToken].draw(0,0);
             ofShowCursor();
             gui.draw();
             break;
         }
         case STANDBY: {
             ofHideCursor();
-            backgrounds[STANDBY].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case WELCOME: {
-            backgrounds[WELCOME].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case EXPLAIN: {
-            backgrounds[EXPLAIN].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case QUESTION: {
-            questions[currentQuestion].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case COMPILING: {
-            backgrounds[COMPILING].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case PROFILE: {
-            profiles[currentProfile].draw(0,0);
+            profile.draw(0,0);
             break;
         }
         case CAM_CHOICE: {
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             cams[!currentCam].draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
-            backgrounds[CAM_CHOICE].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case FRAME: {
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[currentProfile].draw(0,0);
+            frame.draw(0,0);
             break;
         }
         case COUNTDOWN: {
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[currentProfile].draw(0,0);
+            frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
-            //backgrounds[FLASH].draw(0,0);
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[currentProfile].draw(0,0);
+            frame.draw(0,0);
             if (PBtimer == 1){
                 result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             }
             break;
         }
         case RESULT: {
-            backgrounds[RESULT].draw(0,0);
-            result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            buffer[textureToken].draw(0,0);
+            result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
             break;
         }
         case PRINTING: {
-            backgrounds[PRINTING].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
         case BYE: {
-            backgrounds[BYE].draw(0,0);
+            buffer[textureToken].draw(0,0);
             break;
         }
     }
     
-    //if (!GUIhide) gui.draw();
-
+    
 }
 
 //--------------------------------------------------------------
@@ -405,12 +486,12 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
-
+    
 }
 
 //--------------------------------------------------------------
@@ -429,7 +510,7 @@ void ofApp::resetButtons(){
 
 //--------------------------------------------------------------
 void ofApp::setupGUI(){
-
+    
     // GUI/settings setup:
     
     Poco::Timestamp now;
@@ -438,7 +519,7 @@ void ofApp::setupGUI(){
     std::string timeNow = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
     
     ofLog() << "Time NOW !!! : " << timeNow;
-
+    
     parameters.setName("Reglages");
     
     event.setName("Evenement");
@@ -475,9 +556,16 @@ void ofApp::setupGUI(){
     sec.add(posSecCamY.set("position Y", 677, 0, ofGetHeight()));
     sec.add(sizeSecCamX.set("taille X", 330, 0, ofGetWidth()));
     sec.add(sizeSecCamY.set("taille Y", 330, 0, ofGetHeight()));
+    // coordonnées du cadre résultat
+    res.setName("Resultat");
+    res.add(posResCamX.set("position X", 600, 0, ofGetWidth()));
+    res.add(posResCamY.set("position Y", 126, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 720, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 720, 0, ofGetHeight()));
     //
     coords.add(main);
     coords.add(sec);
+    coords.add(res);
     parameters.add(coords);
     
     cameras.setName("Cameras");
@@ -519,7 +607,7 @@ void ofApp::setupGUI(){
     min =ofFromString<int>(timeNow.substr(14,2));
     
     ofLog() << year << " " << month << " " << day << " " << hour << " " << min;
-
+    
 }
 
 //--------------------------------------------------------------
@@ -539,23 +627,17 @@ void ofApp::loadCSV(){
         profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
     }
     // Print out all rows and cols.
-    for(int i=0; i<nQuestions; ++i) {
-        ofLog() << i;
+    for(int i=0; i<nQuestions; i++) {
         ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
         for(int j=0; j<nProfiles; j++) {
             ofLog() << "-> " <<
-            //tabText(profileNames[j],17) <<'\t' << '\t' <<
-            profileNames[j] <<'\t' << '\t' <<
+            tabText(profileNames[j],17) <<'\t' << '\t' <<
+            //profileNames[j] <<'\t' << '\t' <<
             (weightsL[i][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
             << " __ ou __ " <<
             (weightsR[i][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
         }
         ofLog() << '\n';
-    }
-    for (size_t i = 0; i < nQuestions; i++) {
-        for(int j=0; j<nProfiles; j++) {
-            ofLog() << weightsL[i][j] << " / " << weightsR[i][j];
-        }
     }
 }
 
@@ -578,11 +660,11 @@ void ofApp::setupCams(){
 
 //--------------------------------------------------------------
 string ofApp::tabText(string& s, int offset){
-    string res = s;
+    string result = s;
     int spaces = offset-s.size();
     for (size_t i = 0; i< spaces; ++i) {
-        res+=' ';
+        result+=' ';
     }
-    res+= " : ";
-    return res;
+    result+= " : ";
+    return result;
 }
