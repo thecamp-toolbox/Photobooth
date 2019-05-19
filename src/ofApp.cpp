@@ -81,6 +81,7 @@ void ofApp::update(){
                 currentState = STANDBY;
                 PBtimer = 0;
                 loadCSV();
+                ofLog() << "CSV loaded";
                 setupCams();
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
@@ -455,7 +456,7 @@ void ofApp::setupGUI(){
     files.add(logToFile.set("Log/fichier", 1));
     //
     questionsFile.setName("Questions");
-    questionsFile.add(weightsFilePath.set("Chemin", "questions.csv"));
+    questionsFile.add(weightsFilePath.set("Chemin", "questions+.csv"));
     questionsFile.add(weightsCSVcolOffset.set("Col offset", 2, 0, 10));
     //
     files.add(questionsFile);
@@ -538,16 +539,23 @@ void ofApp::loadCSV(){
         profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
     }
     // Print out all rows and cols.
-    for(int i=0; i<nQuestions; i++) {
+    for(int i=0; i<nQuestions; ++i) {
+        ofLog() << i;
         ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
         for(int j=0; j<nProfiles; j++) {
             ofLog() << "-> " <<
-            tabText(profileNames[j],17) <<'\t' << '\t' <<
-            (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
+            //tabText(profileNames[j],17) <<'\t' << '\t' <<
+            profileNames[j] <<'\t' << '\t' <<
+            (weightsL[i][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
             << " __ ou __ " <<
-            (weightsR[i*2+1][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
+            (weightsR[i][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
         }
         ofLog() << '\n';
+    }
+    for (size_t i = 0; i < nQuestions; i++) {
+        for(int j=0; j<nProfiles; j++) {
+            ofLog() << weightsL[i][j] << " / " << weightsR[i][j];
+        }
     }
 }
 
