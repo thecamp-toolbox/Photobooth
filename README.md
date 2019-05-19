@@ -44,5 +44,6 @@ La borne photomaton permettent aux festivaliers de se prendre en photo. Leur pho
 # openframeworks install
 
 Runs with of 0.10.1
+
 Required addons:
- - [ofxImageSequence](https://github.com/Flightphase/ofxImageSequence)
+ - [ofxCsv](https://github.com/paulvollmer/ofxCsv)
