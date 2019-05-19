@@ -36,14 +36,14 @@ void ofApp::setup(){
                 break;
                 
             case PROFILE:
-                for (size_t j = 0; j < PR_NR; ++j){
+                for (size_t j = 0; j < nProfiles; ++j){
                     profiles[j].load("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
                     ofLog() << ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
                 }
                 break;
                 
             case FRAME:
-                for (size_t j = 0; j < PR_NR; ++j){
+                for (size_t j = 0; j < nProfiles; ++j){
                     frames[j].load("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
                     ofLog() << ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
                 }
@@ -95,7 +95,7 @@ void ofApp::update(){
                 currentState = WELCOME;
                 PBtimer = 0;
                 // reset profile accounts
-                for (size_t j = 0; j < PR_NR; ++j) {
+                for (size_t j = 0; j < nProfiles; ++j) {
                     profileCounts[j] = 0;
                 }
             }
@@ -132,7 +132,7 @@ void ofApp::update(){
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
                 ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
-                for (size_t i = 0; i<PR_NR; ++i){
+                for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsL[currentQuestion][i];
                 }
                 currentQuestion++;
@@ -141,7 +141,7 @@ void ofApp::update(){
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
                 ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
-                for (size_t i = 0; i<PR_NR; ++i){
+                for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsR[currentQuestion][i];
                 }
                 currentQuestion++;
@@ -159,14 +159,14 @@ void ofApp::update(){
             
             if (PBtimer>compileTimer){
                 float max=0;
-                for (size_t i =0; i< PR_NR;++i){
+                for (size_t i =0; i< nProfiles;++i){
                     ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i];
                     if (profileCounts[i]>max) {
                         max=profileCounts[i];
-                        profile = Profiles(i);
+                        currentProfile = i;
                     }
                 }
-                ofLog() << "Profil choisi: " << profileNames[profile];
+                ofLog() << "Profil choisi: " << profileNames[currentProfile];
                 currentState = PROFILE;
                 resetButtons();
                 PBtimer = 0;
@@ -174,7 +174,7 @@ void ofApp::update(){
             break;
         }
         case PROFILE: {
-            if (PBtimer==1) ofLog() << "PROFILE #" << profile+1;
+            if (PBtimer==1) ofLog() << "PROFILE #" << currentProfile+1;
             
             if (PBtimer>profileTimer || buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -264,11 +264,10 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "BYE";
             
             if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
-                ///TODO: save photo with profile name and actual Time+Date + event
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                          +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
-                fileName+=profileNames[profile]+"-"+ofToString(int(ofRandom(1000)))+".png";
+                fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
                 
@@ -314,7 +313,7 @@ void ofApp::draw(){
             break;
         }
         case PROFILE: {
-            profiles[profile].draw(0,0);
+            profiles[currentProfile].draw(0,0);
             break;
         }
         case CAM_CHOICE: {
@@ -325,19 +324,19 @@ void ofApp::draw(){
         }
         case FRAME: {
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[profile].draw(0,0);
+            frames[currentProfile].draw(0,0);
             break;
         }
         case COUNTDOWN: {
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[profile].draw(0,0);
+            frames[currentProfile].draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
             //backgrounds[FLASH].draw(0,0);
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frames[profile].draw(0,0);
+            frames[currentProfile].draw(0,0);
             if (PBtimer == 1){
                 result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             }
@@ -431,16 +430,23 @@ void ofApp::resetButtons(){
 void ofApp::setupGUI(){
 
     // GUI/settings setup:
+    
+    Poco::Timestamp now;
+    Poco::LocalDateTime nowLocal(now);
+    
+    std::string timeNow = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
+    
+    ofLog() << "Time NOW !!! : " << timeNow;
 
     parameters.setName("Reglages");
     
     event.setName("Evenement");
     event.add(eventName.set("Nom", "VYV-solidarites19"));
-    event.add(year.set("Annee", 2019, 2019, 2029));
-    event.add(month.set("Mois", 6, 1, 12));
-    event.add(day.set("Jour", 7, 1, 31));
-    event.add(hour.set("Heure", 10, 0, 23));
-    event.add(min.set("Minute", 30, 0, 59));
+    event.add(year.set("Annee", ofFromString<int>(timeNow.substr(0,4)), 2019, 2029));
+    event.add(month.set("Mois", ofFromString<int>(timeNow.substr(5,2)), 1, 12));
+    event.add(day.set("Jour", ofFromString<int>(timeNow.substr(7,2)), 1, 31));
+    event.add(hour.set("Heure", ofFromString<int>(timeNow.substr(9,2)), 0, 23));
+    event.add(min.set("Minute", ofFromString<int>(timeNow.substr(11,2)), 0, 59));
     //
     parameters.add(event);
     
@@ -504,6 +510,14 @@ void ofApp::setupGUI(){
     
     settings.load("/data/settings.xml");
     ofDeserialize(settings, parameters);
+    
+    year = ofFromString<int>(timeNow.substr(0,4));
+    month = ofFromString<int>(timeNow.substr(5,2));
+    day = ofFromString<int>(timeNow.substr(8,2));
+    hour = ofFromString<int>(timeNow.substr(11,2));
+    min =ofFromString<int>(timeNow.substr(14,2));
+    
+    ofLog() << year << " " << month << " " << day << " " << hour << " " << min;
 
 }
 
@@ -520,13 +534,13 @@ void ofApp::loadCSV(){
     csv.loadFile(ofToDataPath("/data/"+csvPath));
     ofLog() << '\n';
     
-    for(int j=0; j<PR_NR; j++) {
+    for(int j=0; j<nProfiles; j++) {
         profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
     }
     // Print out all rows and cols.
     for(int i=0; i<nQuestions; i++) {
         ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
-        for(int j=0; j<PR_NR; j++) {
+        for(int j=0; j<nProfiles; j++) {
             ofLog() << "-> " <<
             tabText(profileNames[j],17) <<'\t' << '\t' <<
             (weightsL[i*2][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))

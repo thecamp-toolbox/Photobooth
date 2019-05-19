@@ -1,10 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxTime.h"
 #include "ofxCsv.h"
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+
 
 class ofApp : public ofBaseApp{
 public:
@@ -147,19 +149,9 @@ public:
     
     static const int nQuestions{10};
     int currentQuestion {0};
-    
-    enum Profiles {
-        AGRI,
-        ECO,
-        SPORT,
-        EDUCULT,
-        GEEK,
-        HOMER,
-        SJW,
-        PR_NR
-    } profile{};
-    
-    string profileNames[PR_NR]{
+ 
+    static const int nProfiles{7};
+    string profileNames[nProfiles]{
         "agrikool",
         "ecowarrior",
         "sportify",
@@ -168,14 +160,15 @@ public:
         "habitateur",
         "essejivé"
     };
+    int currentProfile {0};
     
     static const int nCountdown{5};
     int currentCountdown{0};
     
     ofImage backgrounds[ST_NR];
     ofImage questions[nQuestions];
-    ofImage profiles[PR_NR];
-    ofImage frames[PR_NR];
+    ofImage profiles[nProfiles];
+    ofImage frames[nProfiles];
     ofImage countdowns[nCountdown];
     
     int PBtimer{0};
@@ -192,11 +185,11 @@ public:
     
     wng::ofxCsv csv;
     
-    int weightsL[nQuestions][PR_NR];
-    int weightsR[nQuestions][PR_NR];
+    int weightsL[nQuestions][nProfiles];
+    int weightsR[nQuestions][nProfiles];
     
     float score;
-    float profileCounts[PR_NR];
+    float profileCounts[nProfiles];
 
     
 };
