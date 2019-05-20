@@ -4,8 +4,7 @@
 void ofApp::setup(){
     
     ofSetFrameRate(30);
-    
-    
+
     //___________________________
     // Camera setup
     
@@ -25,8 +24,7 @@ void ofApp::setup(){
     
     
     //___________________________
-    // Loading  Images:
-    
+    // Loading Images:
     
     for (size_t j = 0; j < nCountdown; ++j){
         ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
@@ -37,7 +35,7 @@ void ofApp::setup(){
     textureToken=!textureToken;
     
     ofEnableAlphaBlending();
-    
+
     
     
 }
@@ -63,7 +61,7 @@ void ofApp::update(){
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
             }
-            
+     
             break;
         }
         case STANDBY: {
@@ -99,8 +97,7 @@ void ofApp::update(){
         case EXPLAIN: {
             if (PBtimer==1) {
                 ofLog() << "EXPLAIN";
-            } else if (PBtimer==2) {
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion)+".png"));
                 textureToken=!textureToken;
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
@@ -113,19 +110,17 @@ void ofApp::update(){
         case QUESTION: {
             if (PBtimer==1) {
                 ofLog() << "QUESTION #" << currentQuestion+1;
-            } else if (PBtimer==2) {
-                //currentQuestion++;
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                //textureToken=!textureToken;
+                textureToken=!textureToken;
             }
             
             if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                     textureToken=!textureToken;
+                    currentQuestion++;
                     ofLog() << "No Choice for Question: " << currentQuestion;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
@@ -133,6 +128,7 @@ void ofApp::update(){
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
+                
             } else if (buttonLPressed) {
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
@@ -142,15 +138,16 @@ void ofApp::update(){
                 }
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                     textureToken=!textureToken;
+                    currentQuestion++;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
                     textureToken=!textureToken;
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
+                
             } else if (buttonRPressed) {
                 resetButtons();
                 score = float(100-100*PBtimer/questionTimer);
@@ -160,9 +157,9 @@ void ofApp::update(){
                 }
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                     textureToken=!textureToken;
+                    currentQuestion++;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
                     textureToken=!textureToken;
@@ -184,12 +181,13 @@ void ofApp::update(){
                     }
                 }
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
-            } else if (PBtimer==2) {
-                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
-                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile)+".png"));
+                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile)+".png"));
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[CAM_CHOICE]));
                 textureToken=!textureToken;
-            } else if (PBtimer>compileTimer*frameRate){
+            }
+            if (PBtimer>compileTimer*frameRate){
+                
                 currentState = PROFILE;
                 resetButtons();
                 PBtimer = 0;
@@ -197,9 +195,8 @@ void ofApp::update(){
             break;
         }
         case PROFILE: {
-            if (PBtimer==1) {
-                ofLog() << "PROFILE #" << currentProfile+1;
-            }
+            if (PBtimer==1) ofLog() << "PROFILE #" << currentProfile+1;
+            
             if (PBtimer>profileTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = CAM_CHOICE;
@@ -210,7 +207,7 @@ void ofApp::update(){
         case CAM_CHOICE: {
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[FLASH]));
                 textureToken=!textureToken;
             }
             if (buttonRPressed) {
@@ -223,7 +220,6 @@ void ofApp::update(){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
-                textureToken=!textureToken;
             }
             break;
         }
@@ -269,7 +265,6 @@ void ofApp::update(){
         case RESULT: {
             if (PBtimer==1) {
                 ofLog() << "RESULT";
-            } else if (PBtimer==2) {
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[PRINTING]));
                 textureToken=!textureToken;
             }
@@ -288,10 +283,8 @@ void ofApp::update(){
         case PRINTING: {
             if (PBtimer==1) {
                 ofLog() << "PRINTING";
-            } else if (PBtimer==2) {
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[BYE]));
                 textureToken=!textureToken;
-            } else if (PBtimer==3) {
                 
                 ///TODO: do the blasted actual printing
                 
@@ -301,7 +294,10 @@ void ofApp::update(){
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
-            } else if (PBtimer>printingTimer*frameRate){
+            }
+            
+            
+            if (PBtimer>printingTimer*frameRate){
                 resetButtons();
                 currentState = BYE;
                 PBtimer = 0;
@@ -311,7 +307,6 @@ void ofApp::update(){
         case BYE: {
             if (PBtimer==1) {
                 ofLog() << "BYE";
-            } else if (PBtimer==2) {
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
                 textureToken=!textureToken;
             }
@@ -324,7 +319,7 @@ void ofApp::update(){
         }
     }
     
-    
+
 }
 
 //--------------------------------------------------------------
@@ -380,8 +375,9 @@ void ofApp::draw(){
             break;
         }
         case FLASH: {
+            //backgrounds[FLASH].draw(0,0);
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frame.draw(0,0);
+            buffer[textureToken].draw(0,0);
             if (PBtimer == 1){
                 result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             }
@@ -389,7 +385,7 @@ void ofApp::draw(){
         }
         case RESULT: {
             buffer[textureToken].draw(0,0);
-            result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
+            result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             break;
         }
         case PRINTING: {
@@ -401,8 +397,8 @@ void ofApp::draw(){
             break;
         }
     }
-    
-    
+
+
 }
 
 //--------------------------------------------------------------
@@ -448,12 +444,12 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
-    
+
 }
 
 //--------------------------------------------------------------
@@ -472,7 +468,7 @@ void ofApp::resetButtons(){
 
 //--------------------------------------------------------------
 void ofApp::setupGUI(){
-    
+
     // GUI/settings setup:
     
     Poco::Timestamp now;
@@ -481,7 +477,7 @@ void ofApp::setupGUI(){
     std::string timeNow = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
     
     ofLog() << "Time NOW !!! : " << timeNow;
-    
+
     parameters.setName("Reglages");
     
     event.setName("Evenement");
@@ -518,40 +514,34 @@ void ofApp::setupGUI(){
     sec.add(posSecCamY.set("position Y", 677, 0, ofGetHeight()));
     sec.add(sizeSecCamX.set("taille X", 330, 0, ofGetWidth()));
     sec.add(sizeSecCamY.set("taille Y", 330, 0, ofGetHeight()));
-    // coordonnées du cadre résultat
-    res.setName("Resultat");
-    res.add(posResCamX.set("position X", 600, 0, ofGetWidth()));
-    res.add(posResCamY.set("position Y", 126, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 720, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 720, 0, ofGetHeight()));
     //
     coords.add(main);
     coords.add(sec);
-    coords.add(res);
     parameters.add(coords);
     
     cameras.setName("Cameras");
     // Choix des caméras
-    cameras.add(cam1Device.set("Camera 1", 0, 0, nCams));
-    cameras.add(cam2Device.set("Camera 2", 1, 0, nCams));
+    cameras.add(cam1Device.set("Camera 1", 0, 0, nCams-1));
+    cameras.add(cam2Device.set("Camera 2", 1, 0, nCams-1));
     // Dimensions des caméras
-    cameras.add(cam1Width.set ("Camera 1 largeur", 1920, 0, maxCamW));
-    cameras.add(cam1Height.set("Camera 1 hauteur", 1080, 0, maxCamH));
-    cameras.add(cam2Width.set ("Camera 2 largeur", 1920, 0, maxCamW));
-    cameras.add(cam2Height.set("Camera 2 hauteur", 1080, 0, maxCamH));
+    cameras.add(cam1Width.set ("Camera 1 largeur", 640, 0, maxCamW));
+    cameras.add(cam1Height.set("Camera 1 hauteur", 480, 0, maxCamH));
+    cameras.add(cam2Width.set ("Camera 2 largeur", 640, 0, maxCamW));
+    cameras.add(cam2Height.set("Camera 2 hauteur", 480, 0, maxCamH));
     //
     parameters.add(cameras);
     
     timers.setName("Timers");
-    //frameRate
-    timers.add(frameRate.set("FPS",  30, 0, 180));
+    //
+    timers.add(frameRate.set("FPS",  30, 0, 150));
     timers.add(mainTimer.set("Defaut",  4, 0, maxTimer));
     timers.add(compileTimer.set("Compilation",  4, 0, maxTimer));
     timers.add(profileTimer.set("profil",  4, 0, maxTimer));
-    timers.add(flashTimer.set("flash",  0.2, 0, maxTimer));
-    timers.add(countDownTimer.set("countdown",  1., 0, maxTimer));
-    timers.add(printingTimer.set("Print",  6, 0, maxTimer));
+    timers.add(flashTimer.set("flash",  4, 0, maxTimer));
+    timers.add(countDownTimer.set("countdown",  0.5, 0, maxTimer));
+    timers.add(printingTimer.set("Print",  4, 0, maxTimer));
     timers.add(questionTimer.set("question",  5, 0, maxTimer));
+    //timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
     //
     parameters.add(timers);
     
@@ -569,7 +559,7 @@ void ofApp::setupGUI(){
     min =ofFromString<int>(timeNow.substr(14,2));
     
     ofLog() << year << " " << month << " " << day << " " << hour << " " << min;
-    
+
 }
 
 //--------------------------------------------------------------
@@ -622,11 +612,11 @@ void ofApp::setupCams(){
 
 //--------------------------------------------------------------
 string ofApp::tabText(string& s, int offset){
-    string result = s;
+    string res = s;
     int spaces = offset-s.size();
     for (size_t i = 0; i< spaces; ++i) {
-        result+=' ';
+        res+=' ';
     }
-    result+= " : ";
-    return result;
+    res+= " : ";
+    return res;
 }

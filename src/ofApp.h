@@ -12,8 +12,8 @@
 class ofApp : public ofBaseApp{
 public:
     
-    //---------------------------------------------------------
-    // User-defined variables:
+//---------------------------------------------------------
+// User-defined variables:
     
     ofParameterGroup event;
     ofParameter<string> eventName;
@@ -35,40 +35,32 @@ public:
     ofParameter<int>
     posMainCamX{493}, posMainCamY{73},
     sizeMainCamX{934}, sizeMainCamY{934};
-    
     ofParameterGroup sec;
     // coordonnées du cadre secondaire
     ofParameter<int>
     posSecCamX{1500}, posSecCamY{677},
     sizeSecCamX{330}, sizeSecCamY{330};
     
-    ofParameterGroup res;
-    // coordonnées du cadre resultat
-    ofParameter<int>
-    posResCamX{1500}, posResCamY{677},
-    sizeResCamX{330}, sizeResCamY{330};
-    
     ofParameterGroup cameras;
     // Tailes des caméras:
     ofParameter<int> cam1Device{0},   cam2Device{1},
-    cam1Width{1280}, cam1Height{720},
-    cam2Width{1280}, cam2Height{720};
+                     cam1Width{1280}, cam1Height{720},
+                     cam2Width{1280}, cam2Height{720};
     
     ofParameterGroup timers;
     ofParameter<int> frameRate;
     // Timers:
-    ofParameter<float>
-                mainTimer{120},
-                compileTimer{120},
-                profileTimer{120},
-                flashTimer{120},
-                countDownTimer{30},
-                printingTimer{120},
-                questionTimer{133};
+    ofParameter<float>  mainTimer{120},
+                        compileTimer{120},
+                        profileTimer{120},
+                        flashTimer{120},
+                        countDownTimer{30},
+                        printingTimer{120},
+                        questionTimer{133};
     
     
-    
-    //---------------------------------------------------------
+  
+//---------------------------------------------------------
     
     // Methods:
     
@@ -102,7 +94,7 @@ public:
     int nCams{0};
     
     int maxCamW{1920},
-    maxCamH{1080};
+        maxCamH{1080};
     
     enum States {
         INIT,
@@ -142,7 +134,7 @@ public:
     
     static const int nQuestions{10};
     int currentQuestion {0};
-    
+ 
     static const int nProfiles{7};
     string profileNames[nProfiles]{
         "agrikool",
@@ -163,17 +155,21 @@ public:
     ofTexture buffer[2];
     ofTexture profile;
     ofTexture frame;
+    //ofTexture backgrounds[ST_NR];
+    //ofTexture questions[nQuestions];
+    //ofTexture profiles[nProfiles];
+    //ofTexture frames[nProfiles];
     ofTexture countdowns[nCountdown];
     
     int PBtimer{0};
-    int maxTimer{20};
+    int maxTimer{1000};
     
     ofImage result;
     
     bool buttonLPressed{0},
-    buttonRPressed{0},
-    keyLreleased{1},
-    keyRreleased{1};
+         buttonRPressed{0},
+         keyLreleased{1},
+         keyRreleased{1};
     
     string photoPath {"/data/photos/"};
     
@@ -184,6 +180,6 @@ public:
     
     float score;
     float profileCounts[nProfiles];
-    
+
     
 };
