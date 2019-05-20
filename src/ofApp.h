@@ -133,7 +133,7 @@ public:
         "frame",
         "countdown",
         "flash.png",
-        "result.png",
+        "result",
         "printing.png",
         "bye.png"
     };
@@ -155,6 +155,8 @@ public:
     
     static const int nCountdown{5};
     int currentCountdown{0};
+    
+    int resultCount{0};
     
     ofTexture profile;
     ofTexture frame;

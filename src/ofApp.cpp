@@ -256,7 +256,7 @@ void ofApp::update(){
             
             if (PBtimer==1) {
                 ofLog() << "FLASH";
-                bg.load("/data/BG/"+backgroundFiles[RESULT]);
+                bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
             }
             
             if (PBtimer>flashTimer*frameRate){
@@ -270,14 +270,17 @@ void ofApp::update(){
         case RESULT: {
             if (PBtimer==1) {
                 ofLog() << "RESULT";
-                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                
             }
             if (buttonRPressed) {
                 resetButtons();
+                resultCount++;
+                bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
                 currentState = COUNTDOWN;
                 PBtimer = 0;
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed ){
+                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
                 bg.next();
                 resetButtons();
                 currentState = PRINTING;

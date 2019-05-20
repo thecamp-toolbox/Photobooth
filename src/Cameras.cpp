@@ -46,7 +46,7 @@ void Cameras::setup(){
 void Cameras::update_one(){
     if (current) USBcam.update();
 #ifdef TARGET_RASPBERRY_PI
-    texPicam piCam.getTextureReference();
+    texPicam = piCam.getTextureReference();
 #else
     else piCam.update();
     texPicam = piCam.getTexture();
@@ -57,7 +57,7 @@ void Cameras::update_one(){
 void Cameras::update_all(){
     USBcam.update();
 #ifdef TARGET_RASPBERRY_PI
-    texPicam piCam.getTextureReference();
+    texPicam = piCam.getTextureReference();
 #else
     piCam.update();
     texPicam = piCam.getTexture();
