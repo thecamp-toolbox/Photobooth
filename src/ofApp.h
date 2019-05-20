@@ -6,6 +6,7 @@
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+#include "ofxRPiCameraVideoGrabber.h"
 
 //using namespace wng;
 
@@ -94,7 +95,10 @@ public:
     bool GUIhide{1};
     ofXml settings;
     
-    ofVideoGrabber cams[2];
+    ofVideoGrabber USBcam;
+    ofxRPiCameraVideoGrabber piCam;
+    OMXCameraSettings omxCameraSettings;
+    
     bool currentCam{0};
     int nCams{0};
     

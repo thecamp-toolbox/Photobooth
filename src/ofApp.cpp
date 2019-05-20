@@ -8,7 +8,7 @@ void ofApp::setup(){
     //___________________________
     // Camera setup
     
-    vector<ofVideoDevice> devices = cams[0].listDevices();
+    vector<ofVideoDevice> devices = USBcam.listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) {
         ofLog() << c.deviceName << " / ID: " << c.id;
@@ -214,8 +214,7 @@ void ofApp::update(){
                 resetButtons();
                 currentCam = !currentCam;
             }
-            cams[currentCam].update();
-            cams[!currentCam].update();
+            USBcam.update();
             if (PBtimer>mainTimer*frameRate || buttonLPressed){
                 resetButtons();
                 currentState = FRAME;
@@ -226,7 +225,7 @@ void ofApp::update(){
         case FRAME: {
             if (PBtimer==1) ofLog() << "FRAME";
             
-            cams[currentCam].update();
+            if (currentCam) USBcam.update();
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = COUNTDOWN;
@@ -237,7 +236,7 @@ void ofApp::update(){
         case COUNTDOWN: {
             if (PBtimer==1) ofLog() << "COUNTDOWN";
             
-            cams[currentCam].update();
+            if (currentCam) USBcam.update();
             if (PBtimer>countDownTimer*frameRate){
                 currentCountdown++;
                 resetButtons();
@@ -361,24 +360,27 @@ void ofApp::draw(){
             break;
         }
         case CAM_CHOICE: {
-            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            cams[!currentCam].draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
+            USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            piCam.draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
             buffer[textureToken].draw(0,0);
             break;
         }
         case FRAME: {
-            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             break;
         }
         case COUNTDOWN: {
-            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
-            cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             //buffer[textureToken].draw(0,0);
             if (PBtimer == 1){
@@ -606,19 +608,20 @@ void ofApp::loadCSV(){
 void ofApp::setupCams(){
     
     ofLog() << " Setup Cam 1 with Device#" << cam1Device;
-    cams[0].setDeviceID(cam1Device);
-    cams[0].setDesiredFrameRate(30);
+    USBcam.setDeviceID(cam1Device);
+    USBcam.setDesiredFrameRate(30);
     //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[0].initGrabber(cam1Width, cam1Height);
+    USBcam.initGrabber(cam1Width, cam1Height);
     
-    ofLog() << " Setup Cam 2 with Device#" << cam2Device;
-    cams[1].setDeviceID(cam2Device);
-    cams[1].setDesiredFrameRate(30);
-    //cams[1].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[1].initGrabber(cam2Width, cam2Height);
+    omxCameraSettings.width = 1280; //default 1280
+    omxCameraSettings.height = 720; //default 720
+    omxCameraSettings.enableTexture = true; //default true
+    omxCameraSettings.doRecording = false;   //default false
     
-    ofLog() << "size 1: " << cams[0].getWidth() << " / " << cams[0].getHeight();
-    ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
+    piCam.setup(omxCameraSettings);
+    
+    ofLog() << "size 1: " << USBcam.getWidth() << " / " << USBcam.getHeight();
+    //ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
 }
 
 //--------------------------------------------------------------
