@@ -131,7 +131,7 @@ void ofApp::update(){
                 
             } else if (buttonLPressed) {
                 resetButtons();
-                score = float(100-100*PBtimer/questionTimer);
+                score = float(100-100*PBtimer/questionTimer*frameRate);
                 ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsL[currentQuestion][i];
@@ -150,7 +150,7 @@ void ofApp::update(){
                 
             } else if (buttonRPressed) {
                 resetButtons();
-                score = float(100-100*PBtimer/questionTimer);
+                score = float(100-100*PBtimer/questionTimer*frameRate);
                 ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsR[currentQuestion][i];
@@ -514,20 +514,26 @@ void ofApp::setupGUI(){
     sec.add(posSecCamY.set("position Y", 677, 0, ofGetHeight()));
     sec.add(sizeSecCamX.set("taille X", 330, 0, ofGetWidth()));
     sec.add(sizeSecCamY.set("taille Y", 330, 0, ofGetHeight()));
+    // coordonnées du cadre secondaire
+    res.setName("Resultat");
+    res.add(posResCamX.set("position X", 1500, 0, ofGetWidth()));
+    res.add(posResCamY.set("position Y", 677, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 330, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
     //
     coords.add(main);
     coords.add(sec);
+    coords.add(res);
     parameters.add(coords);
     
     cameras.setName("Cameras");
     // Choix des caméras
     cameras.add(cam1Device.set("Camera 1", 0, 0, nCams-1));
+    cameras.add(cam1Width.set ("largeur 1", 640, 0, maxCamW));
+    cameras.add(cam1Height.set("hauteur 1", 480, 0, maxCamH));
     cameras.add(cam2Device.set("Camera 2", 1, 0, nCams-1));
-    // Dimensions des caméras
-    cameras.add(cam1Width.set ("Camera 1 largeur", 640, 0, maxCamW));
-    cameras.add(cam1Height.set("Camera 1 hauteur", 480, 0, maxCamH));
-    cameras.add(cam2Width.set ("Camera 2 largeur", 640, 0, maxCamW));
-    cameras.add(cam2Height.set("Camera 2 hauteur", 480, 0, maxCamH));
+    cameras.add(cam2Width.set ("largeur 2", 640, 0, maxCamW));
+    cameras.add(cam2Height.set("hauteur 2", 480, 0, maxCamH));
     //
     parameters.add(cameras);
     
@@ -598,13 +604,13 @@ void ofApp::setupCams(){
     
     cams[0].setDeviceID(cam1Device);
     cams[0].setDesiredFrameRate(30);
-    cams[0].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[0].setup(cam1Width, cam1Height);
+    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
+    cams[0].initGrabber(cam1Width, cam1Height);
     
     cams[1].setDeviceID(cam2Device);
     cams[1].setDesiredFrameRate(30);
-    cams[1].setPixelFormat(OF_PIXELS_NATIVE);
-    cams[1].setup(cam2Width, cam2Height);
+    //cams[1].setPixelFormat(OF_PIXELS_NATIVE);
+    cams[1].initGrabber(cam2Width, cam2Height);
     
     ofLog() << "size 1: " << cams[0].getWidth() << " / " << cams[0].getHeight();
     ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
@@ -612,11 +618,11 @@ void ofApp::setupCams(){
 
 //--------------------------------------------------------------
 string ofApp::tabText(string& s, int offset){
-    string res = s;
+    string result = s;
     int spaces = offset-s.size();
     for (size_t i = 0; i< spaces; ++i) {
-        res+=' ';
+        result+=' ';
     }
-    res+= " : ";
-    return res;
+    result+= " : ";
+    return result;
 }

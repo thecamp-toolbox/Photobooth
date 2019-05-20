@@ -40,6 +40,11 @@ public:
     ofParameter<int>
     posSecCamX{1500}, posSecCamY{677},
     sizeSecCamX{330}, sizeSecCamY{330};
+    ofParameterGroup res;
+    // coordonnées du cadre résultats
+    ofParameter<int>
+    posResCamX{1500}, posResCamY{677},
+    sizeResCamX{330}, sizeResCamY{330};
     
     ofParameterGroup cameras;
     // Tailes des caméras:
