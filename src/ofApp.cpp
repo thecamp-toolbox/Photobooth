@@ -25,46 +25,8 @@ void ofApp::setup(){
     
     
     //___________________________
-    // Loading Background Images:
+    // Loading  Images:
     
-    /*
-     for (size_t i = 0; i < ST_NR; ++i){
-     switch(i){
-     case QUESTION:
-     for (size_t j = 0; j < nQuestions; ++j){
-     ofLoadImage(questions[j], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png"));
-     ofLog() << ("/data/BG/"+backgroundFiles[QUESTION]+to_string(j+1)+".png");
-     }
-     break;
-     
-     case PROFILE:
-     for (size_t j = 0; j < nProfiles; ++j){
-     ofLoadImage(profiles[j], ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png"));
-     ofLog() << ("/data/BG/"+backgroundFiles[PROFILE]+to_string(j+1)+".png");
-     }
-     break;
-     
-     case FRAME:
-     for (size_t j = 0; j < nProfiles; ++j){
-     ofLoadImage(frames[j], ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png"));
-     ofLog() << ("/data/BG/"+backgroundFiles[FRAME]+to_string(j+1)+".png");
-     }
-     break;
-     
-     case COUNTDOWN:
-     for (size_t j = 0; j < nCountdown; ++j){
-     ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
-     ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
-     }
-     break;
-     
-     default:
-     ofLoadImage(backgrounds[i], ("/data/BG/"+backgroundFiles[i]));
-     ofLog() << ("/data/BG/"+backgroundFiles[i]);
-     break;
-     }
-     }
-     */
     
     for (size_t j = 0; j < nCountdown; ++j){
         ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
@@ -127,7 +89,7 @@ void ofApp::update(){
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[EXPLAIN]));
                 textureToken=!textureToken;
             }
-            if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = EXPLAIN;
                 PBtimer = 0;
@@ -141,7 +103,7 @@ void ofApp::update(){
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                 textureToken=!textureToken;
             }
-            if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = QUESTION;
                 PBtimer = 0;
@@ -157,7 +119,7 @@ void ofApp::update(){
                 //textureToken=!textureToken;
             }
             
-            if (PBtimer>questionTimer) {
+            if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
@@ -227,7 +189,7 @@ void ofApp::update(){
                 ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[CAM_CHOICE]));
                 textureToken=!textureToken;
-            } else if (PBtimer>compileTimer){
+            } else if (PBtimer>compileTimer*frameRate){
                 currentState = PROFILE;
                 resetButtons();
                 PBtimer = 0;
@@ -238,7 +200,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "PROFILE #" << currentProfile+1;
             }
-            if (PBtimer>profileTimer || buttonLPressed || buttonRPressed){
+            if (PBtimer>profileTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = CAM_CHOICE;
                 PBtimer = 0;
@@ -257,7 +219,7 @@ void ofApp::update(){
             }
             cams[currentCam].update();
             cams[!currentCam].update();
-            if (PBtimer>mainTimer || buttonLPressed){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
@@ -269,7 +231,7 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "FRAME";
             
             cams[currentCam].update();
-            if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = COUNTDOWN;
                 PBtimer = 0;
@@ -280,7 +242,7 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "COUNTDOWN";
             
             cams[currentCam].update();
-            if (PBtimer>countDownTimer){
+            if (PBtimer>countDownTimer*frameRate){
                 currentCountdown++;
                 resetButtons();
                 PBtimer = 0;
@@ -297,7 +259,7 @@ void ofApp::update(){
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
                 textureToken=!textureToken;
             }
-            if (PBtimer>flashTimer){
+            if (PBtimer>flashTimer*frameRate){
                 resetButtons();
                 currentState = RESULT;
                 PBtimer = 0;
@@ -316,7 +278,7 @@ void ofApp::update(){
                 currentState = COUNTDOWN;
                 PBtimer = 0;
             }
-            if (PBtimer>mainTimer || buttonLPressed ){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed ){
                 resetButtons();
                 currentState = PRINTING;
                 PBtimer = 0;
@@ -339,7 +301,7 @@ void ofApp::update(){
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
-            } else if (PBtimer>printingTimer){
+            } else if (PBtimer>printingTimer*frameRate){
                 resetButtons();
                 currentState = BYE;
                 PBtimer = 0;
@@ -353,7 +315,7 @@ void ofApp::update(){
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
                 textureToken=!textureToken;
             }
-            if (PBtimer>mainTimer || buttonLPressed || buttonRPressed){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
@@ -581,15 +543,15 @@ void ofApp::setupGUI(){
     parameters.add(cameras);
     
     timers.setName("Timers");
-    //
-    timers.add(mainTimer.set("Defaut",  120, 0, maxTimer));
-    timers.add(compileTimer.set("Compilation",  120, 0, maxTimer));
-    timers.add(profileTimer.set("profil",  120, 0, maxTimer));
-    timers.add(flashTimer.set("flash",  120, 0, maxTimer));
-    timers.add(countDownTimer.set("countdown",  30, 0, maxTimer));
-    timers.add(printingTimer.set("Print",  120, 0, maxTimer));
-    timers.add(questionTimer.set("question",  133, 0, maxTimer));
-    timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
+    //frameRate
+    timers.add(frameRate.set("FPS",  30, 0, 180));
+    timers.add(mainTimer.set("Defaut",  4, 0, maxTimer));
+    timers.add(compileTimer.set("Compilation",  4, 0, maxTimer));
+    timers.add(profileTimer.set("profil",  4, 0, maxTimer));
+    timers.add(flashTimer.set("flash",  0.2, 0, maxTimer));
+    timers.add(countDownTimer.set("countdown",  1., 0, maxTimer));
+    timers.add(printingTimer.set("Print",  6, 0, maxTimer));
+    timers.add(questionTimer.set("question",  5, 0, maxTimer));
     //
     parameters.add(timers);
     

@@ -57,14 +57,14 @@ public:
     ofParameterGroup timers;
     ofParameter<int> frameRate;
     // Timers:
-    ofParameter<float>  antibounceTimer{30},
-    mainTimer{120},
-    compileTimer{120},
-    profileTimer{120},
-    flashTimer{120},
-    countDownTimer{30},
-    printingTimer{120},
-    questionTimer{133};
+    ofParameter<float>
+                mainTimer{120},
+                compileTimer{120},
+                profileTimer{120},
+                flashTimer{120},
+                countDownTimer{30},
+                printingTimer{120},
+                questionTimer{133};
     
     
     
@@ -163,14 +163,10 @@ public:
     ofTexture buffer[2];
     ofTexture profile;
     ofTexture frame;
-    //ofTexture backgrounds[ST_NR];
-    //ofTexture questions[nQuestions];
-    //ofTexture profiles[nProfiles];
-    //ofTexture frames[nProfiles];
     ofTexture countdowns[nCountdown];
     
     int PBtimer{0};
-    int maxTimer{1000};
+    int maxTimer{20};
     
     ofImage result;
     
