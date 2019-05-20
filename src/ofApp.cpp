@@ -285,15 +285,17 @@ void ofApp::update(){
                 textureToken=!textureToken;
                 ofLoadImage(buffer[!textureToken], ("/data/BG/"+backgroundFiles[BYE]));
                 
-                
-                ///TODO: do the blasted actual printing
-                
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
+                string printCommand = "lp ";
+                printCommand +=photoPath+fileName;
+                ofSystem(printCommand);
+                
+                ///TODO: do the blasted actual printing
             }
             
             
@@ -360,7 +362,7 @@ void ofApp::draw(){
             break;
         }
         case CAM_CHOICE: {
-            USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            USBcam.draw(0, 0, 1920, 1080);
             piCam.draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
             buffer[textureToken].draw(0,0);
             break;
