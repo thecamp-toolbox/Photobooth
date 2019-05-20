@@ -97,7 +97,7 @@ void ofApp::update(){
         case EXPLAIN: {
             if (PBtimer==1) {
                 ofLog() << "EXPLAIN";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion)+".png"));
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                 textureToken=!textureToken;
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
@@ -111,16 +111,16 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "QUESTION #" << currentQuestion+1;
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                textureToken=!textureToken;
+                //textureToken=!textureToken;
             }
             
             if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
+                    currentQuestion++;
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                     textureToken=!textureToken;
-                    currentQuestion++;
                     ofLog() << "No Choice for Question: " << currentQuestion;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
@@ -131,16 +131,16 @@ void ofApp::update(){
                 
             } else if (buttonLPressed) {
                 resetButtons();
-                score = float(100-100*PBtimer/questionTimer*frameRate);
+                score = float(100-100*PBtimer/(questionTimer*frameRate));
                 ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsL[currentQuestion][i];
                 }
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
+                    currentQuestion++;
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
                     textureToken=!textureToken;
-                    currentQuestion++;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
                     textureToken=!textureToken;
@@ -150,16 +150,16 @@ void ofApp::update(){
                 
             } else if (buttonRPressed) {
                 resetButtons();
-                score = float(100-100*PBtimer/questionTimer*frameRate);
+                score = float(100-100*PBtimer/(questionTimer*frameRate));
                 ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
                     profileCounts[i]+=score*weightsR[currentQuestion][i];
                 }
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                    textureToken=!textureToken;
                     currentQuestion++;
+                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+2)+".png"));
+                    textureToken=!textureToken;
                 } else {
                     ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
                     textureToken=!textureToken;
@@ -283,8 +283,9 @@ void ofApp::update(){
         case PRINTING: {
             if (PBtimer==1) {
                 ofLog() << "PRINTING";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[BYE]));
                 textureToken=!textureToken;
+                ofLoadImage(buffer[!textureToken], ("/data/BG/"+backgroundFiles[BYE]));
+                
                 
                 ///TODO: do the blasted actual printing
                 
@@ -307,13 +308,15 @@ void ofApp::update(){
         case BYE: {
             if (PBtimer==1) {
                 ofLog() << "BYE";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
                 textureToken=!textureToken;
+                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
+                
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
+                textureToken=!textureToken;
             }
             break;
         }
@@ -375,9 +378,9 @@ void ofApp::draw(){
             break;
         }
         case FLASH: {
-            //backgrounds[FLASH].draw(0,0);
             cams[currentCam].draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            buffer[textureToken].draw(0,0);
+            frame.draw(0,0);
+            //buffer[textureToken].draw(0,0);
             if (PBtimer == 1){
                 result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             }
@@ -385,7 +388,7 @@ void ofApp::draw(){
         }
         case RESULT: {
             buffer[textureToken].draw(0,0);
-            result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
             break;
         }
         case PRINTING: {
@@ -602,11 +605,13 @@ void ofApp::loadCSV(){
 //--------------------------------------------------------------
 void ofApp::setupCams(){
     
+    ofLog() << " Setup Cam 1 with Device#" << cam1Device;
     cams[0].setDeviceID(cam1Device);
     cams[0].setDesiredFrameRate(30);
     //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
     cams[0].initGrabber(cam1Width, cam1Height);
     
+    ofLog() << " Setup Cam 2 with Device#" << cam2Device;
     cams[1].setDeviceID(cam2Device);
     cams[1].setDesiredFrameRate(30);
     //cams[1].setPixelFormat(OF_PIXELS_NATIVE);

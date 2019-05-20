@@ -167,7 +167,7 @@ public:
     ofTexture countdowns[nCountdown];
     
     int PBtimer{0};
-    int maxTimer{1000};
+    int maxTimer{20};
     
     ofImage result;
     
