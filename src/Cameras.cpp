@@ -73,12 +73,12 @@ void Cameras::update_all(){
 
 void Cameras::draw_one(float x, float y, float w, float h){
     if (current) USBCam.draw(x+w, y, -w, h);
-    else texPicam.drawSubsection(x+w, y, -w, h, camXOffset, camYOffset, camXsize, camYsize);
+    else texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 }
 
 void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
     USBCam.draw(x1+w1, y1, -w1, h1);
-    texPicam.drawSubsection(x2+w2, y2, -w2, h2, camXOffset, camYOffset, camXsize, camYsize);
+    texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
 }
 
 void Cameras::setup_GUI(){
