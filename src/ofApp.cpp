@@ -760,7 +760,7 @@ void ofApp::setupGUI(){
     gui.getGroup("Coordonnees displays").setWidthElements(300);
     gui.getGroup("Cameras").setSize(300, gui.getHeight());
     gui.getGroup("Cameras").setWidthElements(300);
-    gui.getGroup("LEDs").setSize(300, gui.getHeight());
+    gui.getGroup("LEDs").setSize(300, gui.getGroup("LEDs").getHeight());
     gui.getGroup("LEDs").setWidthElements(300);
     
     gui.getGroup("LEDs").getGroup("visualisation LEDs").minimize();

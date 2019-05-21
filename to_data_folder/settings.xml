@@ -4,12 +4,12 @@
 		<Nom>VYV-solidarites19</Nom>
 		<Annee>2019</Annee>
 		<Mois>5</Mois>
-		<Jour>21</Jour>
-		<Heure>4</Heure>
-		<Minute>33</Minute>
+		<Jour>27</Jour>
+		<Heure>16</Heure>
+		<Minute>47</Minute>
 	</Evenement>
 	<Fichiers>
-		<Log_fichier>1</Log_fichier>
+		<Log_fichier>0</Log_fichier>
 		<Questions>
 			<Chemin>questions.csv</Chemin>
 			<Col_offset>2</Col_offset>
@@ -35,7 +35,7 @@
 			<taille_Y>519</taille_Y>
 		</Choix_droit>
 		<Resultat>
-			<position_X>690</position_X>
+			<position_X>686</position_X>
 			<position_Y>279</position_Y>
 			<taille_X>548</taille_X>
 			<taille_Y>548</taille_Y>
@@ -43,30 +43,54 @@
 	</Coordonnees_displays>
 	<Cameras>
 		<crop_offset_X>372</crop_offset_X>
-		<crop_offset_Y>80</crop_offset_Y>
-		<crop_largeur>640</crop_largeur>
-		<crop_hauteur>480</crop_hauteur>
+		<crop_offset_Y>121</crop_offset_Y>
+		<crop_largeur>502</crop_largeur>
+		<crop_hauteur>479</crop_hauteur>
 	</Cameras>
 	<Timers>
 		<FPS>30</FPS>
-		<Defaut>4</Defaut>
-		<Compilation>4</Compilation>
-		<profil>4</profil>
-		<flash>0.2</flash>
-		<countdown>0.5</countdown>
-		<Print>6</Print>
-		<question>5</question>
+		<Defaut>6.02041</Defaut>
+		<Compilation>2.34694</Compilation>
+		<profil>4.59184</profil>
+		<flash>0.510204</flash>
+		<countdown>0.102041</countdown>
+		<Print>2.95918</Print>
+		<question>4.59184</question>
+		<Draw_FPS>1</Draw_FPS>
 	</Timers>
 	<Ticket>
-		<print>1</print>
+		<print>0</print>
 		<Marge_Gauche>10</Marge_Gauche>
 		<Marge_Droite>10</Marge_Droite>
 		<Marge_Haut>10</Marge_Haut>
-		<Marge_Bas>59</Marge_Bas>
+		<Marge_Bas>56</Marge_Bas>
 		<Largeur>635</Largeur>
 		<Hauteur>635</Hauteur>
-		<Marge_Y_texte>40</Marge_Y_texte>
+		<Marge_Y_texte>35</Marge_Y_texte>
 		<Nom_police>sans-serif</Nom_police>
-		<Taille_police>16</Taille_police>
+		<Taille_police>15</Taille_police>
 	</Ticket>
+	<LEDs>
+		<nb_de_LEDs_par_strip>30</nb_de_LEDs_par_strip>
+		<nb_de_strips>8</nb_de_strips>
+		<lum_animation>20</lum_animation>
+		<lum_flash>31</lum_flash>
+		<couleur_loader_G>253, 255, 0, 255</couleur_loader_G>
+		<couleur_loader_D>0, 10, 255, 255</couleur_loader_D>
+		<draw_LEDs_on_screen>1</draw_LEDs_on_screen>
+		<visualisation_LEDs>
+			<position_X>910</position_X>
+			<position_Y>356</position_Y>
+			<taille_X>100</taille_X>
+			<taille_Y>519</taille_Y>
+		</visualisation_LEDs>
+		<couleur_profil_1>255, 6, 0, 255</couleur_profil_1>
+		<couleur_profil_2>255, 189, 0, 255</couleur_profil_2>
+		<couleur_profil_3>220, 255, 0, 255</couleur_profil_3>
+		<couleur_profil_4>0, 255, 211, 255</couleur_profil_4>
+		<couleur_profil_5>0, 116, 255, 255</couleur_profil_5>
+		<couleur_profil_6>74, 4, 255, 255</couleur_profil_6>
+		<couleur_profil_7>193, 0, 255, 255</couleur_profil_7>
+		<couleur_total>255, 255, 255, 255</couleur_total>
+	</LEDs>
 </Reglages>
