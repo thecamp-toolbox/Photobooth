@@ -5,8 +5,8 @@
 		<Annee>2019</Annee>
 		<Mois>5</Mois>
 		<Jour>21</Jour>
-		<Heure>10</Heure>
-		<Minute>38</Minute>
+		<Heure>11</Heure>
+		<Minute>45</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>1</Log_fichier>
@@ -52,9 +52,9 @@
 		<Defaut>4</Defaut>
 		<Compilation>4</Compilation>
 		<profil>4</profil>
-		<flash>4</flash>
+		<flash>0.2</flash>
 		<countdown>0.5</countdown>
-		<Print>4</Print>
+		<Print>6</Print>
 		<question>5</question>
 	</Timers>
 </Reglages>

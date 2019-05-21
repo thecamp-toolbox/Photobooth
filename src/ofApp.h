@@ -1,12 +1,16 @@
 #pragma once
 
 #include "ofMain.h"
+// addons
 #include "ofxTime.h"
 #include "ofxCsv.h"
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+
+// Components
 #include "Cameras.hpp"
+#include "Background.hpp"
 
 
 class ofApp : public ofBaseApp{
@@ -96,6 +100,7 @@ public:
     
     Cameras cams;
     
+    Background bg;
     
     enum States {
         INIT,
@@ -151,9 +156,6 @@ public:
     static const int nCountdown{5};
     int currentCountdown{0};
     
-    bool textureToken{0};
-    
-    ofTexture buffer[2];
     ofTexture profile;
     ofTexture frame;
     //ofTexture backgrounds[ST_NR];

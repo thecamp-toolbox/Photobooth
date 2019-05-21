@@ -14,7 +14,6 @@
 #ifdef TARGET_RASPBERRY_PI
 #include "ofxRPiCameraVideoGrabber.h"
 #endif
-#include <stdio.h>
 
 class Cameras {
 public:

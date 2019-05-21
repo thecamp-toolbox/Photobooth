@@ -17,8 +17,7 @@ void ofApp::setup(){
         ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
     
-    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[INIT]));
-    textureToken=!textureToken;
+    bg.load("/data/BG/"+backgroundFiles[INIT]);
     
     ofEnableAlphaBlending();
 
@@ -34,9 +33,10 @@ void ofApp::update(){
         case INIT: {
             cams.update_all();
             if (PBtimer==1) {
+                bg.next();
+                ofShowCursor();
                 ofLog() << "INIT";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[STANDBY]);
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -46,6 +46,8 @@ void ofApp::update(){
                 ofLog() << "CSV loaded";
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
+                ofHideCursor();
+                bg.next();
             }
      
             break;
@@ -53,8 +55,7 @@ void ofApp::update(){
         case STANDBY: {
             if (PBtimer==1) {
                 ofLog() << "STANDBY";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[WELCOME]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[WELCOME]);
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -64,59 +65,61 @@ void ofApp::update(){
                 for (size_t j = 0; j < nProfiles; ++j) {
                     profileCounts[j] = 0;
                 }
+                bg.next();
             }
             break;
         }
         case WELCOME: {
             if (PBtimer==1) {
                 ofLog() << "WELCOME";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[EXPLAIN]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[EXPLAIN]);
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = EXPLAIN;
                 PBtimer = 0;
+                bg.next();
             }
             break;
         }
         case EXPLAIN: {
             if (PBtimer==1) {
                 ofLog() << "EXPLAIN";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                textureToken=!textureToken;
+                bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = QUESTION;
                 PBtimer = 0;
+                bg.next();
             }
             break;
         }
         case QUESTION: {
             if (PBtimer==1) {
                 ofLog() << "QUESTION #" << currentQuestion+1;
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                //textureToken=!textureToken;
+            bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
             }
             
             if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
+                bg.next();
                 if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     ofLog() << "No Choice for Question: " << currentQuestion;
+                    //bg.next();
                 } else {
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    //bg.next();
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
                 
             } else if (buttonLPressed) {
                 resetButtons();
+                bg.next();
                 score = float(100-100*PBtimer/(questionTimer*frameRate));
                 ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
@@ -125,17 +128,18 @@ void ofApp::update(){
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+1)+".png"));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    //bg.next();
                 } else {
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.next();
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
                 
             } else if (buttonRPressed) {
                 resetButtons();
+                bg.next();
                 score = float(100-100*PBtimer/(questionTimer*frameRate));
                 ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
                 for (size_t i = 0; i<nProfiles; ++i){
@@ -144,11 +148,11 @@ void ofApp::update(){
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[QUESTION]+to_string(currentQuestion+2)+".png"));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    //bg.next();
                 } else {
-                    ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[COMPILING]));
-                    textureToken=!textureToken;
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.next();
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
@@ -157,6 +161,7 @@ void ofApp::update(){
         }
         case COMPILING: {
             if (PBtimer==1) {
+                //bg.next();
                 ofLog() << "COMPILING";
                 float max=0;
                 for (size_t i =0; i< nProfiles;++i){
@@ -169,11 +174,10 @@ void ofApp::update(){
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
                 ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile)+".png"));
                 ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile)+".png"));
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[CAM_CHOICE]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
             }
             if (PBtimer>compileTimer*frameRate){
-                
+                bg.next();
                 currentState = PROFILE;
                 resetButtons();
                 PBtimer = 0;
@@ -195,20 +199,23 @@ void ofApp::update(){
             
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[FLASH]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[FLASH]);
+
             }
             if (buttonRPressed) {
+                bg.next();
                 resetButtons();
                 cams.current = 0;
                 currentState = FRAME;
                 PBtimer = 0;
             } else if (buttonLPressed){
+                bg.next();
                 resetButtons();
                 cams.current = 1;
                 currentState = FRAME;
                 PBtimer = 0;
             } else if (PBtimer>mainTimer*frameRate){
+                bg.next();
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
@@ -220,6 +227,7 @@ void ofApp::update(){
             
             if (PBtimer==1) ofLog() << "FRAME";
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
+                
                 resetButtons();
                 currentState = COUNTDOWN;
                 PBtimer = 0;
@@ -247,11 +255,11 @@ void ofApp::update(){
             
             if (PBtimer==1) {
                 ofLog() << "FLASH";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[RESULT]);
             }
             
             if (PBtimer>flashTimer*frameRate){
+                bg.next();
                 resetButtons();
                 currentState = RESULT;
                 PBtimer = 0;
@@ -261,8 +269,7 @@ void ofApp::update(){
         case RESULT: {
             if (PBtimer==1) {
                 ofLog() << "RESULT";
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[PRINTING]));
-                textureToken=!textureToken;
+                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
             }
             if (buttonRPressed) {
                 resetButtons();
@@ -270,6 +277,7 @@ void ofApp::update(){
                 PBtimer = 0;
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed ){
+                bg.next();
                 resetButtons();
                 currentState = PRINTING;
                 PBtimer = 0;
@@ -279,8 +287,7 @@ void ofApp::update(){
         case PRINTING: {
             if (PBtimer==1) {
                 ofLog() << "PRINTING";
-                textureToken=!textureToken;
-                ofLoadImage(buffer[!textureToken], ("/data/BG/"+backgroundFiles[BYE]));
+                bg.load("/data/BG/"+backgroundFiles[BYE]);
                 
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
@@ -297,6 +304,7 @@ void ofApp::update(){
             
             
             if (PBtimer>printingTimer*frameRate){
+                bg.next();
                 resetButtons();
                 currentState = BYE;
                 PBtimer = 0;
@@ -306,18 +314,19 @@ void ofApp::update(){
         case BYE: {
             if (PBtimer==1) {
                 ofLog() << "BYE";
-                textureToken=!textureToken;
-                ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
+                bg.load("/data/BG/"+backgroundFiles[STANDBY]);
                 
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
+                bg.next();
                 resetButtons();
                 currentState = STANDBY;
                 PBtimer = 0;
-                textureToken=!textureToken;
             }
             break;
         }
+        default:
+            break;
     }
     
 
@@ -328,40 +337,28 @@ void ofApp::draw(){
     
     switch (currentState) {
         case INIT: {
-            buffer[textureToken].draw(0,0);
-            ofShowCursor();
+            bg.draw();
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             gui.draw();
             break;
         }
-        case STANDBY: {
-            ofHideCursor();
-            buffer[textureToken].draw(0,0);
-            break;
-        }
-        case WELCOME: {
-            buffer[textureToken].draw(0,0);
-            break;
-        }
-        case EXPLAIN: {
-            buffer[textureToken].draw(0,0);
-            break;
-        }
+        /*
         case QUESTION: {
-            buffer[textureToken].draw(0,0);
+            bg.draw();
             break;
         }
         case COMPILING: {
-            buffer[textureToken].draw(0,0);
+            bg.draw();
             break;
         }
+        */
         case PROFILE: {
             profile.draw(0,0);
             break;
         }
         case CAM_CHOICE: {
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
-            buffer[textureToken].draw(0,0);
+             bg.draw();
             break;
         }
         case FRAME: {
@@ -376,6 +373,7 @@ void ofApp::draw(){
             break;
         }
         case FLASH: {
+            //bg.draw();
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             //buffer[textureToken].draw(0,0);
@@ -385,16 +383,12 @@ void ofApp::draw(){
             break;
         }
         case RESULT: {
-            buffer[textureToken].draw(0,0);
+            bg.draw();
             result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
             break;
         }
-        case PRINTING: {
-            buffer[textureToken].draw(0,0);
-            break;
-        }
-        case BYE: {
-            buffer[textureToken].draw(0,0);
+        default:{
+            bg.draw();
             break;
         }
     }
