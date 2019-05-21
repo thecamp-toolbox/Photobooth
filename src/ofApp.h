@@ -6,9 +6,9 @@
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+#ifdef TARGET_RASPBERRY_PI
 #include "ofxRPiCameraVideoGrabber.h"
-
-//using namespace wng;
+#endif
 
 class ofApp : public ofBaseApp{
 public:
@@ -36,11 +36,18 @@ public:
     ofParameter<int>
     posMainCamX{493}, posMainCamY{73},
     sizeMainCamX{934}, sizeMainCamY{934};
-    ofParameterGroup sec;
-    // coordonnées du cadre secondaire
+    
+    ofParameterGroup choiceL;
+    // coordonnées du cadre de choix gauche
     ofParameter<int>
-    posSecCamX{1500}, posSecCamY{677},
-    sizeSecCamX{330}, sizeSecCamY{330};
+    posLCamX{1500}, posLCamY{677},
+    sizeLCamX{330}, sizeLCamY{330};
+    ofParameterGroup choiceR;
+    // coordonnées du cadre de choix gauche
+    ofParameter<int>
+    posRCamX{1500}, posRCamY{677},
+    sizeRCamX{330}, sizeRCamY{330};
+
     ofParameterGroup res;
     // coordonnées du cadre résultats
     ofParameter<int>
@@ -96,8 +103,12 @@ public:
     ofXml settings;
     
     ofVideoGrabber USBcam;
+#ifdef TARGET_RASPBERRY_PI
     ofxRPiCameraVideoGrabber piCam;
     OMXCameraSettings omxCameraSettings;
+#else
+    ofVideoGrabber piCam;
+#endif
     
     bool currentCam{0};
     int nCams{0};

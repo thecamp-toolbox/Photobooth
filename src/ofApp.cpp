@@ -212,10 +212,21 @@ void ofApp::update(){
             }
             if (buttonRPressed) {
                 resetButtons();
-                currentCam = !currentCam;
+                currentCam = 0;
+                currentState = FRAME;
+                PBtimer = 0;
+            } else if (buttonRPressed){
+                resetButtons();
+                currentCam = 1;
+                currentState = FRAME;
+                PBtimer = 0;
             }
             USBcam.update();
-            if (PBtimer>mainTimer*frameRate || buttonLPressed){
+#ifdef TARGET_RASPBERRY_PI
+#else
+            piCam.update();
+#endif
+            if (PBtimer>mainTimer*frameRate){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
@@ -226,6 +237,10 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "FRAME";
             
             if (currentCam) USBcam.update();
+#ifdef TARGET_RASPBERRY_PI
+#else
+            else piCam.update();
+#endif
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = COUNTDOWN;
@@ -237,6 +252,10 @@ void ofApp::update(){
             if (PBtimer==1) ofLog() << "COUNTDOWN";
             
             if (currentCam) USBcam.update();
+#ifdef TARGET_RASPBERRY_PI
+#else
+            else piCam.update();
+#endif
             if (PBtimer>countDownTimer*frameRate){
                 currentCountdown++;
                 resetButtons();
@@ -254,6 +273,11 @@ void ofApp::update(){
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
                 textureToken=!textureToken;
             }
+            if (currentCam) USBcam.update();
+#ifdef TARGET_RASPBERRY_PI
+#else
+            else piCam.update();
+#endif
             if (PBtimer>flashTimer*frameRate){
                 resetButtons();
                 currentState = RESULT;
@@ -362,8 +386,8 @@ void ofApp::draw(){
             break;
         }
         case CAM_CHOICE: {
-            USBcam.draw(0, 0, 1920, 1080);
-            piCam.draw(posSecCamX, posSecCamY, sizeSecCamX, sizeSecCamY);
+            USBcam.draw(posLCamX, posLCamY, sizeLCamX, sizeLCamY);
+            piCam.draw(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             buffer[textureToken].draw(0,0);
             break;
         }
@@ -511,17 +535,25 @@ void ofApp::setupGUI(){
     coords.setName("Coordonnees displays");
     // coordonnées du cadre principal
     main.setName("Principal");
-    main.add(posMainCamX.set("position  X", 493, 0, ofGetWidth()));
+    main.add(posMainCamX.set("position X", 493, 0, ofGetWidth()));
     main.add(posMainCamY.set("position Y", 73, 0, ofGetHeight()));
     main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
     main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
-    // coordonnées du cadre secondaire
-    sec.setName("Secondaire");
-    sec.add(posSecCamX.set("position X", 1500, 0, ofGetWidth()));
-    sec.add(posSecCamY.set("position Y", 677, 0, ofGetHeight()));
-    sec.add(sizeSecCamX.set("taille X", 330, 0, ofGetWidth()));
-    sec.add(sizeSecCamY.set("taille Y", 330, 0, ofGetHeight()));
-    // coordonnées du cadre secondaire
+    
+    // coordonnées du cadre choix gauche
+    choiceL.setName("Choix gauche");
+    choiceL.add(posLCamX.set("position X", 1500, 0, ofGetWidth()));
+    choiceL.add(posLCamY.set("position Y", 677, 0, ofGetHeight()));
+    choiceL.add(sizeLCamX.set("taille X", 330, 0, ofGetWidth()));
+    choiceL.add(sizeLCamY.set("taille Y", 330, 0, ofGetHeight()));
+    // coordonnées du cadre choix droit
+    choiceR.setName("Choix droit");
+    choiceR.add(posRCamX.set("position X", 1500, 0, ofGetWidth()));
+    choiceR.add(posRCamY.set("position Y", 677, 0, ofGetHeight()));
+    choiceR.add(sizeRCamX.set("taille X", 330, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 330, 0, ofGetHeight()));
+    
+    // coordonnées du cadre résultat
     res.setName("Resultat");
     res.add(posResCamX.set("position X", 1500, 0, ofGetWidth()));
     res.add(posResCamY.set("position Y", 677, 0, ofGetHeight()));
@@ -529,7 +561,8 @@ void ofApp::setupGUI(){
     res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
     //
     coords.add(main);
-    coords.add(sec);
+    coords.add(choiceL);
+    coords.add(choiceR);
     coords.add(res);
     parameters.add(coords);
     
@@ -610,20 +643,27 @@ void ofApp::loadCSV(){
 void ofApp::setupCams(){
     
     ofLog() << " Setup Cam 1 with Device#" << cam1Device;
-    USBcam.setDeviceID(cam1Device);
+    USBcam.setDeviceID(0);
     USBcam.setDesiredFrameRate(30);
     //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
     USBcam.initGrabber(cam1Width, cam1Height);
-    
+    ofLog() << "size 1: " << USBcam.getWidth() << " / " << USBcam.getHeight();
+#ifdef TARGET_RASPBERRY_PI
     omxCameraSettings.width = 1280; //default 1280
     omxCameraSettings.height = 720; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
     
     piCam.setup(omxCameraSettings);
+#else
+    piCam.setDeviceID(1);
+    piCam.setDesiredFrameRate(30);
+    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
+    piCam.initGrabber(cam1Width, cam1Height);
+    ofLog() << "size 2: " << piCam.getWidth() << " / " << piCam.getHeight();
+#endif
     
-    ofLog() << "size 1: " << USBcam.getWidth() << " / " << USBcam.getHeight();
-    //ofLog() << "size 2: " << cams[1].getWidth() << " / " << cams[1].getHeight();
+    
 }
 
 //--------------------------------------------------------------
