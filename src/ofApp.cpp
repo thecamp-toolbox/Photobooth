@@ -495,7 +495,7 @@ void ofApp::getButtons(){
     string state_buttonL;
     buttonL.getval_gpio(state_buttonL);
     string state_buttonR;
-    buttonL.getval_gpio(state_buttonR);
+    buttonR.getval_gpio(state_buttonR);
     ofLog()<< "buttons " << state_buttonL << " / " << state_buttonR;
     ofLog()<< "buttons int: " << ofFromString<bool>(state_buttonL) << " / " << ofFromString<bool>(state_buttonR);
     
@@ -504,13 +504,13 @@ void ofApp::getButtons(){
         buttonLreleased = 0;
         ofLog() << "left button pressed";
     }
-    if (ofFromString<bool>(state_buttonL) && buttonRreleased) {
+    if (ofFromString<bool>(state_buttonR) && buttonRreleased) {
         buttonRPressed = 1;
         buttonRreleased = 0;
         ofLog() << "right button pressed";
     }
-    if (!(ofFromString<bool>(state_buttonL)) {keyLreleased = 1;}
-    if (!(ofFromString<bool>(state_buttonR)) {keyRreleased = 1;}
+    if (!(ofFromString<bool>(state_buttonL))) {buttonLreleased = 1;}
+    if (!(ofFromString<bool>(state_buttonR))) {buttonRreleased = 1;}
     
 #endif
     

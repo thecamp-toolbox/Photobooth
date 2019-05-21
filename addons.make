@@ -3,3 +3,4 @@ ofxGui
 ofxPoco
 ofxTime
 ofxRPiCameraVideoGrabber
+ofxGPIO
