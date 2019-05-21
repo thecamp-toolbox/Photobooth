@@ -4,24 +4,10 @@
 void ofApp::setup(){
     
     ofSetFrameRate(30);
-
-    //___________________________
-    // Camera setup
-    
-    vector<ofVideoDevice> devices = USBcam.listDevices();
-    ofLog() << "Cameras: " ;
-    for (auto& c : devices) {
-        ofLog() << c.deviceName << " / ID: " << c.id;
-        nCams++;
-    }
-    nCams = devices.size();
-    ofLog() << "nombre de caméras: " << nCams;
-    
-    //___________________________
-    // Setings + GUI setup
     
     setupGUI();
     
+    cams.setup();
     
     //___________________________
     // Loading Images:
@@ -46,6 +32,7 @@ void ofApp::update(){
     PBtimer++;
     switch (currentState) {
         case INIT: {
+            cams.update_all();
             if (PBtimer==1) {
                 ofLog() << "INIT";
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[STANDBY]));
@@ -57,7 +44,6 @@ void ofApp::update(){
                 PBtimer = 0;
                 loadCSV();
                 ofLog() << "CSV loaded";
-                setupCams();
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
             }
@@ -205,6 +191,8 @@ void ofApp::update(){
             break;
         }
         case CAM_CHOICE: {
+            cams.update_all();
+            
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[FLASH]));
@@ -212,21 +200,15 @@ void ofApp::update(){
             }
             if (buttonRPressed) {
                 resetButtons();
-                currentCam = 0;
+                cams.current = 0;
                 currentState = FRAME;
                 PBtimer = 0;
-            } else if (buttonRPressed){
+            } else if (buttonLPressed){
                 resetButtons();
-                currentCam = 1;
+                cams.current = 1;
                 currentState = FRAME;
                 PBtimer = 0;
-            }
-            USBcam.update();
-#ifdef TARGET_RASPBERRY_PI
-#else
-            piCam.update();
-#endif
-            if (PBtimer>mainTimer*frameRate){
+            } else if (PBtimer>mainTimer*frameRate){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
@@ -234,13 +216,9 @@ void ofApp::update(){
             break;
         }
         case FRAME: {
-            if (PBtimer==1) ofLog() << "FRAME";
+            cams.update_one();
             
-            if (currentCam) USBcam.update();
-#ifdef TARGET_RASPBERRY_PI
-#else
-            else piCam.update();
-#endif
+            if (PBtimer==1) ofLog() << "FRAME";
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = COUNTDOWN;
@@ -249,13 +227,10 @@ void ofApp::update(){
             break;
         }
         case COUNTDOWN: {
-            if (PBtimer==1) ofLog() << "COUNTDOWN";
+            cams.update_one();
             
-            if (currentCam) USBcam.update();
-#ifdef TARGET_RASPBERRY_PI
-#else
-            else piCam.update();
-#endif
+            if (PBtimer==1) ofLog() << "COUNTDOWN";
+
             if (PBtimer>countDownTimer*frameRate){
                 currentCountdown++;
                 resetButtons();
@@ -268,16 +243,14 @@ void ofApp::update(){
             break;
         }
         case FLASH: {
+            cams.update_one();
+            
             if (PBtimer==1) {
                 ofLog() << "FLASH";
                 ofLoadImage(buffer[textureToken], ("/data/BG/"+backgroundFiles[RESULT]));
                 textureToken=!textureToken;
             }
-            if (currentCam) USBcam.update();
-#ifdef TARGET_RASPBERRY_PI
-#else
-            else piCam.update();
-#endif
+            
             if (PBtimer>flashTimer*frameRate){
                 resetButtons();
                 currentState = RESULT;
@@ -357,6 +330,7 @@ void ofApp::draw(){
         case INIT: {
             buffer[textureToken].draw(0,0);
             ofShowCursor();
+            cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             gui.draw();
             break;
         }
@@ -386,27 +360,23 @@ void ofApp::draw(){
             break;
         }
         case CAM_CHOICE: {
-            USBcam.draw(posLCamX+sizeLCamX, posLCamY, -sizeLCamX, sizeLCamY);
-            piCam.draw(posRCamX+sizeRCamX, posRCamY, -sizeRCamX, sizeRCamY);
+            cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             buffer[textureToken].draw(0,0);
             break;
         }
         case FRAME: {
-            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             break;
         }
         case COUNTDOWN: {
-            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
+            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
-            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
+            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             //buffer[textureToken].draw(0,0);
             if (PBtimer == 1){
@@ -566,16 +536,9 @@ void ofApp::setupGUI(){
     coords.add(res);
     parameters.add(coords);
     
-    cameras.setName("Cameras");
-    // Choix des caméras
-    cameras.add(cam1Device.set("Camera 1", 0, 0, nCams-1));
-    cameras.add(cam1Width.set ("largeur 1", 640, 0, maxCamW));
-    cameras.add(cam1Height.set("hauteur 1", 480, 0, maxCamH));
-    cameras.add(cam2Device.set("Camera 2", 1, 0, nCams-1));
-    cameras.add(cam2Width.set ("largeur 2", 640, 0, maxCamW));
-    cameras.add(cam2Height.set("hauteur 2", 480, 0, maxCamH));
+    cams.setup_GUI();
     //
-    parameters.add(cameras);
+    parameters.add(cams.cameras);
     
     timers.setName("Timers");
     //
@@ -639,32 +602,6 @@ void ofApp::loadCSV(){
     }
 }
 
-//--------------------------------------------------------------
-void ofApp::setupCams(){
-    
-    ofLog() << " Setup Cam 1 with Device#" << cam1Device;
-    USBcam.setDeviceID(0);
-    USBcam.setDesiredFrameRate(30);
-    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
-    USBcam.initGrabber(cam1Width, cam1Height);
-    ofLog() << "size 1: " << USBcam.getWidth() << " / " << USBcam.getHeight();
-#ifdef TARGET_RASPBERRY_PI
-    omxCameraSettings.width = 1280; //default 1280
-    omxCameraSettings.height = 720; //default 720
-    omxCameraSettings.enableTexture = true; //default true
-    omxCameraSettings.doRecording = false;   //default false
-    
-    piCam.setup(omxCameraSettings);
-#else
-    piCam.setDeviceID(1);
-    piCam.setDesiredFrameRate(30);
-    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
-    piCam.initGrabber(cam1Width, cam1Height);
-    ofLog() << "size 2: " << piCam.getWidth() << " / " << piCam.getHeight();
-#endif
-    
-    
-}
 
 //--------------------------------------------------------------
 string ofApp::tabText(string& s, int offset){

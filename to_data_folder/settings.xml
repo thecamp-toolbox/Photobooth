@@ -5,8 +5,8 @@
 		<Annee>2019</Annee>
 		<Mois>5</Mois>
 		<Jour>21</Jour>
-		<Heure>9</Heure>
-		<Minute>6</Minute>
+		<Heure>10</Heure>
+		<Minute>38</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>1</Log_fichier>
@@ -42,12 +42,10 @@
 		</Resultat>
 	</Coordonnees_displays>
 	<Cameras>
-		<Camera_1>0</Camera_1>
-		<largeur_1>640</largeur_1>
-		<hauteur_1>480</hauteur_1>
-		<Camera_2>1</Camera_2>
-		<largeur_2>640</largeur_2>
-		<hauteur_2>480</hauteur_2>
+		<crop_offset_X>372</crop_offset_X>
+		<crop_offset_Y>80</crop_offset_Y>
+		<crop_largeur>640</crop_largeur>
+		<crop_hauteur>480</crop_hauteur>
 	</Cameras>
 	<Timers>
 		<FPS>30</FPS>

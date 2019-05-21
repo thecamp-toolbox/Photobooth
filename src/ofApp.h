@@ -6,9 +6,8 @@
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
-#ifdef TARGET_RASPBERRY_PI
-#include "ofxRPiCameraVideoGrabber.h"
-#endif
+#include "Cameras.hpp"
+
 
 class ofApp : public ofBaseApp{
 public:
@@ -54,12 +53,6 @@ public:
     posResCamX{1500}, posResCamY{677},
     sizeResCamX{330}, sizeResCamY{330};
     
-    ofParameterGroup cameras;
-    // Tailes des caméras:
-    ofParameter<int> cam1Device{0},   cam2Device{1},
-                     cam1Width{1280}, cam1Height{720},
-                     cam2Width{1280}, cam2Height{720};
-    
     ofParameterGroup timers;
     ofParameter<int> frameRate;
     // Timers:
@@ -90,7 +83,6 @@ public:
     void resetButtons();
     void setupGUI();
     void loadCSV();
-    void setupCams();
     string tabText(string& s, int offset);
     
     
@@ -102,19 +94,8 @@ public:
     bool GUIhide{1};
     ofXml settings;
     
-    ofVideoGrabber USBcam;
-#ifdef TARGET_RASPBERRY_PI
-    ofxRPiCameraVideoGrabber piCam;
-    OMXCameraSettings omxCameraSettings;
-#else
-    ofVideoGrabber piCam;
-#endif
+    Cameras cams;
     
-    bool currentCam{0};
-    int nCams{0};
-    
-    int maxCamW{1920},
-        maxCamH{1080};
     
     enum States {
         INIT,
