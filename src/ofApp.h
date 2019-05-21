@@ -126,7 +126,7 @@ public:
     LEDs leds;
     
     #ifdef TARGET_RASPBERRY_PI
-    GPIO buttonL, buttonR;
+    GPIO buttonL, buttonR, ledL, ledR;
     #endif
     
     enum States {
