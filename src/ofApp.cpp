@@ -386,27 +386,27 @@ void ofApp::draw(){
             break;
         }
         case CAM_CHOICE: {
-            USBcam.draw(posLCamX, posLCamY, sizeLCamX, sizeLCamY);
-            piCam.draw(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
+            USBcam.draw(posLCamX+sizeLCamX, posLCamY, -sizeLCamX, sizeLCamY);
+            piCam.draw(posRCamX+sizeRCamX, posRCamY, -sizeRCamX, sizeRCamY);
             buffer[textureToken].draw(0,0);
             break;
         }
         case FRAME: {
-            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             break;
         }
         case COUNTDOWN: {
-            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
-            if (currentCam) USBcam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            else piCam.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            if (currentCam) USBcam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
+            else piCam.draw(posMainCamX+sizeMainCamX, posMainCamY, -sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             //buffer[textureToken].draw(0,0);
             if (PBtimer == 1){
