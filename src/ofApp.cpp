@@ -673,7 +673,7 @@ void ofApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void ofApp::drawTimer(int timer){
-    int index = PBtimer*11/(timer*ofGetFrameRate());
+    int index = PBtimer*11/(timer*frameRate);
     if (index > 10) index = 11;
     timerV[11-index].draw(posTimerX+sizeTimerX, posTimerY,
                        -sizeTimerX, sizeTimerY);
