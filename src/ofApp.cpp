@@ -240,23 +240,24 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
             
-                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -sizeTktX, sizeTktY);
+                    result.draw(ticketMarginXLeft, ticketMarginYTop, sizeTktX, sizeTktY);
                     //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
                                     (sizeTktX-80-(profileNames[currentProfile].size())*textFontSize)/2,
                                     ticketMarginYTop+sizeTktY+textMargin+textFontSize);*/
-                    profilTicket.draw(ticketMarginXLeft, ticketMarginYTop+sizeTktY+profilMargin, sizeTktX, profilSizeY);
-                //ofLog() << "print dim" << ticketMarginXLeft << " /" << ticketMarginYTop+sizeTktY+profilMargin  << " /" << sizeTktX << " /" << profilSizeY;
+                    profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
+                    ofLog() << "print dim" << ticketMarginXLeft << " /" << ticketMarginYTop+sizeTktY+profilMargin  << " /" << sizeTktX << " /" << profilSizeY;
+                    ofLog() << "ticket dim" << ticketWidth << " / " << ticketHeight;
                     ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
-                
+                /*
                 fbo.begin();
                     ticket.draw(ticketWidth, ticketHeight, -ticketWidth, -ticketHeight);
                     result.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
                 //ofEnableAlphaBlending();
-            
+                 */
                 
                 Poco::Timestamp now;
                 Poco::LocalDateTime nowLocal(now);
@@ -270,7 +271,7 @@ void ofApp::update(){
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
                 fileName+=".png";
                 ofLog() << "Photo saved as: " << fileName;
-                result.save(photoPath+fileName);
+                ticket.save(photoPath+fileName);
                 
                 if (print){
                     string printCommand = "lp ";
