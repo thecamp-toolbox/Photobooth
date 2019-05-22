@@ -165,15 +165,16 @@ void ofApp::update(){
                 ofLog() << "COMPILING";
                 float max=0;
                 for (size_t i =0; i< nProfiles;++i){
-                    ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i];
+                    ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i]
+                    << " -> " << (profileScores[i] = floor(profileCounts[i]/111));
                     if (profileCounts[i]>max) {
                         max=profileCounts[i];
                         currentProfile = i;
                     }
                 }
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
-                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile)+".png"));
-                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile)+".png"));
+                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
                 bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
             }
             if (PBtimer>compileTimer*frameRate){

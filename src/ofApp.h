@@ -183,6 +183,7 @@ public:
     
     float score;
     float profileCounts[nProfiles];
+    int   profileScores[nProfiles];
 
     
 };
