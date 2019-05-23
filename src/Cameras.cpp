@@ -80,7 +80,6 @@ void Cameras::draw_one(float x, float y, float w, float h){
             ofTexture& videoTexture1 = USBCam.getTexture();
             BCSA_B.begin();
             ofClear(0,0,0);
-            BCSA_B.begin();
             BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
             BCSA_B.setUniform1f("brightness", brightnessT);
             BCSA_B.setUniform1f("contrast", contrastT);
@@ -95,7 +94,6 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
-        BCSA_T.begin();
         BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
@@ -112,7 +110,6 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
         ofTexture& videoTexture1 = USBCam.getTexture();
         BCSA_B.begin();
         ofClear(0,0,0);
-        BCSA_B.begin();
         BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
         BCSA_B.setUniform1f("brightness", brightnessT);
         BCSA_B.setUniform1f("contrast", contrastT);
@@ -126,7 +123,6 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
     
     BCSA_T.begin();
     ofClear(0,0,0);
-    BCSA_T.begin();
     BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
     BCSA_T.setUniform1f("brightness", brightnessT);
     BCSA_T.setUniform1f("contrast", contrastT);
