@@ -1,6 +1,0 @@
-type: pages
-headline: Profiles
-parent: site.find("profiles")
-info: "{{ page.subject }}"
-template: profile
-empty: No notes yet

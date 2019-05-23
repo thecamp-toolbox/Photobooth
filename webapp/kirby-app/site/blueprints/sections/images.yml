@@ -1,5 +1,0 @@
-type: files
-headline: Images
-query: page.images 
-template: gallery
-empty: No images yet
