@@ -25,7 +25,7 @@ uniform float alpha;
 
 void main (void)  
 {  
-	vec3 texColor  	= texture2(image, texcoord0).rgb;
+	vec3 texColor  	= texture2d(image, texcoord0).rgb;
 	vec3 intensity 	= vec3 (dot(texColor, LumCoeff));
 	vec3 color     	= mix(intensity, texColor, saturation);
 	color          	= mix(avgluma, color, contrast);  
