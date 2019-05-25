@@ -299,11 +299,12 @@ void ofApp::update(){
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
-                string printCommand = "lp ";
-                printCommand +=photoPath+fileName;
-                ofSystem(printCommand);
-                
-                ///TODO: do the blasted actual printing
+                if (print){
+                    string printCommand = "lp ";
+                    printCommand +=photoPath+fileName;
+                    ofSystem(printCommand);
+                }
+
             }
             
             
@@ -492,6 +493,7 @@ void ofApp::setupGUI(){
     files.setName("Fichiers");
     //
     files.add(logToFile.set("Log/fichier", 1));
+    files.add(print.set("print", 0));
     //
     questionsFile.setName("Questions");
     questionsFile.add(weightsFilePath.set("Chemin", "questions+.csv"));

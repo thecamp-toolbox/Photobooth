@@ -27,6 +27,7 @@ public:
     ofParameterGroup files;
     // Other stuff:
     ofParameter<bool> logToFile{false}; // set this to true to write the Log to a file
+    ofParameter<bool> print{false};
     
     ofParameterGroup questionsFile;
     // CSV file for questions weights
