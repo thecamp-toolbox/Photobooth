@@ -31,12 +31,14 @@ public:
     void draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2);
     void exit();
     
-    ofVideoGrabber USBcam;
+    ofVideoGrabber USBCam;
+    int USBCamNr{0};
 #ifdef TARGET_RASPBERRY_PI
     ofxRPiCameraVideoGrabber piCam;
     OMXCameraSettings omxCameraSettings;
 #else
     ofVideoGrabber piCam;
+    int piCamNr{1};
 #endif
     
     ofTexture texPicam;

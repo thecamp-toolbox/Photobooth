@@ -299,6 +299,7 @@ void ofApp::update(){
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
+                
                 if (print){
                     string printCommand = "lp ";
                     printCommand +=photoPath+fileName;
