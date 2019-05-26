@@ -198,7 +198,7 @@ public:
     bool buttonLPressed{0},
          buttonRPressed{0},
          buttonLreleased{0},
-         buttonRreleasedd{0},
+         buttonRreleased{0},
          keyLreleased{1},
          keyRreleased{1};
     
