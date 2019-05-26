@@ -499,18 +499,18 @@ void ofApp::getButtons(){
     ofLog()<< "buttons " << state_buttonL << " / " << state_buttonR;
     ofLog()<< "buttons int: " << ofFromString<bool>(state_buttonL) << " / " << ofFromString<bool>(state_buttonR);
     
-    if (ofFromString<bool>(state_buttonL)) {
+    if (ofFromString<bool>(state_buttonL) && buttonLreleased) {
         buttonLPressed = 1;
-        keyLreleased = 0;
+        buttonLreleased = 0;
         ofLog() << "left button pressed";
     }
-    if (ofFromString<bool>(state_buttonL)) {
+    if (ofFromString<bool>(state_buttonL) && buttonRreleased) {
         buttonRPressed = 1;
-        keyRreleased = 0;
+        buttonRreleased = 0;
         ofLog() << "right button pressed";
     }
-    if (!(ofFromString<bool>(state_buttonL)) {keyLreleased = 1; ofLog() << "left button released";}
-    if (!(ofFromString<bool>(state_buttonR)) {keyRreleased = 1; ofLog() << "left button released";}
+    if (!(ofFromString<bool>(state_buttonL)) {keyLreleased = 1;}
+    if (!(ofFromString<bool>(state_buttonR)) {keyRreleased = 1;}
     
 #endif
     
