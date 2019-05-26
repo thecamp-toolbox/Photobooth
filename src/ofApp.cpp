@@ -20,8 +20,6 @@ void ofApp::setup(){
     bg.load("/data/BG/"+backgroundFiles[INIT]);
     
     ofEnableAlphaBlending();
-
-    
     
 }
 
@@ -47,6 +45,10 @@ void ofApp::update(){
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
                 ofHideCursor();
+                ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
+                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+textMargin+textFontSize;
+                fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
+                font.load( OF_TTF_SANS,textFontSize,true,true);
                 bg.next();
             }
      
@@ -293,6 +295,26 @@ void ofApp::update(){
                 ofLog() << "PRINTING";
                 bg.load("/data/BG/"+backgroundFiles[BYE]);
                 
+                fbo.begin();
+                    ofClear(255,255,255, 0);
+                    ofSetColor(255,255,255, 255);
+                    ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
+            
+                    result.draw(ticketMarginXLeft, ticketMarginYTop, sizeTktX, sizeTktY);
+                    ofSetColor(0);
+                    font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
+                                    //ticketMarginXLeft,
+                                    (sizeTktX-20*textFontSize)/2,
+                                    ticketMarginYTop+sizeTktY+textMargin+textFontSize);
+                    ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
+                fbo.end();
+                
+                fbo.begin();
+                    ticket.draw(ticketWidth, ticketHeight, -ticketWidth, -ticketHeight);
+                    result.grabScreen(0, 0, ticketWidth, ticketHeight);
+                fbo.end();
+                //ofEnableAlphaBlending();
+                
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
@@ -494,7 +516,6 @@ void ofApp::setupGUI(){
     files.setName("Fichiers");
     //
     files.add(logToFile.set("Log/fichier", 1));
-    files.add(print.set("print", 0));
     //
     questionsFile.setName("Questions");
     questionsFile.add(weightsFilePath.set("Chemin", "questions+.csv"));
@@ -502,6 +523,21 @@ void ofApp::setupGUI(){
     //
     files.add(questionsFile);
     parameters.add(files);
+    
+    tickPar.setName("Ticket");
+    //
+    tickPar.add(print.set("print", 0));
+    tickPar.add(ticketMarginXLeft.set("Marge Gauche", 10, 0, fboMaxSizeX/10));
+    tickPar.add(ticketMarginXRight.set("Marge Droite", 10, 0, fboMaxSizeX/10));
+    tickPar.add(ticketMarginYTop.set("Marge Haut", 10, 0, fboMaxSizeY/5));
+    tickPar.add(ticketMarginYBottom.set("Marge Bas", 100, 0, fboMaxSizeY/5));
+    tickPar.add(sizeTktX.set("Largeur", 635, 0, fboMaxSizeX));
+    tickPar.add(sizeTktY.set("Hauteur", 635, 0, fboMaxSizeY));
+    tickPar.add(textMargin.set("Marge Y texte", 20, 0, fboMaxSizeY/5));
+    tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
+    tickPar.add(textFontSize.set("Taille police", 16, 0, 80));
+    //
+    parameters.add(tickPar);
     
     coords.setName("Coordonnees displays");
     // coordonnées du cadre principal
@@ -557,6 +593,9 @@ void ofApp::setupGUI(){
     
     gui.setup(parameters);
     
+    gui.getGroup("Coordonnees displays").minimize();
+    gui.getGroup("Fichiers").getGroup("Questions").minimize();
+    
     gui.loadFromFile("/data/settings.xml");
     
     settings.load("/data/settings.xml");
@@ -574,6 +613,8 @@ void ofApp::setupGUI(){
 
 //--------------------------------------------------------------
 void ofApp::loadCSV(){
+    
+    /// TODO: use latest CSV version
     
     if (logToFile){
         string logPath = eventName;

@@ -58,6 +58,15 @@ public:
     posResCamX{1500}, posResCamY{677},
     sizeResCamX{330}, sizeResCamY{330};
     
+    ofParameterGroup tickPar;
+    // coordonnées du cadre résultats
+    ofParameter<int>
+    ticketMarginXLeft{10}, ticketMarginXRight{10},
+    ticketMarginYTop{10},  ticketMarginYBottom{10},
+    sizeTktX{635}, sizeTktY{635},
+    textMargin{20}, textFontSize{15};
+    ofParameter<string> fontName {"sans-serif"};
+    
     ofParameterGroup timers;
     ofParameter<int> frameRate;
     // Timers:
@@ -102,6 +111,13 @@ public:
     Cameras cams;
     
     Background bg;
+    
+    int ticketWidth, ticketHeight;
+    
+    ofFbo fbo;
+    int fboMaxSizeX{1000},fboMaxSizeY{1000};
+    
+    ofTrueTypeFont font;
     
     enum States {
         INIT,
@@ -170,7 +186,7 @@ public:
     int PBtimer{0};
     int maxTimer{20};
     
-    ofImage result;
+    ofImage result, ticket;
     
     bool buttonLPressed{0},
          buttonRPressed{0},
