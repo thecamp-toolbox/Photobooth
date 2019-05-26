@@ -16,8 +16,11 @@ void Cameras::setup(){
     for (auto& c : devices) {
         ofLog() << c.deviceName << " / ID: " << c.id;
         nCams++;
+        #ifdef TARGET_RASPBERRY_PI
+        #else
         if (c.deviceName.find("FaceTime") == 0) piCamNr = c.id;
         else USBCamNr = c.id;
+        #endif
     }
     nCams = devices.size();
     ofLog() << "nombre de caméras: " << nCams;
