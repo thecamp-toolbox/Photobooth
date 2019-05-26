@@ -11,13 +11,16 @@
 #include "ofMain.h"
 
 #ifdef TARGET_RASPBERRY_PI
-#include "ofxGPIO.h"
+#include "wiringPi.h"
+#include "wiringPiSPI.h"
 #endif
 
 #endif /* LEDs_hpp */
 
 class LEDs {
 public:
+    
+    static const int nProfiles{7};
     
     ofParameterGroup LEDs;
     // Tailes des strips:
@@ -27,6 +30,11 @@ public:
     
     ofParameter<ofColor>
     loaderLColor, loaderRColor;
+    
+    ofParameter<ofColor>
+    profileColor[nProfiles+1];
+    
+    float noiseThresh{0.3};
     
     ofParameter<bool> draw;
     ofParameterGroup drawCoords;
@@ -38,22 +46,29 @@ public:
     
     int numLed{0};
     
-    vector<ofColor> colors;
+    int brightness;
     
-    ofPixels pixels;
-    ofImage img;
+    ofImage img, noiseImg;
+    ofPixels noise;
     
-#ifdef TARGET_RASPBERRY_PI
-    LED apa;
-#endif
+    ofFbo   fbo;
+    
+    float index{0};
+    float profileCounts[nProfiles+1];
     
     void setup();
     void setup_GUI();
-    void question_counters(float index);
-    void flash();
-    void blackout();
+    void render(ofPixels& pix);
     void update();
+    void setLEDs();
     void exit();
     
+    enum Animations {
+        NONE,
+        INIT,
+        QUESTION,
+        COMPILE,
+        FLASH
+    } currentAnimation{};
     
 };

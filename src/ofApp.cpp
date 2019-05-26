@@ -47,6 +47,7 @@ void ofApp::update(){
                 ofShowCursor();
                 ofLog() << "INIT";
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
+                leds.currentAnimation = leds.INIT;
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -62,6 +63,7 @@ void ofApp::update(){
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
+                leds.currentAnimation = leds.NONE;
                 bg.next();
             }
      
@@ -114,8 +116,11 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "QUESTION #" << currentQuestion+1;
             bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+            leds.currentAnimation = leds.QUESTION;
             }
-            leds.question_counters(PBtimer/questionTimer*frameRate);
+            
+            leds.index = float(PBtimer)/float(questionTimer*frameRate);
+            
             if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
@@ -127,7 +132,7 @@ void ofApp::update(){
                     //bg.next();
                 } else {
                     bg.load("/data/BG/"+backgroundFiles[COMPILING]);
-                    //bg.next();
+                    bg.next();
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
@@ -176,13 +181,16 @@ void ofApp::update(){
         }
         case COMPILING: {
             if (PBtimer==1) {
-                leds.blackout();
+                leds.currentAnimation = leds.COMPILE;
+                //leds.blackout();
                 //bg.next();
                 ofLog() << "COMPILING";
                 float max=0;
                 for (size_t i =0; i< nProfiles;++i){
                     ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i]
                     << " -> " << (profileScores[i] = floor(profileCounts[i]/111));
+                    leds.profileCounts[i] = profileCounts[i]/1200.;
+                    leds.profileCounts[nProfiles] += leds.profileCounts[i]/nProfiles;
                     if (profileCounts[i]>max) {
                         max=profileCounts[i];
                         currentProfile = i;
@@ -193,6 +201,9 @@ void ofApp::update(){
                 ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
                 bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
             }
+            
+            leds.index = float(PBtimer)/float(compileTimer*frameRate);
+            
             if (PBtimer>compileTimer*frameRate){
                 bg.next();
                 currentState = PROFILE;
@@ -202,8 +213,10 @@ void ofApp::update(){
             break;
         }
         case PROFILE: {
-            if (PBtimer==1) ofLog() << "PROFILE #" << currentProfile+1;
-            
+            if (PBtimer==1) {
+                ofLog() << "PROFILE #" << currentProfile+1;
+                
+            }
             if (PBtimer>profileTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = CAM_CHOICE;
@@ -213,6 +226,7 @@ void ofApp::update(){
         }
         case CAM_CHOICE: {
             cams.update_all();
+            leds.currentAnimation = leds.NONE;
             
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
@@ -269,6 +283,7 @@ void ofApp::update(){
         }
         case FLASH: {
             cams.update_one();
+            leds.currentAnimation = leds.FLASH;
             
             if (PBtimer==1) {
                 ofLog() << "FLASH";
@@ -279,6 +294,7 @@ void ofApp::update(){
                 bg.next();
                 resetButtons();
                 currentState = RESULT;
+                leds.currentAnimation = leds.NONE;
                 PBtimer = 0;
             }
             break;
@@ -341,9 +357,7 @@ void ofApp::update(){
                     printCommand +=photoPath+fileName;
                     ofSystem(printCommand);
                 }
-
             }
-            
             
             if (PBtimer>printingTimer*frameRate){
                 bg.next();
@@ -377,27 +391,29 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-        
+    ofClear(0, 0, 0);
+    
     switch (currentState) {
         case INIT: {
-            bg.draw();
+            //bg.draw();
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             gui.draw();
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
-        /*
-        case QUESTION: {
+        case QUESTION:{
             bg.draw();
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
-        case COMPILING: {
+        case COMPILING:{
             bg.draw();
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
-        */
         case PROFILE: {
             profile.draw(0,0);
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
         case CAM_CHOICE: {
@@ -424,6 +440,7 @@ void ofApp::draw(){
             if (PBtimer == 1){
                 result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             }
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
         case RESULT: {
@@ -437,6 +454,7 @@ void ofApp::draw(){
         }
     }
 
+   
 
 }
 
