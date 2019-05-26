@@ -1,19 +1,16 @@
 #pragma once
 
-#include "ofMain.h"
 // addons
 #include "ofxTime.h"
 #include "ofxCsv.h"
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
-#ifdef TARGET_RASPBERRY_PI
-#include "ofxGPIO.h"
-#endif
 
 // Components
 #include "Cameras.hpp"
 #include "Background.hpp"
+#include "LEDs.hpp"
 
 
 class ofApp : public ofBaseApp{
@@ -121,6 +118,8 @@ public:
     int fboMaxSizeX{1000},fboMaxSizeY{1000};
     
     ofTrueTypeFont font;
+    
+    LEDs leds;
     
     #ifdef TARGET_RASPBERRY_PI
     GPIO buttonL, buttonR;

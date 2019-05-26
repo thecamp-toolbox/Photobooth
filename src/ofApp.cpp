@@ -61,6 +61,7 @@ void ofApp::update(){
                 ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+textMargin+textFontSize;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
+                leds.setup();
                 bg.next();
             }
      
@@ -114,7 +115,7 @@ void ofApp::update(){
                 ofLog() << "QUESTION #" << currentQuestion+1;
             bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
             }
-            
+            leds.question_counters(PBtimer/questionTimer*frameRate);
             if (PBtimer>questionTimer*frameRate) {
                 resetButtons();
                 PBtimer = 0;
@@ -175,6 +176,7 @@ void ofApp::update(){
         }
         case COMPILING: {
             if (PBtimer==1) {
+                leds.blackout();
                 //bg.next();
                 ofLog() << "COMPILING";
                 float max=0;
@@ -369,12 +371,14 @@ void ofApp::update(){
             break;
     }
     
-
+    if (leds.draw) leds.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+        
     switch (currentState) {
         case INIT: {
             bg.draw();
@@ -611,6 +615,10 @@ void ofApp::setupGUI(){
     cams.setup_GUI();
     //
     parameters.add(cams.cameras);
+    
+    leds.setup_GUI();
+    //
+    parameters.add(leds.LEDs);
     
     timers.setName("Timers");
     //

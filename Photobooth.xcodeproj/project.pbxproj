@@ -18,6 +18,7 @@
 		852E0891794923EE7583C621 /* ofxInputField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44B351490B620D04E1E7C52D /* ofxInputField.cpp */; };
 		853E0BA2F448076739446874 /* ofxColorPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181D363B6DD54D1FA6309C43 /* ofxColorPicker.cpp */; };
 		856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9604B925D32EE39065747725 /* ofxBaseGui.cpp */; };
+		B127F7A0229AC587003ED3A7 /* LEDs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B127F79E229AC587003ED3A7 /* LEDs.cpp */; };
 		B13A828E2293DCC100C5711A /* Cameras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13A828C2293DCC100C5711A /* Cameras.cpp */; };
 		B13A82922293EA0F00C5711A /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13A82902293EA0F00C5711A /* Background.cpp */; };
 		B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECF8674C7975F1063C5E30CA /* ofxGuiGroup.cpp */; };
@@ -114,6 +115,8 @@
 		AE68B54581BE4A1DAE853180 /* ofxInputField.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxInputField.h; path = ../../../addons/ofxGui/src/ofxInputField.h; sourceTree = SOURCE_ROOT; };
 		AE9C89F270782B85763A3554 /* Period.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Period.cpp; path = ../../../addons/ofxTime/libs/ofxTime/src/Period.cpp; sourceTree = SOURCE_ROOT; };
 		AF53C1FCB4DC2DA249C71CE4 /* asn1t.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = asn1t.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/asn1t.h; sourceTree = SOURCE_ROOT; };
+		B127F79E229AC587003ED3A7 /* LEDs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LEDs.cpp; sourceTree = "<group>"; };
+		B127F79F229AC587003ED3A7 /* LEDs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LEDs.hpp; sourceTree = "<group>"; };
 		B13A828C2293DCC100C5711A /* Cameras.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cameras.cpp; sourceTree = "<group>"; };
 		B13A828D2293DCC100C5711A /* Cameras.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cameras.hpp; sourceTree = "<group>"; };
 		B13A82902293EA0F00C5711A /* Background.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
@@ -884,6 +887,8 @@
 				B13A82902293EA0F00C5711A /* Background.cpp */,
 				B13A82912293EA0F00C5711A /* Background.hpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				B127F79E229AC587003ED3A7 /* LEDs.cpp */,
+				B127F79F229AC587003ED3A7 /* LEDs.hpp */,
 				B13A828C2293DCC100C5711A /* Cameras.cpp */,
 				B13A828D2293DCC100C5711A /* Cameras.hpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -1025,6 +1030,7 @@
 				853E0BA2F448076739446874 /* ofxColorPicker.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				852E0891794923EE7583C621 /* ofxInputField.cpp in Sources */,
+				B127F7A0229AC587003ED3A7 /* LEDs.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
