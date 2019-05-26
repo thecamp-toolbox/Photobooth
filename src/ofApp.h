@@ -7,6 +7,9 @@
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+#ifdef TARGET_RASPBERRY_PI
+#include "ofxGPIO.h"
+#endif
 
 // Components
 #include "Cameras.hpp"
@@ -118,6 +121,10 @@ public:
     int fboMaxSizeX{1000},fboMaxSizeY{1000};
     
     ofTrueTypeFont font;
+    
+    #ifdef TARGET_RASPBERRY_PI
+    GPIO buttonL, buttonR;
+    #endif
     
     enum States {
         INIT,

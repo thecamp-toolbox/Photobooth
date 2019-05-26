@@ -21,12 +21,24 @@ void ofApp::setup(){
     
     ofEnableAlphaBlending();
     
+#ifdef TARGET_RASPBERRY_PI
+    buttonL.setup("17");
+    buttonL.export_gpio();
+    buttonL.setdir_gpio("in");
+
+    buttonR.setup("27");
+    buttonR.export_gpio();
+    buttonR.setdir_gpio("in");
+    
+#endif
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
     PBtimer++;
+    getButtons();
     switch (currentState) {
         case INIT: {
             cams.update_all();
@@ -478,7 +490,16 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::getButtons(){
     
+#ifdef TARGET_RASPBERRY_PI
     ///TODO: get buttons from GPIOs
+    string state_buttonL;
+    buttonL.getval_gpio(state_buttonL);
+    string state_buttonR;
+    buttonL.getval_gpio(state_buttonR);
+    ofLog()<< "buttons " << state_buttonL << " / " << state_buttonR;
+    ofLog()<< "buttons int: " << ofFromString<bool>(state_buttonL) << " / " << ofFromString<bool>(state_buttonR);
+#endif
+    
     
 }
 
