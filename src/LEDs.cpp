@@ -25,13 +25,12 @@ void LEDs::setup(){
     fbo.allocate(numStrips,numLedsPerStrip,GL_RGB);
     fbo.begin();
         ofClear(black);
-        img.grabScreen(0, 0, numStrips,numLedsPerStrip);
     fbo.end();
+    fbo.readToPixels(pixels);
+    img.setFromPixels(pixels);
+    ofSetColor(white);
     setLEDs();
-    //pixels = img.getPixels();
-    //img.update();
-    //pixels.setColor(black);
-    //blackout();
+
 
 }
 
@@ -42,12 +41,14 @@ void LEDs::update(){
     
     switch (currentAnimation) {
         case NONE:
+            ofLog() << "Animation NONE";
             ofSetColor(black);
             ofDrawRectangle(0, 0, numStrips,numLedsPerStrip);
             brightness = 0;
             break;
             
         case INIT:
+            ofLog() << "Animation INIT";
             ofSetColor(black);
             ofSetColor(loaderLColor);
             ofDrawRectangle(0, 0, numStrips/2,numLedsPerStrip);
@@ -105,7 +106,7 @@ void LEDs::update(){
                 ofDrawRectangle(i, 0, 1, numLedsPerStrip*(index)*profileCounts[i]);
             }
             
-            ofSetColor(black);
+            ofSetColor(white);
 
             brightness = animationBrightness;
             break;

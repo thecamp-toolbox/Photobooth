@@ -8,6 +8,7 @@ void ofApp::setup(){
     setupGUI();
     
     cams.setup();
+    leds.setup();
     
     //___________________________
     // Loading Images:
@@ -22,6 +23,7 @@ void ofApp::setup(){
     ofEnableAlphaBlending();
     
 #ifdef TARGET_RASPBERRY_PI
+    
     buttonL.setup("17");
     buttonL.export_gpio();
     buttonL.setdir_gpio("in");
@@ -90,12 +92,12 @@ void ofApp::update(){
         case STANDBY: {
             if (PBtimer==1) {
                 ofLog() << "STANDBY";
-                bg.load("/data/BG/"+backgroundFiles[WELCOME]);
+                bg.load("/data/BG/"+backgroundFiles[EXPLAIN]);
                 ledButtons(1, 1);
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
-                currentState = WELCOME;
+                currentState = EXPLAIN;
                 PBtimer = 0;
                 // reset profile accounts
                 for (size_t j = 0; j < nProfiles; ++j) {
@@ -479,32 +481,38 @@ void ofApp::draw(){
             break;
         }
         case COMPILING:{
+            ofSetColor(255, 255, 255, 255);
             bg.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
         case PROFILE: {
+            ofSetColor(255, 255, 255, 255);
             profile.draw(0,0);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
         }
         case CAM_CHOICE: {
+            ofSetColor(255, 255, 255, 255);
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
              bg.draw();
             break;
         }
         case FRAME: {
+            ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             break;
         }
         case COUNTDOWN: {
+            ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
             break;
         }
         case FLASH: {
+            ofSetColor(255, 255, 255, 255);
             //bg.draw();
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
@@ -516,11 +524,13 @@ void ofApp::draw(){
             break;
         }
         case RESULT: {
+            ofSetColor(255, 255, 255, 255);
             bg.draw();
             result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
             break;
         }
         default:{
+            ofSetColor(255, 255, 255, 255);
             bg.draw();
             break;
         }
