@@ -16,6 +16,7 @@ void ofApp::setup(){
         ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
         ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
+    ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
     
     bg.load("/data/BG/"+backgroundFiles[INIT]);
     
@@ -90,12 +91,12 @@ void ofApp::update(){
         case STANDBY: {
             if (PBtimer==1) {
                 ofLog() << "STANDBY";
-                bg.load("/data/BG/"+backgroundFiles[WELCOME]);
+                bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
                 ledButtons(1, 1);
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
-                currentState = WELCOME;
+                currentState = CAM_CHOICE;
                 PBtimer = 0;
                 // reset profile accounts
                 for (size_t j = 0; j < nProfiles; ++j) {
