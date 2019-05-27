@@ -694,22 +694,22 @@ void ofApp::loadCSV(){
     
     // Load a CSV File for profiles weights for questions
     string csvPath = weightsFilePath;
-    csv.loadFile(ofToDataPath("/data/"+csvPath));
+    csv.load(ofToDataPath("/data/"+csvPath));
     ofLog() << '\n';
     
     for(int j=0; j<nProfiles; j++) {
-        profileNames[j] = csv.data[0][j+weightsCSVcolOffset];
+        profileNames[j] = csv[0][j+weightsCSVcolOffset];
     }
     // Print out all rows and cols.
     for(int i=0; i<nQuestions; i++) {
-        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv.data[i*2+1][1] << " / " << csv.data[i*2+2][1] << " : ";
+        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv[i*2+1][1] << " / " << csv[i*2+2][1] << " : ";
         for(int j=0; j<nProfiles; j++) {
             ofLog() << "-> " <<
             tabText(profileNames[j],17) <<'\t' << '\t' <<
             //profileNames[j] <<'\t' << '\t' <<
-            (weightsL[i][j] = ofFromString<int>(csv.data[i*2+1][j+weightsCSVcolOffset]))
+            (weightsL[i][j] = ofFromString<int>(csv[i*2+1][j+weightsCSVcolOffset]))
             << " __ ou __ " <<
-            (weightsR[i][j] = ofFromString<int>(csv.data[i*2+2][j+weightsCSVcolOffset])) ;
+            (weightsR[i][j] = ofFromString<int>(csv[i*2+2][j+weightsCSVcolOffset])) ;
         }
         ofLog() << '\n';
     }

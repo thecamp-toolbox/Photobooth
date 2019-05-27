@@ -6,12 +6,14 @@
 #include "ofParameterGroup.h"
 #include "ofParameter.h"
 #include "ofxGui.h"
+#ifdef TARGET_RASPBERRY_PI
+#include "ofxGPIO.h"
+#endif
 
 // Components
 #include "Cameras.hpp"
 #include "Background.hpp"
 #include "LEDs.hpp"
-
 
 class ofApp : public ofBaseApp{
 public:
@@ -204,7 +206,7 @@ public:
     
     string photoPath {"/data/photos/"};
     
-    wng::ofxCsv csv;
+    ofxCsv csv;
     
     int weightsL[nQuestions][nProfiles];
     int weightsR[nQuestions][nProfiles];

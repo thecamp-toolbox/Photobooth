@@ -1,6 +1,6 @@
 ofxCsv
+ofxGPIO
 ofxGui
 ofxPoco
-ofxTime
 ofxRPiCameraVideoGrabber
-ofxGPIO
+ofxTime
