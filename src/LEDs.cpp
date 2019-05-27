@@ -47,7 +47,6 @@ void LEDs::update(){
             break;
             
         case INIT:
-            ofSetColor(black);
             ofSetColor(loaderLColor);
             ofDrawRectangle(0, 0, numStrips/2,numLedsPerStrip);
             ofSetColor(loaderRColor);
@@ -57,6 +56,7 @@ void LEDs::update(){
         
         case COMPILE: {
             ofSetColor(black);
+            ofDrawRectangle(0, 0, numStrips,numLedsPerStrip);
             // make some noise
             
             /*
@@ -91,7 +91,7 @@ void LEDs::update(){
             noiseImg.draw(0, 0, nProfiles+1 ,numLedsPerStrip);
             
             */
-            for (size_t i = 0; i < nProfiles+1; ++i){
+            for (size_t i = 0; i < nProfiles; ++i){
                 ofSetColor((white.lerp(profileColor[i], index)));
                 for (size_t j = 0; j < numLedsPerStrip*(1-index*(1-profileCounts[i]))-1; ++j){
                     if (ofRandom(1) > noiseThresh) ofDrawRectangle(i, j, 1, 1);
@@ -99,7 +99,7 @@ void LEDs::update(){
             }
             
              
-            for (size_t i = 0; i < nProfiles+1; ++i){
+            for (size_t i = 0; i < nProfiles; ++i){
                 ofSetColor(profileColor[i], index*255);
                 ofDrawRectangle(i, 0, 1, numLedsPerStrip*(index)*profileCounts[i]);
             }
@@ -156,15 +156,15 @@ void LEDs::setLEDs() {
         wiringPiSPIDataRW(0, (unsigned char*)buffer0, 1);
     }
     
-    for (size_t i = 0; i < numLedsPerStrip; ++i){
-        for (size_t j = 0; j < numStrips; ++j){
-            if (j%2) a = j*numLedsPerStrip+i;
-            else a = j*numLedsPerStrip + numLedsPerStrip-1-i;
-                
+    for (size_t i = 0; i < numStrips; ++i){
+        for (size_t j = 0; j < numLedsPerStrip; ++j){
+            if (i%2) a = j*numStrips+i;
+            else a = (numLedsPerStrip-1-j)*numStrips + i;
+
             buffer1[0]=(brightness & 0b00011111) | 0b11100000;
-            buffer1[1]=pixels[a*4+2];  //green
-            buffer1[2]=pixels[a*4+1];  //blue
-            buffer1[3]=pixels[a*4+0];  //red
+            buffer1[1]=pixels[a*3+2];  //green
+            buffer1[2]=pixels[a*3+1];  //blue
+            buffer1[3]=pixels[a*3+0];  //red
             wiringPiSPIDataRW(0, (unsigned char*)buffer1, 4);
             
         }
