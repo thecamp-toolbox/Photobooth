@@ -41,12 +41,14 @@ void LEDs::update(){
     
     switch (currentAnimation) {
         case NONE:
+            ofLog() << "Animation NONE";
             ofSetColor(black);
             ofDrawRectangle(0, 0, numStrips,numLedsPerStrip);
             brightness = 0;
             break;
             
         case INIT:
+            ofLog() << "Animation INIT";
             ofSetColor(black);
             ofSetColor(loaderLColor);
             ofDrawRectangle(0, 0, numStrips/2,numLedsPerStrip);
