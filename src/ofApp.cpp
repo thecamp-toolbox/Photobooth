@@ -664,6 +664,24 @@ void ofApp::setupGUI(){
     
     gui.setup(parameters);
     
+    gui.setSize(300, gui.getHeight());
+
+    gui.getGroup("Evenement").setSize(300, gui.getHeight());
+    gui.getGroup("Evenement").setWidthElements(300);
+    gui.getGroup("Fichiers").setSize(300, gui.getHeight());
+    gui.getGroup("Fichiers").setWidthElements(300);
+    gui.getGroup("Ticket").setSize(300, gui.getHeight());
+    gui.getGroup("Ticket").setWidthElements(300);
+    gui.getGroup("Timers").setSize(300, gui.getHeight());
+    gui.getGroup("Timers").setWidthElements(300);
+    gui.getGroup("Coordonnees displays").setSize(300, gui.getHeight());
+    gui.getGroup("Coordonnees displays").setWidthElements(300);
+    gui.getGroup("Cameras").setSize(300, gui.getHeight());
+    gui.getGroup("Cameras").setWidthElements(300);
+    gui.getGroup("LEDs").setSize(300, gui.getHeight());
+    gui.getGroup("LEDs").setWidthElements(300);
+    
+    gui.getGroup("LEDs").getGroup("visualisation LEDs").minimize();
     gui.getGroup("Coordonnees displays").minimize();
     gui.getGroup("Fichiers").getGroup("Questions").minimize();
     
@@ -671,6 +689,7 @@ void ofApp::setupGUI(){
     
     settings.load("/data/settings.xml");
     ofDeserialize(settings, parameters);
+    
     
     year = ofFromString<int>(timeNow.substr(0,4));
     month = ofFromString<int>(timeNow.substr(5,2));
