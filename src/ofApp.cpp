@@ -56,13 +56,11 @@ void ofApp::update(){
             if (PBtimer==1) {
                 bg.next();
                 ofShowCursor();
-                ofLog() << "INIT";
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
                 leds.currentAnimation = leds.INIT;
                 font.load( OF_TTF_SANS,30,true,true);
                 ledButtons(1, 1);
             }
-            
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
@@ -445,6 +443,7 @@ void ofApp::draw(){
     
     switch (currentState) {
         case INIT: {
+            ofSetColor(255, 255, 255, 255);
             //bg.draw();
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             gui.draw();
@@ -477,6 +476,7 @@ void ofApp::draw(){
             break;
         }
         case QUESTION:{
+            ofSetColor(255, 255, 255, 255);
             bg.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             break;
@@ -540,6 +540,7 @@ void ofApp::draw(){
     if (drawFps) {
         ofSetColor(127,127,127);
         font.drawString(ofToString(int(ofGetFrameRate())) + " fps", 1700, 80);
+        ofSetColor(255, 255, 255, 255);
     }
 }
 
