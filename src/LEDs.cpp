@@ -20,8 +20,8 @@ void LEDs::setup(){
         wiringPiSetupSys() ;
     }
 #endif
-    noise.allocate(numStrips, numLedsPerStrip, 3);
-    //img.allocate(numStrips,numLedsPerStrip, OF_IMAGE_COLOR_ALPHA);
+    noiseImg.allocate(numStrips, numLedsPerStrip, OF_IMAGE_COLOR);
+    img.allocate(numStrips,numLedsPerStrip, OF_IMAGE_COLOR_ALPHA);
     fbo.allocate(numStrips,numLedsPerStrip,GL_RGB);
     fbo.begin();
         ofClear(black);
@@ -48,6 +48,7 @@ void LEDs::update(){
             break;
             
         case INIT:
+            ofSetColor(black);
             ofSetColor(loaderLColor);
             ofDrawRectangle(0, 0, numStrips/2,numLedsPerStrip);
             ofSetColor(loaderRColor);
@@ -55,11 +56,32 @@ void LEDs::update(){
             brightness = animationBrightness;
             break;
         
-        case COMPILE:
+        case COMPILE: {
             ofSetColor(black);
             // make some noise
             
             /*
+            float noiseScale = {0.5};
+            float noiseVel = ofGetElapsedTimef();
+            
+            ofPixels& pixels = noiseImg.getPixels();
+            int w = noiseImg.getWidth();
+            int h = noiseImg.getHeight();
+            for(auto line: pixels.getLines()){
+                int x = 0;
+                for(auto pixel: line.getPixels()){
+                    float noiseValue = ofNoise(x * noiseScale, line.getLineNum() * noiseScale, noiseVel) * 255.;
+                    pixel[0] = noiseValue;
+                    pixel[1] = noiseValue;
+                    pixel[2] = noiseValue;
+                    x+=1;
+                }
+            }
+            noiseImg.update();
+            noiseImg.draw(0,0, nProfiles+1, numLedsPerStrip) ;
+           
+            
+            
             for (size_t i = 0; i < nProfiles+1; ++i){
                 for (size_t j = 0; j < numLedsPerStrip*(1-index*(1-profileCounts[i]))-1; ++j){
                     if (ofRandom(1) > noiseThresh) noise.setColor(i, j, (white.lerp(profileColor[i], index)));
@@ -68,25 +90,26 @@ void LEDs::update(){
             }
             noiseImg.setFromPixels(noise);
             noiseImg.draw(0, 0, nProfiles+1 ,numLedsPerStrip);
-            */
             
+            */
             for (size_t i = 0; i < nProfiles+1; ++i){
                 ofSetColor((white.lerp(profileColor[i], index)));
                 for (size_t j = 0; j < numLedsPerStrip*(1-index*(1-profileCounts[i]))-1; ++j){
                     if (ofRandom(1) > noiseThresh) ofDrawRectangle(i, j, 1, 1);
                 }
             }
-        
+            
              
             for (size_t i = 0; i < nProfiles+1; ++i){
                 ofSetColor(profileColor[i], index*255);
                 ofDrawRectangle(i, 0, 1, numLedsPerStrip*(index)*profileCounts[i]);
             }
-             
+            
+            ofSetColor(black);
 
             brightness = animationBrightness;
             break;
-            
+        }
         case QUESTION:
             ofSetColor(loaderLColor);
             ofDrawRectangle(0, 0, numStrips/2,numLedsPerStrip*(1-index));
@@ -96,7 +119,7 @@ void LEDs::update(){
             break;
             
         case FLASH:
-            ofSetColor(white);
+            ofSetColor(255, 255, 255, 255);
             ofDrawRectangle(0, 0, numStrips,numLedsPerStrip);
             brightness = flashBrightness;
             break;
@@ -105,18 +128,19 @@ void LEDs::update(){
     
     ofSetColor(white);
     
-    img.grabScreen(0, 0, numStrips,numLedsPerStrip);
+    //img.grabScreen(0, 0, numStrips,numLedsPerStrip);
     fbo.end();
     
+    fbo.readToPixels(pixels);
+    img.setFromPixels(pixels);
     //img.update();
     //pixels = img.getPixels();
     setLEDs();
 }
 
 void LEDs::setLEDs() {
-    
-    //ofPixels& pixels;
-    unsigned char * rawLEDs = img.getPixels().getData();;
+ 
+    //unsigned char * rawLEDs = pixels.getData();;
     
     uint8_t buffer0[1], buffer1[4];
     srand(time(NULL));
@@ -137,10 +161,10 @@ void LEDs::setLEDs() {
             if (j%2) a = j*numLedsPerStrip+i;
             else a = j*numLedsPerStrip + numLedsPerStrip-1-i;
                 
-            buffer1[0]=(uint8_t(brightness) & 0b00011111) | 0b11100000;
-            buffer1[1]=(uint8_t)LEDs[a*4+2];  //green
-            buffer1[2]=(uint8_t)LEDs[a*4+1];  //blue
-            buffer1[3]=(uint8_t)LEDs[a*4+0];  //red
+            buffer1[0]=(brightness & 0b00011111) | 0b11100000;
+            buffer1[1]=pixels[a*4+2];  //green
+            buffer1[2]=pixels[a*4+1];  //blue
+            buffer1[3]=pixels[a*4+0];  //red
             wiringPiSPIDataRW(0, (unsigned char*)buffer1, 4);
             
         }

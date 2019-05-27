@@ -301,17 +301,23 @@ void ofApp::update(){
         }
         case RESULT: {
             if (PBtimer==1) {
-                ofLog() << "RESULT";
+                ofLog() << "RESULT, #" ;
                 
             }
             if (buttonRPressed) {
                 resetButtons();
                 resultCount++;
-                bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
-                currentState = COUNTDOWN;
+                if (resultCount<3){
+                    bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
+                    currentState = COUNTDOWN;
+                } else {
+                    bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                    bg.next();
+                    currentState = PRINTING;
+                }
                 PBtimer = 0;
             }
-            if (PBtimer>mainTimer*frameRate || buttonLPressed ){
+            if (PBtimer>mainTimer*frameRate || buttonLPressed){
                 bg.load("/data/BG/"+backgroundFiles[PRINTING]);
                 bg.next();
                 resetButtons();
@@ -334,7 +340,7 @@ void ofApp::update(){
                     ofSetColor(0);
                     font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
-                                    (sizeTktX-20*textFontSize)/2,
+                                    (sizeTktX-30-(profileNames[currentProfile].size())*textFontSize)/2,
                                     ticketMarginYTop+sizeTktY+textMargin+textFontSize);
                     ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
@@ -385,7 +391,8 @@ void ofApp::update(){
             break;
     }
     
-    if (leds.draw) leds.update();
+    //if (leds.draw)
+    leds.update();
 }
 
 //--------------------------------------------------------------
@@ -454,8 +461,10 @@ void ofApp::draw(){
         }
     }
 
-   
-
+    if (drawFps) {
+        ofSetColor(255,255,255);
+        font.drawString(ofToString(ofGetFrameRate()), 200, 50);
+    }
 }
 
 //--------------------------------------------------------------
@@ -513,7 +522,7 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::getButtons(){
     
 #ifdef TARGET_RASPBERRY_PI
-    ///TODO: get buttons from GPIOs
+    
     string state_buttonL;
     buttonL.getval_gpio(state_buttonL);
     string state_buttonR;
@@ -648,6 +657,7 @@ void ofApp::setupGUI(){
     timers.add(countDownTimer.set("countdown",  0.5, 0, maxTimer));
     timers.add(printingTimer.set("Print",  4, 0, maxTimer));
     timers.add(questionTimer.set("question",  5, 0, maxTimer));
+    timers.add(drawFps.set("Draw FPS", 0));
     //timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
     //
     parameters.add(timers);

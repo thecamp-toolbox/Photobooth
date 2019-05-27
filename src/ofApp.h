@@ -78,6 +78,7 @@ public:
                         printingTimer{120},
                         questionTimer{133};
     
+    ofParameter<bool> drawFps;
     
   
 //---------------------------------------------------------
