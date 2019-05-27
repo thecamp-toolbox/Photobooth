@@ -641,7 +641,7 @@ void ofApp::setupGUI(){
     ofLog() << "Time NOW !!! : " << timeNow;
 
     parameters.setName("Reglages");
-    
+    /*
     event.setName("Evenement");
     event.add(eventName.set("Nom", "VYV-solidarites19"));
     event.add(year.set("Annee", ofFromString<int>(timeStart.substr(0,4)), 2019, 2029));
@@ -651,16 +651,18 @@ void ofApp::setupGUI(){
     event.add(min.set("Minute", ofFromString<int>(timeStart.substr(11,2)), 0, 59));
     //
     parameters.add(event);
-    
+    */
     files.setName("Fichiers");
     //
     files.add(logToFile.set("Log/fichier", 1));
     //
+    /*
     questionsFile.setName("Questions");
     questionsFile.add(weightsFilePath.set("Chemin", "questions+.csv"));
     questionsFile.add(weightsCSVcolOffset.set("Col offset", 2, 0, 10));
     //
     files.add(questionsFile);
+     */
     parameters.add(files);
     
     tickPar.setName("Ticket");
@@ -724,12 +726,12 @@ void ofApp::setupGUI(){
     //
     timers.add(frameRate.set("FPS",  30, 0, 150));
     timers.add(mainTimer.set("Defaut",  4, 0, maxTimer));
-    timers.add(compileTimer.set("Compilation",  4, 0, maxTimer));
-    timers.add(profileTimer.set("profil",  4, 0, maxTimer));
+    //timers.add(compileTimer.set("Compilation",  4, 0, maxTimer));
+    //timers.add(profileTimer.set("profil",  4, 0, maxTimer));
     timers.add(flashTimer.set("flash",  4, 0, maxTimer));
     timers.add(countDownTimer.set("countdown",  0.5, 0, maxTimer));
     timers.add(printingTimer.set("Print",  4, 0, maxTimer));
-    timers.add(questionTimer.set("question",  5, 0, maxTimer));
+    //timers.add(questionTimer.set("question",  5, 0, maxTimer));
     timers.add(drawFps.set("Draw FPS", 0));
     //timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
     //
@@ -739,8 +741,8 @@ void ofApp::setupGUI(){
     
     gui.setSize(300, gui.getHeight());
 
-    gui.getGroup("Evenement").setSize(300, gui.getHeight());
-    gui.getGroup("Evenement").setWidthElements(300);
+    //gui.getGroup("Evenement").setSize(300, gui.getHeight());
+    //gui.getGroup("Evenement").setWidthElements(300);
     gui.getGroup("Fichiers").setSize(300, gui.getHeight());
     gui.getGroup("Fichiers").setWidthElements(300);
     gui.getGroup("Ticket").setSize(300, gui.getHeight());

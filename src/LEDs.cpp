@@ -193,7 +193,7 @@ void LEDs::setup_GUI(){
     LEDs.add(numStrips.set("nb de strips", 8, 0, 24));
     LEDs.add(animationBrightness.set ("lum animation", 20, 0, 31));
     LEDs.add(flashBrightness.set("lum flash", 31, 0, 31));
-    
+    /*
     LEDs.add(loaderLColor.set("couleur loader G", {255, 255, 0, 255}));
     LEDs.add(loaderRColor.set("couleur loader D", {0, 0, 255, 255}));
     
@@ -206,7 +206,7 @@ void LEDs::setup_GUI(){
     LEDs.add(profileColor[6].set("couleur profil 7", {255, 255, 255}));
     
     LEDs.add(profileColor[7].set("couleur total", {255, 255, 255, 255}));
-    
+    */
     LEDs.add(draw.set("draw LEDs on screen", 0));
     drawCoords.setName("visualisation LEDs");
     drawCoords.add(X.set("position X", 1800, 0, ofGetWidth()));
