@@ -135,6 +135,7 @@ void LEDs::update(){
     img.setFromPixels(pixels);
     //img.update();
     //pixels = img.getPixels();
+    ofSetColor(white);
     setLEDs();
 }
 

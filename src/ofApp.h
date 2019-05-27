@@ -96,6 +96,7 @@ public:
     void keyReleased(int key);
     void windowResized(int w, int h);
     void gotMessage(ofMessage msg);
+    void ledButtons(bool L, bool R);
     void getButtons();
     void resetButtons();
     void setupGUI();
@@ -215,5 +216,12 @@ public:
     float profileCounts[nProfiles];
     int   profileScores[nProfiles];
 
+    std::string timeStart;
+    std::string timeNow;
+    std::string timeSet;
+    
+    Poco::DateTime setTime;
+    ofxTime::Period timeOffset;
+    
     
 };

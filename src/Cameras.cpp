@@ -28,7 +28,7 @@ void Cameras::setup(){
     ofLog() << " Setup Cam 1 (USB) with Device#" << USBCamNr;
     USBCam.setDeviceID(USBCamNr);
     USBCam.setDesiredFrameRate(30);
-    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
+    USBCam.setPixelFormat(OF_PIXELS_GRAY);
     USBCam.initGrabber(640, 480);
     ofLog() << "size 1: " << USBCam.getWidth() << " / " << USBCam.getHeight();
 #ifdef TARGET_RASPBERRY_PI
@@ -42,7 +42,7 @@ void Cameras::setup(){
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
     piCam.setDeviceID(piCamNr);
     piCam.setDesiredFrameRate(30);
-    //cams[0].setPixelFormat(OF_PIXELS_NATIVE);
+    piCam.setPixelFormat(OF_PIXELS_GRAY);
     piCam.initGrabber(1280, 720);
     ofLog() << "size 2: " << piCam.getWidth() << " / " << piCam.getHeight();
 #endif

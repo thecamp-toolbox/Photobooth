@@ -30,6 +30,14 @@ void ofApp::setup(){
     buttonR.export_gpio();
     buttonR.setdir_gpio("in");
     
+    ledL.setup("13");
+    ledL.export_gpio();
+    ledL.setdir_gpio("out");
+    
+    ledR.setup("19");
+    ledR.export_gpio();
+    ledR.setdir_gpio("out");
+    
 #endif
     
 }
@@ -48,7 +56,10 @@ void ofApp::update(){
                 ofLog() << "INIT";
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
                 leds.currentAnimation = leds.INIT;
+                font.load( OF_TTF_SANS,30,true,true);
+                ledButtons(1, 1);
             }
+            
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = STANDBY;
@@ -64,6 +75,13 @@ void ofApp::update(){
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
                 leds.currentAnimation = leds.NONE;
+                
+                // setting time offset
+                Poco::Timestamp now;
+                Poco::LocalDateTime nowLocal(now);
+                
+                //timeOffset =  setTime.timestamp() - nowLocal.timestamp();
+                
                 bg.next();
             }
      
@@ -73,6 +91,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "STANDBY";
                 bg.load("/data/BG/"+backgroundFiles[WELCOME]);
+                ledButtons(1, 1);
             }
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -90,6 +109,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "WELCOME";
                 bg.load("/data/BG/"+backgroundFiles[EXPLAIN]);
+                ledButtons(1, 1);
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -103,6 +123,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ofLog() << "EXPLAIN";
                 bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
+                ledButtons(1, 1);
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 resetButtons();
@@ -114,6 +135,7 @@ void ofApp::update(){
         }
         case QUESTION: {
             if (PBtimer==1) {
+                ledButtons(1, 1);
                 ofLog() << "QUESTION #" << currentQuestion+1;
             bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
             leds.currentAnimation = leds.QUESTION;
@@ -181,6 +203,7 @@ void ofApp::update(){
         }
         case COMPILING: {
             if (PBtimer==1) {
+                ledButtons(0, 0);
                 leds.currentAnimation = leds.COMPILE;
                 //leds.blackout();
                 //bg.next();
@@ -214,6 +237,7 @@ void ofApp::update(){
         }
         case PROFILE: {
             if (PBtimer==1) {
+                ledButtons(1, 1);
                 ofLog() << "PROFILE #" << currentProfile+1;
                 
             }
@@ -225,6 +249,7 @@ void ofApp::update(){
             break;
         }
         case CAM_CHOICE: {
+            ledButtons(1, 1);
             cams.update_all();
             leds.currentAnimation = leds.NONE;
             
@@ -254,6 +279,7 @@ void ofApp::update(){
             break;
         }
         case FRAME: {
+            ledButtons(1, 1);
             cams.update_one();
             
             if (PBtimer==1) ofLog() << "FRAME";
@@ -266,10 +292,13 @@ void ofApp::update(){
             break;
         }
         case COUNTDOWN: {
+            
             cams.update_one();
             
-            if (PBtimer==1) ofLog() << "COUNTDOWN";
-
+            if (PBtimer==1) {
+                ofLog() << "COUNTDOWN";
+                ledButtons(0, 0);
+            }
             if (PBtimer>countDownTimer*frameRate){
                 currentCountdown++;
                 resetButtons();
@@ -300,7 +329,9 @@ void ofApp::update(){
             break;
         }
         case RESULT: {
+    
             if (PBtimer==1) {
+                ledButtons(1, 1);
                 ofLog() << "RESULT, #" ;
                 
             }
@@ -328,6 +359,7 @@ void ofApp::update(){
         }
         case PRINTING: {
             if (PBtimer==1) {
+                ledButtons(0, 0);
                 ofLog() << "PRINTING";
                 bg.load("/data/BG/"+backgroundFiles[BYE]);
                 
@@ -350,10 +382,18 @@ void ofApp::update(){
                     result.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
                 //ofEnableAlphaBlending();
+            
+                
+                Poco::Timestamp now;
+                Poco::LocalDateTime nowLocal(now);
+                
+                Poco::Timestamp saveTime;
+
+                //saveTime = nowLocal+timeOffset.getTimespan();
                 
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
-                +'-'+ofToString(hour)+'h'+ofToString(min)+'-';
+                +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
                 fileName+=profileNames[currentProfile]+".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
@@ -375,9 +415,9 @@ void ofApp::update(){
         }
         case BYE: {
             if (PBtimer==1) {
+                ledButtons(1, 1);
                 ofLog() << "BYE";
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
-                
             }
             if (PBtimer>mainTimer*frameRate || buttonLPressed || buttonRPressed){
                 bg.next();
@@ -406,6 +446,31 @@ void ofApp::draw(){
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+            ofSetColor(250, 250, 0, 250);
+            font.drawString("<- changer le nom de l'événement, la date et l'heure ci-contre" ,350, 80);
+            ofSetColor(250, 250, 250, 250);
+            string displayName = "Nom de l'événement: ";
+            displayName+= eventName;
+            font.drawString(displayName ,450, 150);
+            
+            std::string ts0 = "2000-01-01T12:00:00+01:00";        // Poco::DateTimeFormat::ISO8601_FORMAT
+            
+            const std::string DATE_FORMAT = "%Y %b %f %H:%M";
+            
+            timeSet = ofToString(year) + "-" + ofToString(month) + "-" + ofToString(day) + "T" + ofToString(hour) + ":" + ofToString(min) + ":00:00+02:00";
+            
+            int tzd = 0;
+            
+            Poco::DateTimeParser::parse(Poco::DateTimeFormat::ISO8601_FRAC_FORMAT,
+                                        timeSet, setTime, tzd);
+            
+            timeNow = "Date et heure: " + ofxTime::Utils::format(setTime, DATE_FORMAT);
+            
+            font.drawString( timeNow ,450, 210);
+            ofSetColor(250, 250, 0, 250);
+            font.drawString("appuyer sur un des boutons pour lancer l'application" ,350, 280);
+            ofSetColor(255, 255, 255, 255);
+            
             break;
         }
         case QUESTION:{
@@ -462,8 +527,8 @@ void ofApp::draw(){
     }
 
     if (drawFps) {
-        ofSetColor(255,255,255);
-        font.drawString(ofToString(ofGetFrameRate()), 200, 50);
+        ofSetColor(127,127,127);
+        font.drawString(ofToString(int(ofGetFrameRate())) + " fps", 1700, 80);
     }
 }
 
@@ -519,6 +584,13 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
+void ofApp::ledButtons(bool L, bool R){
+#ifdef TARGET_RASPBERRY_PI
+    ledL.setval_gpio(ofToString(L));
+    ledR.setval_gpio(ofToString(R));
+#endif
+}
+//--------------------------------------------------------------
 void ofApp::getButtons(){
     
 #ifdef TARGET_RASPBERRY_PI
@@ -563,7 +635,7 @@ void ofApp::setupGUI(){
     Poco::Timestamp now;
     Poco::LocalDateTime nowLocal(now);
     
-    std::string timeNow = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
+    timeStart = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
     
     ofLog() << "Time NOW !!! : " << timeNow;
 
@@ -571,11 +643,11 @@ void ofApp::setupGUI(){
     
     event.setName("Evenement");
     event.add(eventName.set("Nom", "VYV-solidarites19"));
-    event.add(year.set("Annee", ofFromString<int>(timeNow.substr(0,4)), 2019, 2029));
-    event.add(month.set("Mois", ofFromString<int>(timeNow.substr(5,2)), 1, 12));
-    event.add(day.set("Jour", ofFromString<int>(timeNow.substr(7,2)), 1, 31));
-    event.add(hour.set("Heure", ofFromString<int>(timeNow.substr(9,2)), 0, 23));
-    event.add(min.set("Minute", ofFromString<int>(timeNow.substr(11,2)), 0, 59));
+    event.add(year.set("Annee", ofFromString<int>(timeStart.substr(0,4)), 2019, 2029));
+    event.add(month.set("Mois", ofFromString<int>(timeStart.substr(5,2)), 1, 12));
+    event.add(day.set("Jour", ofFromString<int>(timeStart.substr(7,2)), 1, 31));
+    event.add(hour.set("Heure", ofFromString<int>(timeStart.substr(9,2)), 0, 23));
+    event.add(min.set("Minute", ofFromString<int>(timeStart.substr(11,2)), 0, 59));
     //
     parameters.add(event);
     
@@ -691,11 +763,11 @@ void ofApp::setupGUI(){
     ofDeserialize(settings, parameters);
     
     
-    year = ofFromString<int>(timeNow.substr(0,4));
-    month = ofFromString<int>(timeNow.substr(5,2));
-    day = ofFromString<int>(timeNow.substr(8,2));
-    hour = ofFromString<int>(timeNow.substr(11,2));
-    min =ofFromString<int>(timeNow.substr(14,2));
+    year = ofFromString<int>(timeStart.substr(0,4));
+    month = ofFromString<int>(timeStart.substr(5,2));
+    day = ofFromString<int>(timeStart.substr(8,2));
+    hour = ofFromString<int>(timeStart.substr(11,2));
+    min =ofFromString<int>(timeStart.substr(14,2));
     
     ofLog() << year << " " << month << " " << day << " " << hour << " " << min;
 
@@ -703,8 +775,6 @@ void ofApp::setupGUI(){
 
 //--------------------------------------------------------------
 void ofApp::loadCSV(){
-    
-    /// TODO: use latest CSV version
     
     if (logToFile){
         string logPath = eventName;
