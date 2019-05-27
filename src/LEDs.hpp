@@ -42,7 +42,7 @@ public:
     X{320}, Y{120},
     W{640}, H{480};
     
-    ofColor black{0,0,0, 0}, white{255,255,255, 255};
+    ofColor black{0,0,0,0}, white{255,255,255, 255};
     
     int numLed{0};
     
