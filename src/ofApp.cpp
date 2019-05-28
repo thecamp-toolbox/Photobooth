@@ -19,7 +19,7 @@ void ofApp::setup(){
     }
     ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
     
-    bg.load("/data/BG/"+backgroundFiles[INIT]);
+    //bg.load("/data/BG/"+backgroundFiles[INIT]);
     
     ofEnableAlphaBlending();
     
@@ -85,27 +85,20 @@ void ofApp::update(){
                 
                 //timeOffset =  setTime.timestamp() - nowLocal.timestamp();
                 
-                bg.next();
+                
             }
      
             break;
         }
         case STANDBY: {
             if (PBtimer==1) {
+                leds.currentAnimation = leds.INIT;
+                bg.next();
                 ofLog() << "STANDBY";
                 bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
                 ledButtons(1, 1);
             }
-            if (buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentState = CAM_CHOICE;
-                PBtimer = 0;
-                // reset profile accounts
-                for (size_t j = 0; j < nProfiles; ++j) {
-                    profileCounts[j] = 0;
-                }
-                bg.next();
-            }
+            
             break;
         }
         case WELCOME: {
@@ -114,12 +107,7 @@ void ofApp::update(){
                 bg.load("/data/BG/"+backgroundFiles[EXPLAIN]);
                 ledButtons(1, 1);
             }
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentState = EXPLAIN;
-                PBtimer = 0;
-                bg.next();
-            }
+            
             break;
         }
         case EXPLAIN: {
@@ -128,91 +116,21 @@ void ofApp::update(){
                 bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
                 ledButtons(1, 1);
             }
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentState = QUESTION;
-                PBtimer = 0;
-                bg.next();
-            }
+            
             break;
         }
         case QUESTION: {
             if (PBtimer==1) {
                 ledButtons(1, 1);
                 ofLog() << "QUESTION #" << currentQuestion+1;
-            bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-            leds.currentAnimation = leds.QUESTION;
             }
             
             leds.index = float(PBtimer)/float(questionTimer*frameRate);
             
-            if (PBtimer>questionTimer*ofGetFrameRate()) {
-                resetButtons();
-                PBtimer = 0;
-                bg.next();
-                if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    ofLog() << "No Choice for Question: " << currentQuestion;
-                    //bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-                
-            } else if (buttonLPressed) {
-                resetButtons();
-                bg.next();
-                score = float(100-100*PBtimer/(questionTimer*frameRate));
-                ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
-                for (size_t i = 0; i<nProfiles; ++i){
-                    profileCounts[i]+=score*weightsL[currentQuestion][i];
-                }
-                PBtimer = 0;
-                if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    //bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-                
-            } else if (buttonRPressed) {
-                resetButtons();
-                bg.next();
-                score = float(100-100*PBtimer/(questionTimer*frameRate));
-                ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
-                for (size_t i = 0; i<nProfiles; ++i){
-                    profileCounts[i]+=score*weightsR[currentQuestion][i];
-                }
-                PBtimer = 0;
-                if (currentQuestion<nQuestions-1) {
-                    currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    //bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-            }
             break;
         }
         case COMPILING: {
             if (PBtimer==1) {
-                //leds.blackout();
                 //bg.next();
                 ofLog() << "COMPILING";
                 float max=0;
@@ -234,12 +152,6 @@ void ofApp::update(){
             
             leds.index = float(PBtimer)/float(compileTimer*frameRate);
             
-            if (PBtimer>compileTimer*ofGetFrameRate()){
-                bg.next();
-                currentState = PROFILE;
-                resetButtons();
-                PBtimer = 0;
-            }
             break;
         }
         case PROFILE: {
@@ -248,11 +160,7 @@ void ofApp::update(){
                 ofLog() << "PROFILE #" << currentProfile+1;
                 
             }
-            if (PBtimer>profileTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentState = CAM_CHOICE;
-                PBtimer = 0;
-            }
+            
             break;
         }
         case CAM_CHOICE: {
@@ -265,24 +173,7 @@ void ofApp::update(){
                 bg.load("/data/BG/" + backgroundFiles[RESULT] + to_string(resultCount+1)+".png");
 
             }
-            if (buttonRPressed) {
-                //bg.next();
-                resetButtons();
-                cams.current = 0;
-                currentState = FRAME;
-                PBtimer = 0;
-            } else if (buttonLPressed){
-                //bg.next();
-                resetButtons();
-                cams.current = 1;
-                currentState = FRAME;
-                PBtimer = 0;
-            } else if (PBtimer>mainTimer*frameRate){
-                //bg.next();
-                resetButtons();
-                currentState = FRAME;
-                PBtimer = 0;
-            }
+            
             break;
         }
         case FRAME: {
@@ -290,12 +181,7 @@ void ofApp::update(){
             cams.update_one();
             
             if (PBtimer==1) ofLog() << "FRAME";
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                
-                resetButtons();
-                currentState = COUNTDOWN;
-                PBtimer = 0;
-            }
+            
             break;
         }
         case COUNTDOWN: {
@@ -306,16 +192,7 @@ void ofApp::update(){
                 ofLog() << "COUNTDOWN";
                 ledButtons(0, 0);
             }
-            if (PBtimer>countDownTimer*ofGetFrameRate()){
-                currentCountdown++;
-                resetButtons();
-                PBtimer = 0;
-                if (currentCountdown==5){
-                    leds.currentAnimation = leds.FLASH;
-                    currentState = FLASH;
-                    currentCountdown=0;
-                }
-            }
+            
             break;
         }
         case FLASH: {
@@ -326,15 +203,7 @@ void ofApp::update(){
                 ofLog() << "FLASH";
             }
             
-            if (PBtimer>flashTimer*ofGetFrameRate()){
-                //if (PBtimer==2){
-                    result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-                //}
-                bg.next();
-                resetButtons();
-                currentState = RESULT;
-                PBtimer = 0;
-            }
+            
             break;
         }
         case RESULT: {
@@ -345,27 +214,7 @@ void ofApp::update(){
                 ofLog() << "RESULT, #" << resultCount ;
                 
             }
-            if (buttonRPressed) {
-                resetButtons();
-                resultCount++;
-                if (resultCount<3){
-                    bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
-                    currentState = COUNTDOWN;
-                } else {
-                    bg.load("/data/BG/"+backgroundFiles[PRINTING]);
-                    bg.next();
-                    currentState = PRINTING;
-                }
-                PBtimer = 0;
-            }
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed){
-                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
-                bg.next();
-                resetButtons();
-                currentState = PRINTING;
-                PBtimer = 0;
-                resultCount = 0;
-            }
+            
             break;
         }
         case PRINTING: {
@@ -416,12 +265,6 @@ void ofApp::update(){
                 }
             }
             
-            if (PBtimer>printingTimer*ofGetFrameRate()){
-                bg.next();
-                resetButtons();
-                currentState = BYE;
-                PBtimer = 0;
-            }
             break;
         }
         case BYE: {
@@ -430,12 +273,7 @@ void ofApp::update(){
                 ofLog() << "BYE";
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
             }
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                bg.next();
-                resetButtons();
-                currentState = STANDBY;
-                PBtimer = 0;
-            }
+            
             break;
         }
         default:
@@ -485,34 +323,170 @@ void ofApp::draw(){
             
             break;
         }
+        case STANDBY: {
+            ofSetColor(255, 255, 255, 255);
+            bg.draw();
+            
+            if (buttonLPressed || buttonRPressed){
+                resetButtons();
+                currentState = EXPLAIN;
+                PBtimer = 0;
+                // reset profile accounts
+                for (size_t j = 0; j < nProfiles; ++j) {
+                    profileCounts[j] = 0;
+                }
+                bg.next();
+            }
+            break;
+            
+        }
+        case EXPLAIN:{
+            ofSetColor(255, 255, 255, 255);
+            bg.draw();
+            
+            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+                resetButtons();
+                currentQuestion = 0;
+                bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                leds.currentAnimation = leds.QUESTION;
+                currentState = QUESTION;
+                PBtimer = 0;
+                bg.next();
+            }
+            break;
+        }
         case QUESTION:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+            
+            if (PBtimer>questionTimer*ofGetFrameRate()) {
+                resetButtons();
+                PBtimer = 0;
+                //bg.next();
+                if (currentQuestion<nQuestions-2) {
+                    currentQuestion++;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    ofLog() << "No Choice for Question: " << currentQuestion;
+                    bg.next();
+                } else {
+                    ledButtons(0, 0);
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.next();
+                    leds.currentAnimation = leds.COMPILE;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
+                
+            } else if (buttonLPressed) {
+                resetButtons();
+                //bg.next();
+                score = float(100-100*PBtimer/(questionTimer*frameRate));
+                ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
+                for (size_t i = 0; i<nProfiles; ++i){
+                    profileCounts[i]+=score*weightsL[currentQuestion][i];
+                }
+                PBtimer = 0;
+                if (currentQuestion<nQuestions-2) {
+                    currentQuestion++;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    bg.next();
+                } else {
+                    ledButtons(0, 0);
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.next();
+                    leds.currentAnimation = leds.COMPILE;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
+                
+            } else if (buttonRPressed) {
+                resetButtons();
+                //bg.next();
+                score = float(100-100*PBtimer/(questionTimer*frameRate));
+                ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
+                for (size_t i = 0; i<nProfiles; ++i){
+                    profileCounts[i]+=score*weightsR[currentQuestion][i];
+                }
+                PBtimer = 0;
+                if (currentQuestion<nQuestions-2) {
+                    currentQuestion++;
+                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    bg.next();
+                } else {
+                    ledButtons(0, 0);
+                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.next();
+                    leds.currentAnimation = leds.COMPILE;
+                    currentQuestion = 0;
+                    currentState = COMPILING;
+                }
+            }
             break;
         }
         case COMPILING:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+            
+            if (PBtimer>compileTimer*ofGetFrameRate()){
+                bg.next();
+                currentState = PROFILE;
+                resetButtons();
+                PBtimer = 0;
+            }
             break;
         }
         case PROFILE: {
             ofSetColor(255, 255, 255, 255);
             profile.draw(0,0);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+            
+            if (PBtimer>profileTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+                resetButtons();
+                currentState = CAM_CHOICE;
+                PBtimer = 0;
+            }
             break;
         }
         case CAM_CHOICE: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
              bg.draw();
+            
+            if (buttonRPressed) {
+                //bg.next();
+                resetButtons();
+                cams.current = 0;
+                currentState = FRAME;
+                PBtimer = 0;
+            } else if (buttonLPressed){
+                //bg.next();
+                resetButtons();
+                cams.current = 1;
+                currentState = FRAME;
+                PBtimer = 0;
+            } else if (PBtimer>mainTimer*frameRate){
+                //bg.next();
+                resetButtons();
+                currentState = FRAME;
+                PBtimer = 0;
+            }
+            
             break;
         }
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
+            
+            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+                
+                resetButtons();
+                currentState = COUNTDOWN;
+                PBtimer = 0;
+            }
+            
             break;
         }
         case COUNTDOWN: {
@@ -520,6 +494,18 @@ void ofApp::draw(){
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
             countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
+            
+            if (PBtimer>countDownTimer*ofGetFrameRate()){
+                currentCountdown++;
+                resetButtons();
+                PBtimer = 0;
+                if (currentCountdown==5){
+                    leds.currentAnimation = leds.FLASH;
+                    currentState = FLASH;
+                    currentCountdown=0;
+                }
+            }
+            
             break;
         }
         case FLASH: {
@@ -530,14 +516,80 @@ void ofApp::draw(){
             //buffer[textureToken].draw(0,0);
             
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+            
+            if (PBtimer>flashTimer*ofGetFrameRate()){
+                //if (PBtimer==2){
+                result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+                //}
+                bg.next();
+                resetButtons();
+                currentState = RESULT;
+                PBtimer = 0;
+            }
+            
             break;
         }
+        
         case RESULT: {
+            
             ofSetColor(255, 255, 255, 255);
             bg.draw();
+            
             result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
+            
+            if (buttonRPressed) {
+                resetButtons();
+                resultCount++;
+                if (resultCount<3){
+                    bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
+                    currentState = COUNTDOWN;
+                    
+                } else {
+                    bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                    bg.next();
+                    currentState = PRINTING;
+                }
+                PBtimer = 0;
+            }
+            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed){
+                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                bg.next();
+                resetButtons();
+                currentState = PRINTING;
+                PBtimer = 0;
+                resultCount = 0;
+            }
+            
             break;
         }
+           
+        case PRINTING:{
+            ofSetColor(255, 255, 255, 255);
+            bg.draw();
+            
+            if (PBtimer>printingTimer*ofGetFrameRate()){
+                bg.next();
+                resetButtons();
+                currentState = BYE;
+                PBtimer = 0;
+            }
+        }
+            break;
+            
+        case BYE:{
+            
+            ofSetColor(255, 255, 255, 255);
+            bg.draw();
+            
+            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+                //bg.next();
+                resetButtons();
+                currentState = STANDBY;
+                PBtimer = 0;
+            }
+            break;
+        }
+            
         default:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
