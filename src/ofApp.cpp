@@ -40,6 +40,11 @@ void ofApp::setup(){
     ledR.export_gpio();
     ledR.setdir_gpio("out");
     
+    flashRelay.setup("26");
+    flashRelay.export_gpio();
+    flashRelay.setdir_gpio("out");
+
+    
 #endif
     
 }
@@ -500,6 +505,7 @@ void ofApp::draw(){
                 PBtimer = 0;
                 if (currentCountdown==5){
                     leds.currentAnimation = leds.FLASH;
+                    flash(1);
                     currentState = FLASH;
                     currentCountdown=0;
                 }
@@ -523,6 +529,7 @@ void ofApp::draw(){
                 bg.next();
                 resetButtons();
                 currentState = RESULT;
+                flash(0);
                 PBtimer = 0;
             }
             
@@ -659,6 +666,12 @@ void ofApp::ledButtons(bool L, bool R){
 #ifdef TARGET_RASPBERRY_PI
     ledL.setval_gpio(ofToString(L));
     ledR.setval_gpio(ofToString(R));
+#endif
+}
+//--------------------------------------------------------------
+void ofApp::flash(bool on){
+#ifdef TARGET_RASPBERRY_PI
+    flashRelay.setval_gpio(ofToString(on));
 #endif
 }
 //--------------------------------------------------------------
