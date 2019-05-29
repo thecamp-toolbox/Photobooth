@@ -96,6 +96,7 @@ public:
     void keyReleased(int key);
     void windowResized(int w, int h);
     void gotMessage(ofMessage msg);
+    void flash(bool on);
     void ledButtons(bool L, bool R);
     void getButtons();
     void resetButtons();
@@ -126,7 +127,7 @@ public:
     LEDs leds;
     
     #ifdef TARGET_RASPBERRY_PI
-    GPIO buttonL, buttonR, ledL, ledR;
+    GPIO buttonL, buttonR, ledL, ledR, flashRelay;
     #endif
     
     enum States {
