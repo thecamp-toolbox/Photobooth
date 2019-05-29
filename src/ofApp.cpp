@@ -17,7 +17,7 @@ void ofApp::setup(){
         ofLoadImage(countdowns[j], ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
         ofLog() << ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
-    //ofLoadImage(frame,   ("/data/BG-simple/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+    ofLoadImage(profilTicket,   ("/data/BG-simple/profil.png"));
     
     //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
     
@@ -78,7 +78,7 @@ void ofApp::update(){
                 settings.save("/data/settings-simple.xml");
                 ofHideCursor();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
-                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+textMargin+textFontSize;
+                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+profilMargin+profilSizeY;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
@@ -234,12 +234,13 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
             
-                    result.draw(ticketMarginXLeft, ticketMarginYTop, sizeTktX, sizeTktY);
+                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -sizeTktX, sizeTktY);
                     ofSetColor(0);
-                    font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
+                    /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
                                     (sizeTktX-80-(profileNames[currentProfile].size())*textFontSize)/2,
-                                    ticketMarginYTop+sizeTktY+textMargin+textFontSize);
+                                    ticketMarginYTop+sizeTktY+textMargin+textFontSize);*/
+                    //profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
                     ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
                 
@@ -543,7 +544,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             bg.draw();
             
-            result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
+            result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
             
             if (buttonRPressed) {
                 resetButtons();
@@ -759,10 +760,10 @@ void ofApp::setupGUI(){
     tickPar.add(ticketMarginYBottom.set("Marge Bas", 100, 0, fboMaxSizeY/5));
     tickPar.add(sizeTktX.set("Largeur", 635, 0, fboMaxSizeX));
     tickPar.add(sizeTktY.set("Hauteur", 635, 0, fboMaxSizeY));
-    tickPar.add(textMargin.set("Marge Y texte", 20, 0, fboMaxSizeY/5));
-    tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
-    tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
-    tickPar.add(textFontSize.set("Taille police", 16, 0, 80));
+    tickPar.add(profilMargin.set("Marge Y texte", 20, 0, fboMaxSizeY/5));
+    //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
+    //tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
+    tickPar.add(profilSizeY.set("Taille police", 16, 0, 80));
     //
     parameters.add(tickPar);
     
