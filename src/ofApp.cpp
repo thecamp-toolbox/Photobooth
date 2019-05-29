@@ -14,12 +14,12 @@ void ofApp::setup(){
     // Loading Images:
     
     for (size_t j = 0; j < nCountdown; ++j){
-        ofLoadImage(countdowns[j], ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
-        ofLog() << ("/data/BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
+        ofLoadImage(countdowns[j], ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
+        ofLog() << ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
-    ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+    //ofLoadImage(frame,   ("/data/BG-simple/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
     
-    //bg.load("/data/BG/"+backgroundFiles[INIT]);
+    //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
     
     ofEnableAlphaBlending();
     
@@ -62,7 +62,8 @@ void ofApp::update(){
             if (PBtimer==1) {
                 bg.next();
                 ofShowCursor();
-                bg.load("/data/BG/"+backgroundFiles[STANDBY]);
+                bg.load("/data/BG-simple/"+backgroundFiles[STANDBY]);
+                ofLoadImage(frame,   ("/data/BG-simple/"+backgroundFiles[FRAME]+".png"));
                 leds.currentAnimation = leds.INIT;
                 font.load( OF_TTF_SANS,30,true,true);
                 ledButtons(1, 1);
@@ -74,7 +75,7 @@ void ofApp::update(){
                 loadCSV();
                 ofLog() << "CSV loaded";
                 ofSerialize(settings,parameters);
-                settings.save("/data/settings.xml");
+                settings.save("/data/settings-simple.xml");
                 ofHideCursor();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
                 ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+textMargin+textFontSize;
@@ -100,7 +101,7 @@ void ofApp::update(){
                 leds.currentAnimation = leds.INIT;
                 bg.next();
                 ofLog() << "STANDBY";
-                bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
+                bg.load("/data/BG-simple/"+backgroundFiles[CAM_CHOICE]);
                 ledButtons(1, 1);
             }
             
@@ -109,7 +110,7 @@ void ofApp::update(){
         case WELCOME: {
             if (PBtimer==1) {
                 ofLog() << "WELCOME";
-                bg.load("/data/BG/"+backgroundFiles[EXPLAIN]);
+                bg.load("/data/BG-simple/"+backgroundFiles[EXPLAIN]);
                 ledButtons(1, 1);
             }
             
@@ -118,7 +119,7 @@ void ofApp::update(){
         case EXPLAIN: {
             if (PBtimer==1) {
                 ofLog() << "EXPLAIN";
-                bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
+                bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
                 ledButtons(1, 1);
             }
             
@@ -150,9 +151,9 @@ void ofApp::update(){
                     }
                 }
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
-                ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
-                ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
-                bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
+                ofLoadImage(profile, ("/data/BG-simple/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(frame,   ("/data/BG-simple/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+                bg.load("/data/BG-simple/"+backgroundFiles[CAM_CHOICE]);
             }
             
             leds.index = float(PBtimer)/float(compileTimer*frameRate);
@@ -175,7 +176,7 @@ void ofApp::update(){
             
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
-                bg.load("/data/BG/" + backgroundFiles[RESULT] + to_string(resultCount+1)+".png");
+                bg.load("/data/BG-simple/" + backgroundFiles[RESULT] + to_string(resultCount+1)+".png");
 
             }
             
@@ -226,7 +227,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ledButtons(0, 0);
                 ofLog() << "PRINTING";
-                bg.load("/data/BG/"+backgroundFiles[BYE]);
+                bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
                 
                 fbo.begin();
                     ofClear(255,255,255, 0);
@@ -276,7 +277,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ledButtons(1, 1);
                 ofLog() << "BYE";
-                bg.load("/data/BG/"+backgroundFiles[STANDBY]);
+                bg.load("/data/BG-simple/"+backgroundFiles[STANDBY]);
             }
             
             break;
@@ -334,7 +335,7 @@ void ofApp::draw(){
             
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
-                currentState = EXPLAIN;
+                currentState = CAM_CHOICE;
                 PBtimer = 0;
                 // reset profile accounts
                 for (size_t j = 0; j < nProfiles; ++j) {
@@ -352,7 +353,7 @@ void ofApp::draw(){
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentQuestion = 0;
-                bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                 leds.currentAnimation = leds.QUESTION;
                 currentState = QUESTION;
                 PBtimer = 0;
@@ -371,12 +372,12 @@ void ofApp::draw(){
                 //bg.next();
                 if (currentQuestion<nQuestions-2) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     ofLog() << "No Choice for Question: " << currentQuestion;
                     bg.next();
                 } else {
                     ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
                     bg.next();
                     leds.currentAnimation = leds.COMPILE;
                     currentQuestion = 0;
@@ -394,11 +395,11 @@ void ofApp::draw(){
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-2) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     bg.next();
                 } else {
                     ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
                     bg.next();
                     leds.currentAnimation = leds.COMPILE;
                     currentQuestion = 0;
@@ -416,11 +417,11 @@ void ofApp::draw(){
                 PBtimer = 0;
                 if (currentQuestion<nQuestions-2) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     bg.next();
                 } else {
                     ledButtons(0, 0);
-                    bg.load("/data/BG/"+backgroundFiles[COMPILING]);
+                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
                     bg.next();
                     leds.currentAnimation = leds.COMPILE;
                     currentQuestion = 0;
@@ -548,18 +549,18 @@ void ofApp::draw(){
                 resetButtons();
                 resultCount++;
                 if (resultCount<3){
-                    bg.load("/data/BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
+                    bg.load("/data/BG-simple/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
                     currentState = COUNTDOWN;
                     
                 } else {
-                    bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                    bg.load("/data/BG-simple/"+backgroundFiles[PRINTING]);
                     bg.next();
                     currentState = PRINTING;
                 }
                 PBtimer = 0;
             }
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed){
-                bg.load("/data/BG/"+backgroundFiles[PRINTING]);
+                bg.load("/data/BG-simple/"+backgroundFiles[PRINTING]);
                 bg.next();
                 resetButtons();
                 currentState = PRINTING;
@@ -635,10 +636,10 @@ void ofApp::keyPressed(int key){
     }
     if(key=='s'){
         ofSerialize(settings,parameters);
-        settings.save("/data/settings.xml");
+        settings.save("/data/settings-simple.xml");
     }
     if(key=='l'){
-        settings.load("/data/settings.xml");
+        settings.load("/data/settings-simple.xml");
         ofDeserialize(settings, parameters);
     }
     //ofLog() << key;
@@ -846,9 +847,9 @@ void ofApp::setupGUI(){
     gui.getGroup("Coordonnees displays").minimize();
     gui.getGroup("Fichiers").getGroup("Questions").minimize();
     
-    gui.loadFromFile("/data/settings.xml");
+    gui.loadFromFile("/data/settings-simple.xml");
     
-    settings.load("/data/settings.xml");
+    settings.load("/data/settings-simple.xml");
     ofDeserialize(settings, parameters);
     
     

@@ -192,10 +192,10 @@ void LEDs::setup_GUI(){
     LEDs.add(numStrips.set("nb de strips", 8, 0, 24));
     LEDs.add(animationBrightness.set ("lum animation", 20, 0, 31));
     LEDs.add(flashBrightness.set("lum flash", 31, 0, 31));
-    /*
-    LEDs.add(loaderLColor.set("couleur loader G", {255, 255, 0, 255}));
-    LEDs.add(loaderRColor.set("couleur loader D", {0, 0, 255, 255}));
     
+    LEDs.add(loaderLColor.set("couleur loader G", {0, 0, 255, 255}));
+    LEDs.add(loaderRColor.set("couleur loader D", {0, 0, 255, 255}));
+    /*
     LEDs.add(profileColor[0].set("couleur profil 1", {255, 255, 255}));
     LEDs.add(profileColor[1].set("couleur profil 2", {255, 255, 255}));
     LEDs.add(profileColor[2].set("couleur profil 3", {255, 255, 255}));
