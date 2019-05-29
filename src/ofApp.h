@@ -66,7 +66,7 @@ public:
     ticketMarginXLeft{10}, ticketMarginXRight{10},
     ticketMarginYTop{10},  ticketMarginYBottom{10},
     sizeTktX{635}, sizeTktY{635},
-    textMargin{20}, textFontSize{15}, textOffsetX{100};
+    profilMargin{20}, profilSizeY{180}, textFontSize{30};
     ofParameter<string> fontName {"sans-serif"};
     
     ofParameterGroup timers;
@@ -188,6 +188,7 @@ public:
     
     ofTexture profile;
     ofTexture frame;
+    ofTexture profilTicket;
     //ofTexture backgrounds[ST_NR];
     //ofTexture questions[nQuestions];
     //ofTexture profiles[nProfiles];
