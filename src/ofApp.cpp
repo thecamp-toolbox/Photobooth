@@ -234,12 +234,13 @@ void ofApp::update(){
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
             
                     result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -sizeTktX, sizeTktY);
-                    ofSetColor(0);
+                    //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
                                     (sizeTktX-80-(profileNames[currentProfile].size())*textFontSize)/2,
                                     ticketMarginYTop+sizeTktY+textMargin+textFontSize);*/
-                    //profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
+                    profilTicket.draw(ticketMarginXLeft, ticketMarginYTop+sizeTktY+profilMargin, sizeTktX, profilSizeY);
+                //ofLog() << "print dim" << ticketMarginXLeft << " /" << ticketMarginYTop+sizeTktY+profilMargin  << " /" << sizeTktX << " /" << profilSizeY;
                     ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 fbo.end();
                 
@@ -260,7 +261,7 @@ void ofApp::update(){
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
-                fileName+=profileNames[currentProfile]+".png";
+                fileName+=".png";
                 ofLog() << "Photo saved as: " << fileName;
                 result.save(photoPath+fileName);
                 
@@ -728,6 +729,7 @@ void ofApp::setupGUI(){
     parameters.setName("Reglages");
     
     event.setName("Evenement");
+    
     event.add(eventName.set("Nom", "VYV-solidarites19"));
     event.add(year.set("Annee", ofFromString<int>(timeStart.substr(0,4)), 2019, 2029));
     event.add(month.set("Mois", ofFromString<int>(timeStart.substr(5,2)), 1, 12));
@@ -757,10 +759,10 @@ void ofApp::setupGUI(){
     tickPar.add(ticketMarginYBottom.set("Marge Bas", 100, 0, fboMaxSizeY/5));
     tickPar.add(sizeTktX.set("Largeur", 635, 0, fboMaxSizeX));
     tickPar.add(sizeTktY.set("Hauteur", 635, 0, fboMaxSizeY));
-    tickPar.add(profilMargin.set("Marge Y texte", 20, 0, fboMaxSizeY/5));
+    tickPar.add(profilMargin.set("Marge Y profil", 20, 0, fboMaxSizeY/5));
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
     //tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
-    tickPar.add(profilSizeY.set("Taille police", 16, 0, 80));
+    tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
     //
     parameters.add(tickPar);
     
