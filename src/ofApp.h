@@ -60,6 +60,18 @@ public:
     posResCamX{1500}, posResCamY{677},
     sizeResCamX{330}, sizeResCamY{330};
     
+    ofParameterGroup countdown;
+    // coordonnées du countdown
+    ofParameter<int>
+    posCDX{860}, posCDY{200},
+    sizeCDX{200}, sizeCDY{200};
+    
+    ofParameterGroup timerPos;
+    // coordonnées du countdown
+    ofParameter<int>
+    posTimerX{860}, posTimerY{200},
+    sizeTimerX{200}, sizeTimerY{200};
+    
     ofParameterGroup tickPar;
     // coordonnées du cadre résultats
     ofParameter<int>
@@ -97,6 +109,7 @@ public:
     void windowResized(int w, int h);
     void gotMessage(ofMessage msg);
     void flash(bool on);
+    void drawTimer(int timer);
     void ledButtons(bool L, bool R);
     void getButtons();
     void resetButtons();
@@ -184,16 +197,15 @@ public:
     static const int nCountdown{5};
     int currentCountdown{0};
     
+    static const int nTimer{12};
+    
     int resultCount{0};
     
     ofTexture profile;
     ofTexture frame;
     ofTexture profilTicket;
-    //ofTexture backgrounds[ST_NR];
-    //ofTexture questions[nQuestions];
-    //ofTexture profiles[nProfiles];
-    //ofTexture frames[nProfiles];
     ofTexture countdowns[nCountdown];
+    ofTexture timerV[nTimer];
     
     int PBtimer{0};
     int maxTimer{20};
