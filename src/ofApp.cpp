@@ -17,6 +17,10 @@ void ofApp::setup(){
         ofLoadImage(countdowns[j], ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
         ofLog() << ("/data/BG-simple/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
     }
+    for (size_t j = 0; j < nTimer; ++j){
+        ofLoadImage(timerV[j], ("/data/BG-simple/timer"+to_string(j+1)+".png"));
+        ofLog() << ("/data/BG-simple/timer"+to_string(j+1)+".png");
+    }
     ofLoadImage(profilTicket,   ("/data/BG-simple/profil.png"));
     
     //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
@@ -501,7 +505,8 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0);
-            countdowns[nCountdown-1-currentCountdown].draw(860, 200, 200,200);
+            countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
+                                                           sizeCDX, sizeCDY);
             
             if (PBtimer>countDownTimer*ofGetFrameRate()){
                 currentCountdown++;
@@ -546,6 +551,8 @@ void ofApp::draw(){
             bg.draw();
             
             result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
+            
+            drawTimer(mainTimer);
             
             if (buttonRPressed) {
                 resetButtons();
@@ -663,6 +670,14 @@ void ofApp::windowResized(int w, int h){
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
 
+}
+
+//--------------------------------------------------------------
+void ofApp::drawTimer(int timer){
+    int index = PBtimer*11/(timer*ofGetFrameRate());
+    if (index > 10) index = 11;
+    timerV[11-index].draw(posTimerX+sizeTimerX, posTimerY,
+                       -sizeTimerX, sizeTimerY);
 }
 
 //--------------------------------------------------------------
@@ -797,10 +812,28 @@ void ofApp::setupGUI(){
     res.add(sizeResCamX.set("taille X", 330, 0, ofGetWidth()));
     res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
     //
+    
+    // coordonnées du countdown
+    countdown.setName("CountDown");
+    countdown.add(posCDX.set("position X", 860, 0, ofGetWidth()));
+    countdown.add(posCDY.set("position Y", 200, 0, ofGetHeight()));
+    countdown.add(sizeCDX.set("taille X", 200, 0, ofGetWidth()));
+    countdown.add(sizeCDY.set("taille Y", 200, 0, ofGetHeight()));
+    //
+    // coordonnées du timer
+    timerPos.setName("Timer");
+    timerPos.add(posTimerX.set("position X", 860, 0, ofGetWidth()));
+    timerPos.add(posTimerY.set("position Y", 200, 0, ofGetHeight()));
+    timerPos.add(sizeTimerX.set("taille X", 200, 0, ofGetWidth()));
+    timerPos.add(sizeTimerY.set("taille Y", 200, 0, ofGetHeight()));
+    //
+    
     coords.add(main);
     coords.add(choiceL);
     coords.add(choiceR);
     coords.add(res);
+    coords.add(countdown);
+    coords.add(timerPos);
     parameters.add(coords);
     
     cams.setup_GUI();
@@ -830,8 +863,8 @@ void ofApp::setupGUI(){
     
     gui.setSize(300, gui.getHeight());
 
-    //gui.getGroup("Evenement").setSize(300, gui.getHeight());
-    //gui.getGroup("Evenement").setWidthElements(300);
+    gui.getGroup("Evenement").setSize(300, gui.getHeight());
+    gui.getGroup("Evenement").setWidthElements(300);
     gui.getGroup("Fichiers").setSize(300, gui.getHeight());
     gui.getGroup("Fichiers").setWidthElements(300);
     gui.getGroup("Ticket").setSize(300, gui.getHeight());
