@@ -57,14 +57,16 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    PBtimer++;
+    if (GUIhide) PBtimer++;
     getButtons();
     switch (currentState) {
         case INIT: {
+            PBtimer++;
             if (PBtimer%5==0)
                 cams.update_all();
             if (PBtimer==1) {
                 bg.next();
+                GUIhide = 0;
                 ofShowCursor();
                 bg.load("/data/BG/"+backgroundFiles[STANDBY]);
                 leds.currentAnimation = leds.INIT;
@@ -93,8 +95,7 @@ void ofApp::update(){
                 Poco::LocalDateTime nowLocal(now);
                 
                 //timeOffset =  setTime.timestamp() - nowLocal.timestamp();
-                
-                
+
             }
      
             break;
@@ -305,7 +306,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
-            gui.draw();
+            // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             ofSetColor(250, 250, 0, 250);
             font.drawString("<- changer le nom de l'événement, la date et l'heure ci-contre" ,350, 80);
@@ -618,6 +619,10 @@ void ofApp::draw(){
         font.drawString(ofToString(int(ofGetFrameRate())) + " fps", 1700, 80);
         ofSetColor(255, 255, 255, 255);
     }
+    
+    if (!GUIhide) {
+        gui.draw();
+    }
 }
 
 //--------------------------------------------------------------
@@ -627,9 +632,13 @@ void ofApp::exit(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if (key == 13) {
+    if (key == 32) {
         GUIhide = !GUIhide;
-        if (GUIhide) ofHideCursor();
+        if (GUIhide) {
+            ofHideCursor();
+            ofSerialize(settings,parameters);
+            settings.save("/data/settings-simple.xml");
+        }
         else         ofShowCursor();
     }
     else if (key == 57356 && keyLreleased ) {

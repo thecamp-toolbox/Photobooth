@@ -123,7 +123,7 @@ public:
     
     ofxPanel gui;
     ofParameterGroup parameters;
-    bool GUIhide{1};
+    bool GUIhide{0};
     ofXml settings;
     
     Cameras cams;
@@ -236,6 +236,5 @@ public:
     
     Poco::DateTime setTime;
     ofxTime::Period timeOffset;
-    
     
 };
