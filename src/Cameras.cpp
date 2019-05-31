@@ -11,9 +11,6 @@ void Cameras::setup(){
     //___________________________
     // Camera setup
     
-    BCSA_B.load("bcsa");
-    BCSA_T.load("bcsa");
-    
     vector<ofVideoDevice> devices = USBCam.listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) {
@@ -75,66 +72,13 @@ void Cameras::update_all(){
 }
 
 void Cameras::draw_one(float x, float y, float w, float h){
-    if (current) {
-        if (brightnessB!=1&&contrastB!=1){
-            ofTexture& videoTexture1 = USBCam.getTexture();
-            BCSA_B.begin();
-            ofClear(0,0,0);
-            BCSA_B.begin();
-            BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-            BCSA_B.setUniform1f("brightness", brightnessT);
-            BCSA_B.setUniform1f("contrast", contrastT);
-            BCSA_B.setUniform1f("saturation", 0);
-            BCSA_B.setUniform1f("alpha", 1.);
-            BCSA_B.setUniformTexture("image", videoTexture1,1);
-            videoTexture1.draw(x+w, y, -w, h);
-            BCSA_B.end();
-        }
-        else USBCam.draw(x+w, y, -w, h);
-    }
-    else {
-        BCSA_T.begin();
-        ofClear(0,0,0);
-        BCSA_T.begin();
-        BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
-        BCSA_T.setUniform1f("brightness", brightnessT);
-        BCSA_T.setUniform1f("contrast", contrastT);
-        BCSA_T.setUniform1f("saturation", 0);
-        BCSA_T.setUniform1f("alpha", 1.);
-        BCSA_T.setUniformTexture("image", texPicam,1);
-        texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
-        BCSA_T.end();
-    }
+    if (current) USBCam.draw(x+w, y, -w, h);
+    else texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 }
 
 void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
-    if (brightnessB!=1&&contrastB!=1){
-        ofTexture& videoTexture1 = USBCam.getTexture();
-        BCSA_B.begin();
-        ofClear(0,0,0);
-        BCSA_B.begin();
-        BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-        BCSA_B.setUniform1f("brightness", brightnessT);
-        BCSA_B.setUniform1f("contrast", contrastT);
-        BCSA_B.setUniform1f("saturation", 0);
-        BCSA_B.setUniform1f("alpha", 1.);
-        BCSA_B.setUniformTexture("image", videoTexture1,1);
-        videoTexture1.draw(x1+w1, y1, -w1, h1);
-        BCSA_B.end();
-    }
-    else USBCam.draw(x1+w1, y1, -w1, h1);
-    
-    BCSA_T.begin();
-    ofClear(0,0,0);
-    BCSA_T.begin();
-    BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
-    BCSA_T.setUniform1f("brightness", brightnessT);
-    BCSA_T.setUniform1f("contrast", contrastT);
-    BCSA_T.setUniform1f("saturation", 0);
-    BCSA_T.setUniform1f("alpha", 1.);
-    BCSA_T.setUniformTexture("image", texPicam,1);
+    USBCam.draw(x1+w1, y1, -w1, h1);
     texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
-    BCSA_T.end();
 }
 
 void Cameras::setup_GUI(){
@@ -144,10 +88,6 @@ void Cameras::setup_GUI(){
     cameras.add(camYOffset.set("crop offset Y", 120, 0, maxCamH));
     cameras.add(camXsize.set ("crop largeur", 640, 0, maxCamW));
     cameras.add(camYsize.set("crop hauteur", 480, 0, maxCamH));
-    cameras.add(brightnessT.set("luminosité cam Ht", 2, 0, 4));
-    cameras.add(contrastT.set("contraste cam Ht", 2, 0, 4));
-    cameras.add(brightnessB.set("luminosité cam Bas", 1, 0, 4));
-    cameras.add(contrastB.set("contraste cam Bas", 1, 0, 4));
 
 }
 

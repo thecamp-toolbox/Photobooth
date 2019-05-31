@@ -23,10 +23,6 @@ public:
     camXOffset{320}, camYOffset{120},
     camXsize{640}, camYsize{480};
     
-    ofParameter<float>
-    brightnessT{2}, contrastT{2},
-    brightnessB{1}, contrastB{1};
-    
     void setup();
     void setup_GUI();
     void update_one();
@@ -44,8 +40,6 @@ public:
     ofVideoGrabber piCam;
     int piCamNr{1};
 #endif
-    
-    ofShader BCSA_B, BCSA_T;
     
     ofTexture texPicam;
     
