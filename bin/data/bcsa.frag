@@ -2,8 +2,10 @@
 
 const vec3 LumCoeff = vec3 (0.2125, 0.7154, 0.0721);
 
-varying vec2 texcoord;  
-uniform sampler2DRect image;  
+varying vec2 texcoord0;
+uniform sampler2D   tex0;
+
+uniform vec2        resolution;
 
 uniform vec3 avgluma;  
 uniform float saturation;  
@@ -13,7 +15,7 @@ uniform float alpha;
 
 void main (void)  
 {  
-	vec3 texColor  	= texture2DRect(image, texcoord).rgb;  
+	vec3 texColor  	= texture2D(tex0, texcoord0).rgb;
 	vec3 intensity 	= vec3 (dot(texColor, LumCoeff));  
 	vec3 color     	= mix(intensity, texColor, saturation);  
 	color          	= mix(avgluma, color, contrast);  

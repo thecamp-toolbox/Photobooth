@@ -46,7 +46,7 @@ public:
 #endif
     
     ofShader BCSA_B, BCSA_T;
-    
+    ofFbo    fboB, fboT;
     ofTexture texPicam;
     
     bool current{0};

@@ -11,8 +11,8 @@ void Cameras::setup(){
     //___________________________
     // Camera setup
     
-    BCSA_B.load("bcsa");
-    BCSA_T.load("bcsa");
+    BCSA_B.load("shaderExample");
+    BCSA_T.load("shaderExample");
     
     vector<ofVideoDevice> devices = USBCam.listDevices();
     ofLog() << "Cameras: " ;
@@ -50,6 +50,9 @@ void Cameras::setup(){
     ofLog() << "size 2: " << piCam.getWidth() << " / " << piCam.getHeight();
 #endif
     
+    fboB.allocate(640, 480);
+    fboT.allocate(1280, 720);
+    
 }
 
 void Cameras::update_one(){
@@ -80,13 +83,13 @@ void Cameras::draw_one(float x, float y, float w, float h){
             ofTexture& videoTexture1 = USBCam.getTexture();
             BCSA_B.begin();
             ofClear(0,0,0);
-            BCSA_B.begin();
             BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-            BCSA_B.setUniform1f("brightness", brightnessT);
-            BCSA_B.setUniform1f("contrast", contrastT);
+            BCSA_B.setUniform1f("brightness", brightnessB);
+            BCSA_B.setUniform1f("contrast", contrastB);
             BCSA_B.setUniform1f("saturation", 0);
             BCSA_B.setUniform1f("alpha", 1.);
-            BCSA_B.setUniformTexture("image", videoTexture1,1);
+            BCSA_B.setUniform2f("resolution", w, h);
+            BCSA_B.setUniformTexture("tex0", videoTexture1, 0);
             videoTexture1.draw(x+w, y, -w, h);
             BCSA_B.end();
         }
@@ -95,13 +98,14 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
-        BCSA_T.begin();
         BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
-        BCSA_T.setUniformTexture("image", texPicam,1);
+        BCSA_T.setUniform2f("resolution", w, h);
+        BCSA_T.setUniformTexture("tex0", texPicam,0);
+        //piCam.draw(x, y+h, w, -h);
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
         BCSA_T.end();
     }
@@ -112,27 +116,34 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
         ofTexture& videoTexture1 = USBCam.getTexture();
         BCSA_B.begin();
         ofClear(0,0,0);
-        BCSA_B.begin();
+        BCSA_B.setUniformTexture("tex0", videoTexture1, 0);
+        BCSA_B.setUniform1f("time", ofGetElapsedTimef());
+        BCSA_B.setUniform2f("resolution", ofGetWidth(), ofGetHeight());
+        /*
         BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-        BCSA_B.setUniform1f("brightness", brightnessT);
-        BCSA_B.setUniform1f("contrast", contrastT);
+        BCSA_B.setUniform1f("brightness", brightnessB);
+        BCSA_B.setUniform1f("contrast", contrastB);
         BCSA_B.setUniform1f("saturation", 0);
         BCSA_B.setUniform1f("alpha", 1.);
-        BCSA_B.setUniformTexture("image", videoTexture1,1);
+        BCSA_B.setUniform2f("resolution", w1, h1);
+        BCSA_B.setUniformTexture("tex0", videoTexture1,0);
+         */
         videoTexture1.draw(x1+w1, y1, -w1, h1);
         BCSA_B.end();
     }
     else USBCam.draw(x1+w1, y1, -w1, h1);
-    
     BCSA_T.begin();
     ofClear(0,0,0);
-    BCSA_T.begin();
-    BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
+    BCSA_T.setUniformTexture("tex0", texPicam, 0);
+    BCSA_T.setUniform1f("time", ofGetElapsedTimef());
+    BCSA_T.setUniform2f("resolution", ofGetWidth(), ofGetHeight());
+    /*BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
     BCSA_T.setUniform1f("brightness", brightnessT);
     BCSA_T.setUniform1f("contrast", contrastT);
     BCSA_T.setUniform1f("saturation", 0);
     BCSA_T.setUniform1f("alpha", 1.);
-    BCSA_T.setUniformTexture("image", texPicam,1);
+    BCSA_T.setUniformTexture("tex0", texPicam,0);
+    BCSA_T.setUniform2f("resolution", w2, h2);*/
     texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
     BCSA_T.end();
 }
