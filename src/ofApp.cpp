@@ -82,6 +82,7 @@ void ofApp::update(){
                 ofSerialize(settings,parameters);
                 settings.save("/data/settings.xml");
                 GUIhide = 1;
+                ofHideCursor();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
                 ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+profilMargin+profilSizeY;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
