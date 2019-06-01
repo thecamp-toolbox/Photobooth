@@ -21,7 +21,6 @@ void ofApp::setup(){
         ofLoadImage(timerV[j], ("/data/BG-simple/timer"+to_string(j+1)+".png"));
         ofLog() << ("/data/BG-simple/timer"+to_string(j+1)+".png");
     }
-    ofLoadImage(profilTicket,   ("/data/BG-simple/profil.png"));
     
     //bg.load("/data/BG/"+backgroundFiles[INIT]);
     
@@ -159,6 +158,7 @@ void ofApp::update(){
                 ofLog() << "Profil choisi: " << profileNames[currentProfile];
                 ofLoadImage(profile, ("/data/BG/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
                 ofLoadImage(frame,   ("/data/BG/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
+                ofLoadImage(profilTicket,   ("/data/BG/profil"+to_string(currentProfile+1)+".png"));
                 bg.load("/data/BG/"+backgroundFiles[CAM_CHOICE]);
             }
             
