@@ -133,6 +133,7 @@ void ofApp::update(){
             if (PBtimer==1) {
                 ledButtons(1, 1);
                 ofLog() << "QUESTION #" << currentQuestion+1;
+                bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
             }
             
             leds.index = float(PBtimer)/float(questionTimer*frameRate);
@@ -359,11 +360,11 @@ void ofApp::draw(){
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentQuestion = 0;
+                bg.next();
                 bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                 leds.currentAnimation = leds.QUESTION;
                 currentState = QUESTION;
                 PBtimer = 0;
-                bg.next();
             }
             break;
         }
@@ -376,9 +377,9 @@ void ofApp::draw(){
                 resetButtons();
                 PBtimer = 0;
                 //bg.next();
-                if (currentQuestion<nQuestions-2) {
+                if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    //bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     ofLog() << "No Choice for Question: " << currentQuestion;
                     bg.next();
                 } else {
@@ -399,9 +400,9 @@ void ofApp::draw(){
                     profileCounts[i]+=score*weightsL[currentQuestion][i];
                 }
                 PBtimer = 0;
-                if (currentQuestion<nQuestions-2) {
+                if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    //bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     bg.next();
                 } else {
                     ledButtons(0, 0);
@@ -421,9 +422,9 @@ void ofApp::draw(){
                     profileCounts[i]+=score*weightsR[currentQuestion][i];
                 }
                 PBtimer = 0;
-                if (currentQuestion<nQuestions-2) {
+                if (currentQuestion<nQuestions-1) {
                     currentQuestion++;
-                    bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
+                    //bg.load("/data/BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
                     bg.next();
                 } else {
                     ledButtons(0, 0);
