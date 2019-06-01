@@ -1,4 +1,4 @@
-precision highp float; // this will make the default precision high
+//precision highp float; // this will make the default precision high
 
 //we passed this in from our vert shader
 varying vec2        texcoord0;
@@ -9,11 +9,6 @@ varying vec2        texcoord0;
 //passed in by
 //shader.setUniformTexture("tex0", sourceImage.getTextureReference(), sourceImage.getTextureReference().texData.textureID);
 uniform sampler2D   image;
-
-//width and height that we are working with
-//passed in by
-//shader.setUniform2f("resolution", ofGetWidth(), ofGetHeight());
-uniform vec2        resolution;
 
 const vec3 LumCoeff = vec3 (0.2125, 0.7154, 0.0721);
 
