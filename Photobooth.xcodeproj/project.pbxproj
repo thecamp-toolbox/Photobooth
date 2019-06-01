@@ -157,6 +157,10 @@
 		AE9C89F270782B85763A3554 /* Period.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Period.cpp; path = ../../../addons/ofxTime/libs/ofxTime/src/Period.cpp; sourceTree = SOURCE_ROOT; };
 		AF53C1FCB4DC2DA249C71CE4 /* asn1t.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = asn1t.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/asn1t.h; sourceTree = SOURCE_ROOT; };
 		B0F374B365CBB258CF1E2D99 /* ofxRPiCameraVideoGrabber.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxRPiCameraVideoGrabber.cpp; path = ../../../addons/ofxRPiCameraVideoGrabber/src/ofxRPiCameraVideoGrabber.cpp; sourceTree = SOURCE_ROOT; };
+		B12469C922A27741008CCC8D /* bcsa-Pi.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Pi.vert"; sourceTree = "<group>"; };
+		B12469CA22A27741008CCC8D /* bcsa-Mac.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Mac.frag"; sourceTree = "<group>"; };
+		B12469CB22A27741008CCC8D /* bcsa-Pi.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Pi.frag"; sourceTree = "<group>"; };
+		B12469CC22A27741008CCC8D /* bcsa-Mac.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Mac.vert"; sourceTree = "<group>"; };
 		B1CC96657896D2F948104F3D /* seed.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = seed.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/seed.h; sourceTree = SOURCE_ROOT; };
 		B2D9BED8F594CFBBD0821E7E /* mdc2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = mdc2.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/mdc2.h; sourceTree = SOURCE_ROOT; };
 		B3F27E813E1250126AA46F39 /* stack.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = stack.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/stack.h; sourceTree = SOURCE_ROOT; };
@@ -665,6 +669,18 @@
 			name = ofxRPiCameraVideoGrabber;
 			sourceTree = "<group>";
 		};
+		B12469C822A27741008CCC8D /* data */ = {
+			isa = PBXGroup;
+			children = (
+				B12469C922A27741008CCC8D /* bcsa-Pi.vert */,
+				B12469CB22A27741008CCC8D /* bcsa-Pi.frag */,
+				B12469CC22A27741008CCC8D /* bcsa-Mac.vert */,
+				B12469CA22A27741008CCC8D /* bcsa-Mac.frag */,
+			);
+			name = data;
+			path = bin/data;
+			sourceTree = "<group>";
+		};
 		B2C98B62869583DB9FE30DA7 /* openssl */ = {
 			isa = PBXGroup;
 			children = (
@@ -997,6 +1013,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				B12469C822A27741008CCC8D /* data */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,

@@ -11,9 +11,13 @@ void Cameras::setup(){
     //___________________________
     // Camera setup
     
-    BCSA_B.load("bcsa");
-    BCSA_T.load("bcsa");
-    
+#ifdef TARGET_RASPBERRY_PI
+    BCSA_B.load("bcsa-Pi");
+    BCSA_T.load("bcsa-Pi");
+#else
+    BCSA_B.load("bcsa-Mac");
+    BCSA_T.load("bcsa-Mac");
+ #endif
     vector<ofVideoDevice> devices = USBCam.listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) {
