@@ -30,7 +30,6 @@ void Cameras::setup(){
         #endif
     }
     nCams = devices.size();
-    if (nCams<2) { USBCamNr = 0; piCamNr = 0;}
     ofLog() << "nombre de caméras: " << nCams;
     
     ofLog() << " Setup Cam 1 (USB) with Device#" << USBCamNr;
@@ -47,6 +46,7 @@ void Cameras::setup(){
     
     piCam.setup(omxCameraSettings);
 #else
+    if (nCams<2) { USBCamNr = 0; piCamNr = 0;}
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
     piCam.setDeviceID(piCamNr);
     piCam.setDesiredFrameRate(30);
