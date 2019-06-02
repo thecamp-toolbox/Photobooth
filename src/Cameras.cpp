@@ -46,7 +46,7 @@ void Cameras::setup(){
     
     piCam.setup(omxCameraSettings);
 #else
-    if (nCams<2) { USBCamNr = 0; piCamNr = 0;}
+    
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
     piCam.setDeviceID(piCamNr);
     piCam.setDesiredFrameRate(30);
@@ -120,7 +120,7 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
         BCSA_B.setUniform1f("contrast", contrastT);
         BCSA_B.setUniform1f("saturation", 0);
         BCSA_B.setUniform1f("alpha", 1.);
-        BCSA_B.setUniformTexture("image", videoTexture1,0);
+        BCSA_B.setUniformTexture("image", videoTexture1,1);
         videoTexture1.draw(x1+w1, y1, -w1, h1);
         BCSA_B.end();
     }
