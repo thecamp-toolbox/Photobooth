@@ -21,9 +21,17 @@ void Cameras::setup(){
     vector<ofVideoDevice> devices = USBCam.listDevices();
     ofLog() << "Cameras: " ;
     for (auto& c : devices) {
-        ofLog() << c.deviceName << " / ID: " << c.id;
+        if(c.bAvailable){
+            //log the device
+            ofLogNotice() << c.id << ": " << c.deviceName;
+        }else{
+            //log the device and note it as unavailable
+            ofLogNotice() << c.id << ": " << c.deviceName << " - unavailable ";
+        }
+        //ofLog() << c.deviceName << " / ID: " << c.id;
         nCams++;
         #ifdef TARGET_RASPBERRY_PI
+        USBCamNr = 0;
         #else
         if (c.deviceName.find("FaceTime") == 0) piCamNr = c.id;
         else USBCamNr = c.id;
@@ -34,7 +42,7 @@ void Cameras::setup(){
     
     ofLog() << " Setup Cam 1 (USB) with Device#" << USBCamNr;
     USBCam.setDeviceID(USBCamNr);
-    USBCam.setDesiredFrameRate(30);
+    USBCam.setDesiredFrameRate(60);
     USBCam.setPixelFormat(OF_PIXELS_GRAY);
     USBCam.initGrabber(640, 480);
     ofLog() << "size 1: " << USBCam.getWidth() << " / " << USBCam.getHeight();
@@ -86,8 +94,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
             BCSA_B.begin();
             ofClear(0,0,0);
             BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-            BCSA_B.setUniform1f("brightness", brightnessT);
-            BCSA_B.setUniform1f("contrast", contrastT);
+            BCSA_B.setUniform1f("brightness", brightnessB);
+            BCSA_B.setUniform1f("contrast", contrastB);
             BCSA_B.setUniform1f("saturation", 0);
             BCSA_B.setUniform1f("alpha", 1.);
             BCSA_B.setUniformTexture("image", videoTexture1,1);
@@ -111,20 +119,6 @@ void Cameras::draw_one(float x, float y, float w, float h){
 }
 
 void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
-    if (brightnessB!=1&&contrastB!=1){
-        ofTexture& videoTexture1 = USBCam.getTexture();
-        BCSA_B.begin();
-        ofClear(0,0,0);
-        BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
-        BCSA_B.setUniform1f("brightness", brightnessT);
-        BCSA_B.setUniform1f("contrast", contrastT);
-        BCSA_B.setUniform1f("saturation", 0);
-        BCSA_B.setUniform1f("alpha", 1.);
-        BCSA_B.setUniformTexture("image", videoTexture1,1);
-        videoTexture1.draw(x1+w1, y1, -w1, h1);
-        BCSA_B.end();
-    }
-    else USBCam.draw(x1+w1, y1, -w1, h1);
     
     BCSA_T.begin();
     ofClear(0,0,0);
@@ -136,6 +130,21 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
     BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
     texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
     BCSA_T.end();
+
+    if (brightnessB!=1&&contrastB!=1){
+        ofTexture& videoTexture2 = USBCam.getTexture();
+        BCSA_B.begin();
+        ofClear(0,0,0);
+        BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
+        BCSA_B.setUniform1f("brightness", brightnessT);
+        BCSA_B.setUniform1f("contrast", contrastT);
+        BCSA_B.setUniform1f("saturation", 0);
+        BCSA_B.setUniform1f("alpha", 1.);
+        BCSA_B.setUniformTexture("image", videoTexture2,1);
+        videoTexture2.draw(x1+w1, y1, -w1, h1);
+        BCSA_B.end();
+    }
+    else USBCam.draw(x1+w1, y1, -w1, h1);
 }
 
 void Cameras::setup_GUI(){
@@ -145,10 +154,10 @@ void Cameras::setup_GUI(){
     cameras.add(camYOffset.set("crop offset Y", 120, 0, maxCamH));
     cameras.add(camXsize.set ("crop largeur", 640, 0, maxCamW));
     cameras.add(camYsize.set("crop hauteur", 480, 0, maxCamH));
-    cameras.add(brightnessT.set("luminosité cam Ht", 2, 0, 4));
+    cameras.add(brightnessT.set("luminosite cam Ht", 2, 0, 4));
     cameras.add(contrastT.set("contraste cam Ht", 2, 0, 4));
-    cameras.add(brightnessB.set("luminosité cam Bas", 1, 0, 4));
-    cameras.add(contrastB.set("contraste cam Bas", 1, 0, 4));
+    cameras.add(brightnessB.set("luminosite cam Bas", 1.2, 0, 4));
+    cameras.add(contrastB.set("contraste cam Bas", 1.2, 0, 4));
 
 }
 

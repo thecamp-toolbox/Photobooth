@@ -307,6 +307,7 @@ void ofApp::draw(){
         case INIT: {
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
+            //ofLog() << "coords: " << posLCamX << " / " << posLCamY << " / " << sizeLCamX << " / " << sizeLCamY << " / " << posRCamX << " / " << posRCamY << " / " << sizeRCamX << " / " << sizeRCamY;
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
@@ -443,7 +444,7 @@ void ofApp::draw(){
             bg.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             
-            if (PBtimer>compileTimer*ofGetFrameRate()){
+            if (PBtimer>compileTimer*frameRate){
                 bg.next();
                 currentState = PROFILE;
                 resetButtons();
@@ -767,10 +768,10 @@ void ofApp::setupGUI(){
     
     files.setName("Fichiers");
     //
-    files.add(logToFile.set("Log/fichier", 1));
+    files.add(logToFile.set("Log/fichier", 0));
     //
     questionsFile.setName("Questions");
-    questionsFile.add(weightsFilePath.set("Chemin", "questions+.csv"));
+    questionsFile.add(weightsFilePath.set("Chemin", "questions.csv"));
     questionsFile.add(weightsCSVcolOffset.set("Col offset", 2, 0, 10));
     //
     files.add(questionsFile);
@@ -795,30 +796,30 @@ void ofApp::setupGUI(){
     coords.setName("Coordonnees displays");
     // coordonnées du cadre principal
     main.setName("Principal");
-    main.add(posMainCamX.set("position X", 493, 0, ofGetWidth()));
-    main.add(posMainCamY.set("position Y", 73, 0, ofGetHeight()));
+    main.add(posMainCamX.set("position X", 547, 0, ofGetWidth()));
+    main.add(posMainCamY.set("position Y", 127, 0, ofGetHeight()));
     main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
     main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
     
     // coordonnées du cadre choix gauche
     choiceL.setName("Choix gauche");
-    choiceL.add(posLCamX.set("position X", 1500, 0, ofGetWidth()));
-    choiceL.add(posLCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceL.add(sizeLCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceL.add(sizeLCamY.set("taille Y", 330, 0, ofGetHeight()));
+    choiceL.add(posLCamX.set("position X", 327, 0, ofGetWidth()));
+    choiceL.add(posLCamY.set("position Y", 357, 0, ofGetHeight()));
+    choiceL.add(sizeLCamX.set("taille X", 519, 0, ofGetWidth()));
+    choiceL.add(sizeLCamY.set("taille Y", 519, 0, ofGetHeight()));
     // coordonnées du cadre choix droit
     choiceR.setName("Choix droit");
-    choiceR.add(posRCamX.set("position X", 1500, 0, ofGetWidth()));
-    choiceR.add(posRCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 330, 0, ofGetHeight()));
+    choiceR.add(posRCamX.set("position X", 1073, 0, ofGetWidth()));
+    choiceR.add(posRCamY.set("position Y", 357, 0, ofGetHeight()));
+    choiceR.add(sizeRCamX.set("taille X", 519, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 519, 0, ofGetHeight()));
     
     // coordonnées du cadre résultat
     res.setName("Resultat");
-    res.add(posResCamX.set("position X", 1500, 0, ofGetWidth()));
-    res.add(posResCamY.set("position Y", 677, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 330, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
+    res.add(posResCamX.set("position X", 686, 0, ofGetWidth()));
+    res.add(posResCamY.set("position Y", 279, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 548, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 548, 0, ofGetHeight()));
     //
     
     // coordonnées du countdown
@@ -910,19 +911,23 @@ void ofApp::setupGUI(){
 //--------------------------------------------------------------
 void ofApp::loadCSV(){
     
+    ofLog() << "log to File";
     if (logToFile){
         string logPath = eventName;
         ofLogToFile("/data/logs/"+logPath+".txt", true);
     }
     
+    ofLog() << "load CSV";
     // Load a CSV File for profiles weights for questions
     string csvPath = weightsFilePath;
     csv.load(ofToDataPath("/data/"+csvPath));
     ofLog() << '\n';
     
+    ofLog() << "profiles";
     for(int j=0; j<nProfiles; j++) {
         profileNames[j] = csv[0][j+weightsCSVcolOffset];
     }
+    ofLog() << "profiles";
     // Print out all rows and cols.
     for(int i=0; i<nQuestions; i++) {
         ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv[i*2+1][1] << " / " << csv[i*2+2][1] << " : ";
