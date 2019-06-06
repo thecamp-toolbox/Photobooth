@@ -6,7 +6,7 @@
 		<Mois>6</Mois>
 		<Jour>6</Jour>
 		<Heure>19</Heure>
-		<Minute>14</Minute>
+		<Minute>37</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>0</Log_fichier>
@@ -66,7 +66,7 @@
 	<Timers>
 		<FPS>20</FPS>
 		<Defaut>3.02041</Defaut>
-		<Compilation>2.34694</Compilation>
+		<Compilation>8.34694</Compilation>
 		<profil>4.59184</profil>
 		<flash>0.510204</flash>
 		<countdown>0.102041</countdown>
