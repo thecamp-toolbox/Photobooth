@@ -6,7 +6,7 @@
 		<Mois>6</Mois>
 		<Jour>7</Jour>
 		<Heure>10</Heure>
-		<Minute>7</Minute>
+		<Minute>37</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>0</Log_fichier>
@@ -65,10 +65,10 @@
 	</Cameras>
 	<Timers>
 		<FPS>20</FPS>
-		<Defaut>3.02041</Defaut>
+		<Defaut>6.02041</Defaut>
 		<Compilation>8.34694</Compilation>
 		<profil>4.59184</profil>
-		<flash>0.510204</flash>
+		<flash>0.210204</flash>
 		<countdown>0.502041</countdown>
 		<Print>2.95918</Print>
 		<question>4.59184</question>

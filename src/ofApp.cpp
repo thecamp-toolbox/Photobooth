@@ -359,6 +359,8 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             bg.draw();
             
+            drawTimer(mainTimer);
+            
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentQuestion = 0;
@@ -373,6 +375,9 @@ void ofApp::draw(){
         case QUESTION:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
+            
+            drawTimer(questionTimer);
+            
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             
             if (PBtimer>questionTimer*ofGetFrameRate()) {
@@ -555,7 +560,7 @@ void ofApp::draw(){
             
             result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
             
-            drawTimer(mainTimer);
+            //drawTimer(mainTimer);
             
             if (buttonRPressed) {
                 resetButtons();

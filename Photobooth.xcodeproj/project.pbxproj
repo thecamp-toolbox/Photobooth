@@ -161,6 +161,7 @@
 		B12469CA22A27741008CCC8D /* bcsa-Mac.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Mac.frag"; sourceTree = "<group>"; };
 		B12469CB22A27741008CCC8D /* bcsa-Pi.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Pi.frag"; sourceTree = "<group>"; };
 		B12469CC22A27741008CCC8D /* bcsa-Mac.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = "bcsa-Mac.vert"; sourceTree = "<group>"; };
+		B12469CD22AA598F008CCC8D /* settings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = settings.xml; path = bin/data/settings.xml; sourceTree = SOURCE_ROOT; };
 		B1CC96657896D2F948104F3D /* seed.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = seed.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/seed.h; sourceTree = SOURCE_ROOT; };
 		B2D9BED8F594CFBBD0821E7E /* mdc2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = mdc2.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/mdc2.h; sourceTree = SOURCE_ROOT; };
 		B3F27E813E1250126AA46F39 /* stack.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = stack.h; path = ../../../addons/ofxPoco/libs/openssl/include/openssl/stack.h; sourceTree = SOURCE_ROOT; };
@@ -1029,6 +1030,7 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				B12469CD22AA598F008CCC8D /* settings.xml */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				72620C1C17832464B7BCEA47 /* Cameras.hpp */,
 				693B8D8EF4FAF02EA2D7DBB7 /* Background.hpp */,
