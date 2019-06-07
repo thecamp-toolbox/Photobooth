@@ -6,7 +6,7 @@
 		<Mois>6</Mois>
 		<Jour>7</Jour>
 		<Heure>11</Heure>
-		<Minute>52</Minute>
+		<Minute>54</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>0</Log_fichier>
@@ -47,10 +47,10 @@
 			<taille_Y>200</taille_Y>
 		</CountDown>
 		<Timer>
-			<position_X>860</position_X>
-			<position_Y>200</position_Y>
-			<taille_X>200</taille_X>
-			<taille_Y>200</taille_Y>
+			<position_X>910</position_X>
+			<position_Y>250</position_Y>
+			<taille_X>100</taille_X>
+			<taille_Y>100</taille_Y>
 		</Timer>
 	</Coordonnees_displays>
 	<Cameras>
