@@ -242,7 +242,7 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
             
-                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -sizeTktX, sizeTktY);
+                    result.draw(ticketMarginXRight, ticketMarginYTop, sizeTktX-ticketMarginXRight- ticketMarginXLeft, sizeTktY);
                     //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
@@ -335,7 +335,7 @@ void ofApp::draw(){
             
             font.drawString( timeNow ,450, 210);
             ofSetColor(250, 250, 0, 250);
-            font.drawString("appuyer sur un des boutons pour lancer l'application" ,350, 280);
+            font.drawString("appuyer (longuement) sur un des boutons pour lancer l'application" ,350, 280);
             ofSetColor(255, 255, 255, 255);
             
             break;
@@ -476,7 +476,8 @@ void ofApp::draw(){
         case CAM_CHOICE: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
-             bg.draw();
+            bg.draw();
+            drawTimer(mainTimer);
             
             if (buttonRPressed) {
                 //bg.next();
@@ -504,7 +505,7 @@ void ofApp::draw(){
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0, 1920, 1080);
             
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+            if (PBtimer>frameTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 
                 resetButtons();
                 currentState = COUNTDOWN;
@@ -545,7 +546,7 @@ void ofApp::draw(){
             
             if (PBtimer>flashTimer*ofGetFrameRate()){
                 //if (PBtimer==2){
-                result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+                result.grabScreen(posMainCamX+2, posMainCamY+2, sizeMainCamX-4, sizeMainCamY-4);
                 //}
                 bg.next();
                 resetButtons();
@@ -560,9 +561,10 @@ void ofApp::draw(){
         case RESULT: {
             
             ofSetColor(255, 255, 255, 255);
-            bg.draw();
             
-            result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
+            result.draw(posResCamX+sizeResCamX+10, posResCamY+2, -sizeResCamX-8, sizeResCamY+2);
+            
+            bg.draw();
             
             //drawTimer(mainTimer);
             
@@ -871,6 +873,7 @@ void ofApp::setupGUI(){
     timers.add(flashTimer.set("flash",  4, 0, maxTimer));
     timers.add(countDownTimer.set("countdown",  0.5, 0, maxTimer));
     timers.add(printingTimer.set("Print",  4, 0, maxTimer));
+    timers.add(frameTimer.set("Frame",  2, 0, maxTimer));
     timers.add(questionTimer.set("question",  5, 0, maxTimer));
     timers.add(drawFps.set("Draw FPS", 0));
     //timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));

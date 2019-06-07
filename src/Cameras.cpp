@@ -99,7 +99,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
             BCSA_B.setUniform1f("saturation", 0);
             BCSA_B.setUniform1f("alpha", 1.);
             BCSA_B.setUniformTexture("image", videoTexture1,1);
-            videoTexture1.draw(x+w, y, -w, h);
+            videoTexture1.drawSubsection(x+w, y, -w, h, (w-h)/2, 0, h, h );
             BCSA_B.end();
         }
         else USBCam.draw(x+w, y, -w, h);

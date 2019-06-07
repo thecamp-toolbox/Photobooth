@@ -90,6 +90,7 @@ public:
                         flashTimer{120},
                         countDownTimer{30},
                         printingTimer{120},
+                        frameTimer{120},
                         questionTimer{133};
     
     ofParameter<bool> drawFps;
