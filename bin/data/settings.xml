@@ -4,9 +4,9 @@
 		<Nom>VYV-solidarites19</Nom>
 		<Annee>2019</Annee>
 		<Mois>6</Mois>
-		<Jour>6</Jour>
-		<Heure>21</Heure>
-		<Minute>2</Minute>
+		<Jour>7</Jour>
+		<Heure>10</Heure>
+		<Minute>7</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>0</Log_fichier>
@@ -17,10 +17,10 @@
 	</Fichiers>
 	<Coordonnees_displays>
 		<Principal>
-			<position_X>547</position_X>
-			<position_Y>127</position_Y>
-			<taille_X>828</taille_X>
-			<taille_Y>828</taille_Y>
+			<position_X>544</position_X>
+			<position_Y>133</position_Y>
+			<taille_X>832</taille_X>
+			<taille_Y>832</taille_Y>
 		</Principal>
 		<Choix_gauche>
 			<position_X>327</position_X>
@@ -59,7 +59,7 @@
 		<crop_largeur>640</crop_largeur>
 		<crop_hauteur>480</crop_hauteur>
 		<luminosite_cam_Ht>2</luminosite_cam_Ht>
-		<contraste_cam_Ht>2</contraste_cam_Ht>
+		<contraste_cam_Ht>1.5</contraste_cam_Ht>
 		<luminosite_cam_Bas>1</luminosite_cam_Bas>
 		<contraste_cam_Bas>1</contraste_cam_Bas>
 	</Cameras>
@@ -69,7 +69,7 @@
 		<Compilation>8.34694</Compilation>
 		<profil>4.59184</profil>
 		<flash>0.510204</flash>
-		<countdown>0.102041</countdown>
+		<countdown>0.502041</countdown>
 		<Print>2.95918</Print>
 		<question>4.59184</question>
 		<Draw_FPS>0</Draw_FPS>
@@ -79,14 +79,14 @@
 		<Marge_Gauche>10</Marge_Gauche>
 		<Marge_Droite>10</Marge_Droite>
 		<Marge_Haut>10</Marge_Haut>
-		<Marge_Bas>56</Marge_Bas>
+		<Marge_Bas>0</Marge_Bas>
 		<Largeur>635</Largeur>
 		<Hauteur>635</Hauteur>
 		<Marge_Y_texte>35</Marge_Y_texte>
 		<Nom_police>sans-serif</Nom_police>
 		<Taille_police>15</Taille_police>
-		<Marge_Y_profil>20</Marge_Y_profil>
-		<Taille_Y_profil>180</Taille_Y_profil>
+		<Marge_Y_profil>0</Marge_Y_profil>
+		<Taille_Y_profil>160</Taille_Y_profil>
 	</Ticket>
 	<LEDs>
 		<nb_de_LEDs_par_strip>30</nb_de_LEDs_par_strip>
