@@ -127,6 +127,8 @@ void ofApp::update(){
                 ledButtons(1, 1);
             }
             
+            leds.index = float(PBtimer)/float(mainTimer*frameRate);
+            
             break;
         }
         case QUESTION: {
@@ -344,6 +346,7 @@ void ofApp::draw(){
             
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
+                leds.currentAnimation = leds.QUESTION;
                 currentState = EXPLAIN;
                 PBtimer = 0;
                 // reset profile accounts
