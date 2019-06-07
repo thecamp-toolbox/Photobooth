@@ -450,6 +450,7 @@ void ofApp::draw(){
         case COMPILING:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
+            drawTimer(compileTimer);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             
             if (PBtimer>compileTimer*frameRate){
