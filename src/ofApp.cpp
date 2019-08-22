@@ -453,7 +453,7 @@ void ofApp::draw(){
         }
         case PROFILE: {
             ofSetColor(255, 255, 255, 255);
-            profile.draw(0,0);
+            profile.draw(0,0,1920,1080);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             
             if (PBtimer>profileTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
@@ -492,7 +492,7 @@ void ofApp::draw(){
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frame.draw(0,0);
+            frame.draw(0,0,1920,1080);
             
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 
@@ -506,7 +506,7 @@ void ofApp::draw(){
         case COUNTDOWN: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frame.draw(0,0);
+            frame.draw(0,0,1920,1080);
             countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
                                                            sizeCDX, sizeCDY);
             
@@ -528,7 +528,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-            frame.draw(0,0);
+            frame.draw(0,0,1920,1080);
             //buffer[textureToken].draw(0,0);
             
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);

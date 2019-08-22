@@ -16,5 +16,5 @@ void Background::next(){
 }
 
 void Background::draw(){
-    buffer[textureToken].draw(0,0);
+    buffer[textureToken].draw(0,0,1920,1080);
 }
