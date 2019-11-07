@@ -100,8 +100,15 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
-        texPicam.ofRotate(90);
-        texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
+
+          ofPushMatrix();           //Store the transformation matrix
+          ofRotate( 90 );         //Applying rotation on 10 degrees
+
+          texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
+
+          ofPopMatrix();            //Restore the transformation
+
+
         BCSA_T.end();
     }
 }
