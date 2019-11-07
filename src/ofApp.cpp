@@ -302,6 +302,7 @@ void ofApp::update(){
 void ofApp::draw(){
 
     ofClear(0, 0, 0);
+
     switch (currentState) {
         case INIT: {
             ofSetColor(255, 255, 255, 255);
