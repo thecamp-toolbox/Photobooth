@@ -95,9 +95,10 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
-        BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
+        BCSA_T.setUniform1f("saturation", 0);
+        BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
         BCSA_T.end();
