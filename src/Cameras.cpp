@@ -95,6 +95,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
+        ofRotate(90);
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
         BCSA_T.setUniform1f("saturation", 0);
@@ -108,6 +109,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
 void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
     BCSA_T.begin();
     ofClear(0,0,0);
+    ofRotate(90);
     BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
     BCSA_T.setUniform1f("brightness", brightnessT);
     BCSA_T.setUniform1f("contrast", contrastT);
