@@ -41,24 +41,24 @@ public:
     ofParameterGroup main;
     ofParameter<int>
     posMainCamX{493}, posMainCamY{73},
-    sizeMainCamX{1280}, sizeMainCamY{720};
+    sizeMainCamX{934}, sizeMainCamY{934};
 
     ofParameterGroup choiceL;
     // coordonnées du cadre de choix gauche
     ofParameter<int>
     posLCamX{1500}, posLCamY{677},
-    sizeLCamX{1280}, sizeLCamY{720};
+    sizeLCamX{330}, sizeLCamY{330};
     ofParameterGroup choiceR;
     // coordonnées du cadre de choix gauche
     ofParameter<int>
     posRCamX{1500}, posRCamY{677},
-    sizeRCamX{1280}, sizeRCamY{720};
+    sizeRCamX{330}, sizeRCamY{330};
 
     ofParameterGroup res;
     // coordonnées du cadre résultats
     ofParameter<int>
     posResCamX{1500}, posResCamY{677},
-    sizeResCamX{1280}, sizeResCamY{720};
+    sizeResCamX{330}, sizeResCamY{330};
 
     ofParameterGroup countdown;
     // coordonnées du countdown
@@ -90,6 +90,7 @@ public:
                         flashTimer{120},
                         countDownTimer{30},
                         printingTimer{120},
+                        frameTimer{120},
                         questionTimer{133};
 
     ofParameter<bool> drawFps;
