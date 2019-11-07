@@ -240,7 +240,7 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, 960, 540);
+                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, 630, 354);
                     //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
