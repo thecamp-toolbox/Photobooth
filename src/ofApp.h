@@ -51,14 +51,14 @@ public:
     ofParameterGroup choiceR;
     // coordonnées du cadre de choix gauche
     ofParameter<int>
-    posRCamX{1500}, posRCamY{677},
-    sizeRCamX{330}, sizeRCamY{330};
+    posRCamX{1000}, posRCamY{677},
+    sizeRCamX{640}, sizeRCamY{360};
 
     ofParameterGroup res;
     // coordonnées du cadre résultats
     ofParameter<int>
-    posResCamX{1500}, posResCamY{677},
-    sizeResCamX{330}, sizeResCamY{330};
+    posResCamX{1000}, posResCamY{677},
+    sizeResCamX{640}, sizeResCamY{360};
 
     ofParameterGroup countdown;
     // coordonnées du countdown
