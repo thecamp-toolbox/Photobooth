@@ -310,7 +310,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
             //ofLog() << "coords: " << posLCamX << " / " << posLCamY << " / " << sizeLCamX << " / " << sizeLCamY << " / " << posRCamX << " / " << posRCamY << " / " << sizeRCamX << " / " << sizeRCamY;
-            cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
+            cams.draw_all(posLCamX, posLCamY, 1280, 720, posRCamX, posRCamY, 1280, 720);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             ofSetColor(250, 250, 0, 250);
@@ -816,21 +816,21 @@ void ofApp::setupGUI(){
     choiceL.setName("Choix gauche");
     choiceL.add(posLCamX.set("position X", 327, 0, ofGetWidth()));
     choiceL.add(posLCamY.set("position Y", 357, 0, ofGetHeight()));
-    choiceL.add(sizeLCamX.set("taille X", 1280, 0, ofGetWidth()));
-    choiceL.add(sizeLCamY.set("taille Y", 720, 0, ofGetHeight()));
+    choiceL.add(sizeLCamX.set("taille X", 519, 0, ofGetWidth()));
+    choiceL.add(sizeLCamY.set("taille Y", 519, 0, ofGetHeight()));
     // coordonnées du cadre choix droit
     choiceR.setName("Choix droit");
     choiceR.add(posRCamX.set("position X", 1073, 0, ofGetWidth()));
     choiceR.add(posRCamY.set("position Y", 357, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 1280, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 720, 0, ofGetHeight()));
+    choiceR.add(sizeRCamX.set("taille X", 519, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 519, 0, ofGetHeight()));
 
     // coordonnées du cadre résultat
     res.setName("Resultat");
     res.add(posResCamX.set("position X", 686, 0, ofGetWidth()));
     res.add(posResCamY.set("position Y", 279, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 1280, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 720, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 548, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 548, 0, ofGetHeight()));
     //
 
     // coordonnées du countdown
