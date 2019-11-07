@@ -31,14 +31,14 @@
 		<Choix_droit>
 			<position_X>1073</position_X>
 			<position_Y>357</position_Y>
-			<taille_X>519</taille_X>
-			<taille_Y>519</taille_Y>
+			<taille_X>640</taille_X>
+			<taille_Y>360</taille_Y>
 		</Choix_droit>
 		<Resultat>
 			<position_X>686</position_X>
 			<position_Y>279</position_Y>
-			<taille_X>548</taille_X>
-			<taille_Y>548</taille_Y>
+			<taille_X>640</taille_X>
+			<taille_Y>360</taille_Y>
 		</Resultat>
 	</Coordonnees_displays>
 	<Cameras>

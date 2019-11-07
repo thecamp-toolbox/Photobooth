@@ -10,7 +10,7 @@
 void Cameras::setup(){
     //___________________________
     // Camera setup
-    
+
 #ifdef TARGET_RASPBERRY_PI
     BCSA_B.load("bcsa-Pi");
     BCSA_T.load("bcsa-Pi");
@@ -31,7 +31,7 @@ void Cameras::setup(){
     }
     nCams = devices.size();
     ofLog() << "nombre de caméras: " << nCams;
-    
+
     ofLog() << " Setup Cam 1 (USB) with Device#" << USBCamNr;
     USBCam.setDeviceID(USBCamNr);
     USBCam.setDesiredFrameRate(30);
@@ -43,7 +43,7 @@ void Cameras::setup(){
     omxCameraSettings.height = 720; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
-    
+
     piCam.setup(omxCameraSettings);
 #else
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
@@ -53,7 +53,7 @@ void Cameras::setup(){
     piCam.initGrabber(1280, 720);
     ofLog() << "size 2: " << piCam.getWidth() << " / " << piCam.getHeight();
 #endif
-    
+
 }
 
 void Cameras::update_one(){
@@ -64,7 +64,7 @@ void Cameras::update_one(){
     else piCam.update();
     texPicam = piCam.getTexture();
 #endif
-    
+
 }
 
 void Cameras::update_all(){
@@ -84,11 +84,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
             ofTexture& videoTexture1 = USBCam.getTexture();
             BCSA_B.begin();
             ofClear(0,0,0);
-            BCSA_B.setUniform3f("avgluma",0.62,0.62,0.62);
             BCSA_B.setUniform1f("brightness", brightnessT);
             BCSA_B.setUniform1f("contrast", contrastT);
-            BCSA_B.setUniform1f("saturation", 0);
-            BCSA_B.setUniform1f("alpha", 1.);
             BCSA_B.setUniformTexture("image", videoTexture1,1);
             videoTexture1.draw(x+w, y, -w, h);
             BCSA_B.end();
@@ -120,7 +117,7 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
     BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
     texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
     BCSA_T.end();
-    
+
     if (brightnessB!=1&&contrastB!=1){
         ofTexture& videoTexture2 = USBCam.getTexture();
         BCSA_B.begin();
@@ -139,7 +136,7 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
 
 void Cameras::setup_GUI(){
     cameras.setName("Cameras");
-    
+
     cameras.add(camXOffset.set ("crop offset X", 320, 0, maxCamW));
     cameras.add(camYOffset.set("crop offset Y", 120, 0, maxCamH));
     cameras.add(camXsize.set ("crop largeur", 640, 0, maxCamW));
@@ -152,5 +149,5 @@ void Cameras::setup_GUI(){
 }
 
 void Cameras::exit(){
-    
+
 }
