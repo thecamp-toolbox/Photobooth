@@ -31,8 +31,8 @@ public:
     void setup_GUI();
     void update_one();
     void update_all();
-    void draw_one(float x, float y, float w, float h, float angle = 0);
-    void draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2, float angle = 0);
+    void draw_one(float x, float y, float w, float h);
+    void draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2);
     void exit();
 
     ofVideoGrabber USBCam;
