@@ -52,7 +52,7 @@ public:
     // coordonnées du cadre de choix gauche
     ofParameter<int>
     posRCamX{1000}, posRCamY{677},
-    sizeRCamX{640}, sizeRCamY{360};
+    sizeRCamX{360}, sizeRCamY{640};
 
     ofParameterGroup res;
     // coordonnées du cadre résultats
