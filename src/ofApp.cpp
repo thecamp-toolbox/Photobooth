@@ -306,7 +306,7 @@ void ofApp::draw(){
     switch (currentState) {
         case INIT: {
             ofSetColor(255, 255, 255, 255);
-            //bg.draw();
+            ofRotate(90);
             cams.draw_one(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
