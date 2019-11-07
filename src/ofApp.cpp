@@ -491,7 +491,7 @@ void ofApp::draw(){
         }
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
-            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            cams.draw_one(posMainCamX, posMainCamY, 960, 540);
             frame.draw(0,0,1920,1080);
 
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
@@ -505,7 +505,7 @@ void ofApp::draw(){
         }
         case COUNTDOWN: {
             ofSetColor(255, 255, 255, 255);
-            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            cams.draw_one(posMainCamX, posMainCamY, 960, 540);
             frame.draw(0,0,1920,1080);
             countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
                                                            sizeCDX, sizeCDY);
@@ -552,7 +552,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             bg.draw();
 
-            result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
+            result.draw(posResCamX+sizeResCamX, posResCamY, 960, 540);
 
             drawTimer(mainTimer);
 
@@ -799,28 +799,28 @@ void ofApp::setupGUI(){
     main.setName("Principal");
     main.add(posMainCamX.set("position X", 493, 0, ofGetWidth()));
     main.add(posMainCamY.set("position Y", 73, 0, ofGetHeight()));
-    main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
-    main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
+    main.add(sizeMainCamX.set("taille X", 960, 0, ofGetWidth()));
+    main.add(sizeMainCamY.set("taille Y", 540, 0, ofGetHeight()));
 
     // coordonnées du cadre choix gauche
     choiceL.setName("Choix gauche");
     choiceL.add(posLCamX.set("position X", 1500, 0, ofGetWidth()));
     choiceL.add(posLCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceL.add(sizeLCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceL.add(sizeLCamY.set("taille Y", 330, 0, ofGetHeight()));
+    choiceL.add(sizeLCamX.set("taille X", 960, 0, ofGetWidth()));
+    choiceL.add(sizeLCamY.set("taille Y", 540, 0, ofGetHeight()));
     // coordonnées du cadre choix droit
     choiceR.setName("Choix droit");
     choiceR.add(posRCamX.set("position X", 1500, 0, ofGetWidth()));
     choiceR.add(posRCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 330, 0, ofGetHeight()));
+    choiceR.add(sizeRCamX.set("taille X", 960, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 540, 0, ofGetHeight()));
 
     // coordonnées du cadre résultat
     res.setName("Resultat");
     res.add(posResCamX.set("position X", 1500, 0, ofGetWidth()));
     res.add(posResCamY.set("position Y", 677, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 330, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 960, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 540, 0, ofGetHeight()));
     //
 
     // coordonnées du countdown
