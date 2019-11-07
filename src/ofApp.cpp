@@ -2,17 +2,17 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    
+
     ofSetFrameRate(10);
-    
+
     setupGUI();
-    
+
     cams.setup();
     leds.setup();
-    
+
     //___________________________
     // Loading Images:
-    
+
     for (size_t j = 0; j < nCountdown; ++j){
         ofLoadImage(countdowns[j], ("BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png"));
         ofLog() << ("BG/"+backgroundFiles[COUNTDOWN]+to_string(j+1)+".png");
@@ -21,13 +21,13 @@ void ofApp::setup(){
         ofLoadImage(timerV[j], ("BG/timer"+to_string(j+1)+".png"));
         ofLog() << ("BG/timer"+to_string(j+1)+".png");
     }
-    
+
     //bg.load("BG/"+backgroundFiles[INIT]);
-    
+
     ofEnableAlphaBlending();
-    
+
 #ifdef TARGET_RASPBERRY_PI
-    
+
     buttonL.setup("17");
     buttonL.export_gpio();
     buttonL.setdir_gpio("in");
@@ -35,27 +35,27 @@ void ofApp::setup(){
     buttonR.setup("27");
     buttonR.export_gpio();
     buttonR.setdir_gpio("in");
-    
+
     ledL.setup("13");
     ledL.export_gpio();
     ledL.setdir_gpio("out");
-    
+
     ledR.setup("19");
     ledR.export_gpio();
     ledR.setdir_gpio("out");
-    
+
     flashRelay.setup("26");
     flashRelay.export_gpio();
     flashRelay.setdir_gpio("out");
 
-    
+
 #endif
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
+
     if (GUIhide) PBtimer++;
     getButtons();
     switch (currentState) {
@@ -89,15 +89,15 @@ void ofApp::update(){
                 leds.setup();
                 //leds.currentAnimation = leds.NONE;
                 ofSetFrameRate(frameRate);
-                
+
                 // setting time offset
                 Poco::Timestamp now;
                 Poco::LocalDateTime nowLocal(now);
-                
+
                 //timeOffset =  setTime.timestamp() - nowLocal.timestamp();
 
             }
-     
+
             break;
         }
         case STANDBY: {
@@ -108,7 +108,7 @@ void ofApp::update(){
                 bg.load("BG/"+backgroundFiles[EXPLAIN]);
                 ledButtons(1, 1);
             }
-            
+
             break;
         }
         case WELCOME: {
@@ -117,7 +117,7 @@ void ofApp::update(){
                 bg.load("BG/"+backgroundFiles[EXPLAIN]);
                 ledButtons(1, 1);
             }
-            
+
             break;
         }
         case EXPLAIN: {
@@ -126,9 +126,9 @@ void ofApp::update(){
                 bg.load("BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
                 ledButtons(1, 1);
             }
-            
+
             leds.index = float(PBtimer)/float(mainTimer*frameRate);
-            
+
             break;
         }
         case QUESTION: {
@@ -137,9 +137,9 @@ void ofApp::update(){
                 ofLog() << "QUESTION #" << currentQuestion+1;
                 bg.load("BG/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
             }
-            
+
             leds.index = float(PBtimer)/float(questionTimer*frameRate);
-            
+
             break;
         }
         case COMPILING: {
@@ -163,72 +163,72 @@ void ofApp::update(){
                 ofLoadImage(profilTicket,   ("BG/profil"+to_string(currentProfile+1)+".png"));
                 bg.load("BG/"+backgroundFiles[CAM_CHOICE]);
             }
-            
+
             leds.index = float(PBtimer)/float(compileTimer*frameRate);
-            
+
             break;
         }
         case PROFILE: {
             if (PBtimer==1) {
                 ledButtons(1, 1);
                 ofLog() << "PROFILE #" << currentProfile+1;
-                
+
             }
-            
+
             break;
         }
         case CAM_CHOICE: {
             ledButtons(1, 1);
             cams.update_all();
             leds.currentAnimation = leds.NONE;
-            
+
             if (PBtimer==1) {
                 ofLog() << "CAM_CHOICE";
                 bg.load("BG/" + backgroundFiles[RESULT] + to_string(resultCount+1)+".png");
 
             }
-            
+
             break;
         }
         case FRAME: {
             ledButtons(1, 1);
             cams.update_one();
-            
+
             if (PBtimer==1) ofLog() << "FRAME";
-            
+
             break;
         }
         case COUNTDOWN: {
-            
+
             cams.update_one();
-            
+
             if (PBtimer==1) {
                 ofLog() << "COUNTDOWN";
                 ledButtons(0, 0);
             }
-            
+
             break;
         }
         case FLASH: {
-            
+
             cams.update_one();
-            
+
             if (PBtimer==1) {
                 ofLog() << "FLASH";
             }
-            
-            
+
+
             break;
         }
         case RESULT: {
-    
+
             if (PBtimer==1) {
                 leds.currentAnimation = leds.NONE;
                 ledButtons(1, 1);
                 ofLog() << "RESULT, #" << resultCount ;
-                
+
             }
-            
+
             break;
         }
         case PRINTING: {
@@ -236,12 +236,12 @@ void ofApp::update(){
                 ledButtons(0, 0);
                 ofLog() << "PRINTING";
                 bg.load("BG/"+backgroundFiles[BYE]);
-                
+
                 fbo.begin();
                     ofClear(255,255,255, 0);
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
-            
+
                     result.draw(ticketMarginXRight, ticketMarginYTop, sizeTktX-ticketMarginXRight- ticketMarginXLeft, sizeTktY);
                     //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
@@ -259,28 +259,28 @@ void ofApp::update(){
                 fbo.end();
                 //ofEnableAlphaBlending();
                  */
-                
+
                 Poco::Timestamp now;
                 Poco::LocalDateTime nowLocal(now);
-                
+
                 Poco::Timestamp saveTime;
 
                 //saveTime = nowLocal+timeOffset.getTimespan();
-                
+
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
                 fileName+=".png";
                 ofLog() << "Photo saved as: " << fileName;
                 ticket.save(photoPath+fileName);
-                
+
                 if (print){
                     string printCommand = "lp ";
                     printCommand +=photoPath+fileName;
                     ofSystem(printCommand);
                 }
             }
-            
+
             break;
         }
         case BYE: {
@@ -289,22 +289,22 @@ void ofApp::update(){
                 ofLog() << "BYE";
                 bg.load("BG/"+backgroundFiles[STANDBY]);
             }
-            
+
             break;
         }
         default:
             break;
     }
-    
+
     //if (leds.draw)
     leds.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
+
     ofClear(0, 0, 0);
-    
+
     switch (currentState) {
         case INIT: {
             ofSetColor(255, 255, 255, 255);
@@ -319,31 +319,31 @@ void ofApp::draw(){
             string displayName = "Nom de l'événement: ";
             displayName+= eventName;
             font.drawString(displayName ,450, 150);
-            
+
             std::string ts0 = "2000-01-01T12:00:00+01:00";        // Poco::DateTimeFormat::ISO8601_FORMAT
-            
+
             const std::string DATE_FORMAT = "%Y %b %f %H:%M";
-            
+
             timeSet = ofToString(year) + "-" + ofToString(month) + "-" + ofToString(day) + "T" + ofToString(hour) + ":" + ofToString(min) + ":00:00+02:00";
-            
+
             int tzd = 0;
-            
+
             Poco::DateTimeParser::parse(Poco::DateTimeFormat::ISO8601_FRAC_FORMAT,
                                         timeSet, setTime, tzd);
-            
+
             timeNow = "Date et heure: " + ofxTime::Utils::format(setTime, DATE_FORMAT);
-            
+
             font.drawString( timeNow ,450, 210);
             ofSetColor(250, 250, 0, 250);
             font.drawString("appuyer (longuement) sur un des boutons pour lancer l'application" ,350, 280);
             ofSetColor(255, 255, 255, 255);
-            
+
             break;
         }
         case STANDBY: {
             ofSetColor(255, 255, 255, 255);
             bg.draw();
-            
+
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
                 leds.currentAnimation = leds.QUESTION;
@@ -356,14 +356,14 @@ void ofApp::draw(){
                 bg.next();
             }
             break;
-            
+
         }
         case EXPLAIN:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
-            
+
             drawTimer(mainTimer);
-            
+
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentQuestion = 0;
@@ -378,11 +378,11 @@ void ofApp::draw(){
         case QUESTION:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
-            
+
             drawTimer(questionTimer);
-            
+
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-            
+
             if (PBtimer>questionTimer*ofGetFrameRate()) {
                 resetButtons();
                 PBtimer = 0;
@@ -400,7 +400,7 @@ void ofApp::draw(){
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
-                
+
             } else if (buttonLPressed) {
                 resetButtons();
                 //bg.next();
@@ -422,7 +422,7 @@ void ofApp::draw(){
                     currentQuestion = 0;
                     currentState = COMPILING;
                 }
-                
+
             } else if (buttonRPressed) {
                 resetButtons();
                 //bg.next();
@@ -452,7 +452,7 @@ void ofApp::draw(){
             bg.draw();
             drawTimer(compileTimer);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-            
+
             if (PBtimer>compileTimer*frameRate){
                 bg.next();
                 currentState = PROFILE;
@@ -465,7 +465,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             profile.draw(0,0, 1920, 1080);
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-            
+
             if (PBtimer>profileTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 resetButtons();
                 currentState = CAM_CHOICE;
@@ -478,7 +478,7 @@ void ofApp::draw(){
             cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             bg.draw();
             drawTimer(mainTimer);
-            
+
             if (buttonRPressed) {
                 //bg.next();
                 resetButtons();
@@ -497,21 +497,21 @@ void ofApp::draw(){
                 currentState = FRAME;
                 PBtimer = 0;
             }
-            
+
             break;
         }
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0, 1920, 1080);
-            
+
             if (PBtimer>frameTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                
+
                 resetButtons();
                 currentState = COUNTDOWN;
                 PBtimer = 0;
             }
-            
+
             break;
         }
         case COUNTDOWN: {
@@ -520,7 +520,7 @@ void ofApp::draw(){
             frame.draw(0,0, 1920, 1080);
             countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
                                                            sizeCDX, sizeCDY);
-            
+
             if (PBtimer>countDownTimer*ofGetFrameRate()){
                 currentCountdown++;
                 resetButtons();
@@ -532,7 +532,7 @@ void ofApp::draw(){
                     currentCountdown=0;
                 }
             }
-            
+
             break;
         }
         case FLASH: {
@@ -541,9 +541,9 @@ void ofApp::draw(){
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0, 1920, 1080);
             //buffer[textureToken].draw(0,0);
-            
+
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-            
+
             if (PBtimer>flashTimer*ofGetFrameRate()){
                 //if (PBtimer==2){
                 result.grabScreen(posMainCamX+2, posMainCamY+2, sizeMainCamX-4, sizeMainCamY-4);
@@ -554,27 +554,27 @@ void ofApp::draw(){
                 flash(0);
                 PBtimer = 0;
             }
-            
+
             break;
         }
-        
+
         case RESULT: {
-            
+
             ofSetColor(255, 255, 255, 255);
-            
+
             result.draw(posResCamX+sizeResCamX+10, posResCamY+2, -sizeResCamX-8, sizeResCamY+2);
-            
+
             bg.draw();
-            
+
             //drawTimer(mainTimer);
-            
+
             if (buttonRPressed) {
                 resetButtons();
                 resultCount++;
                 if (resultCount<3){
                     bg.load("BG/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
                     currentState = COUNTDOWN;
-                    
+
                 } else {
                     bg.load("BG/"+backgroundFiles[PRINTING]);
                     bg.next();
@@ -590,14 +590,14 @@ void ofApp::draw(){
                 PBtimer = 0;
                 resultCount = 0;
             }
-            
+
             break;
         }
-           
+
         case PRINTING:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
-            
+
             if (PBtimer>printingTimer*ofGetFrameRate()){
                 bg.next();
                 resetButtons();
@@ -606,12 +606,12 @@ void ofApp::draw(){
             }
         }
             break;
-            
+
         case BYE:{
-            
+
             ofSetColor(255, 255, 255, 255);
             bg.draw();
-            
+
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
                 //bg.next();
                 resetButtons();
@@ -620,7 +620,7 @@ void ofApp::draw(){
             }
             break;
         }
-            
+
         default:{
             ofSetColor(255, 255, 255, 255);
             bg.draw();
@@ -633,7 +633,7 @@ void ofApp::draw(){
         font.drawString(ofToString(int(ofGetFrameRate())) + " fps", 1700, 80);
         ofSetColor(255, 255, 255, 255);
     }
-    
+
     if (!GUIhide) {
         gui.draw();
     }
@@ -678,10 +678,10 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    
+
     if (key == 57356) {keyLreleased = 1; }
     else if (key == 57358) {keyRreleased = 1; }
-    
+
 }
 
 //--------------------------------------------------------------
@@ -717,16 +717,16 @@ void ofApp::flash(bool on){
 }
 //--------------------------------------------------------------
 void ofApp::getButtons(){
-    
+
 #ifdef TARGET_RASPBERRY_PI
-    
+
     string state_buttonL;
     buttonL.getval_gpio(state_buttonL);
     string state_buttonR;
     buttonR.getval_gpio(state_buttonR);
     //ofLog()<< "buttons " << state_buttonL << " / " << state_buttonR;
     //ofLog()<< "buttons int: " << ofFromString<bool>(state_buttonL) << " / " << ofFromString<bool>(state_buttonR);
-    
+
     if (ofFromString<bool>(state_buttonL) && buttonLreleased) {
         buttonLPressed = 1;
         buttonLreleased = 0;
@@ -739,10 +739,10 @@ void ofApp::getButtons(){
     }
     if (!(ofFromString<bool>(state_buttonL))) {buttonLreleased = 1;}
     if (!(ofFromString<bool>(state_buttonR))) {buttonRreleased = 1;}
-    
+
 #endif
-    
-    
+
+
 }
 
 //--------------------------------------------------------------
@@ -756,18 +756,18 @@ void ofApp::resetButtons(){
 void ofApp::setupGUI(){
 
     // GUI/settings setup:
-    
+
     Poco::Timestamp now;
     Poco::LocalDateTime nowLocal(now);
-    
+
     timeStart = ofxTime::Utils::format(nowLocal, Poco::DateTimeFormat::ISO8601_FORMAT);
-    
+
     ofLog() << "Time NOW !!! : " << timeNow;
 
     parameters.setName("Reglages");
-    
+
     event.setName("Evenement");
-    
+
     event.add(eventName.set("Nom", "VYV-solidarites19"));
     event.add(year.set("Annee", ofFromString<int>(timeStart.substr(0,4)), 2019, 2029));
     event.add(month.set("Mois", ofFromString<int>(timeStart.substr(5,2)), 1, 12));
@@ -776,7 +776,7 @@ void ofApp::setupGUI(){
     event.add(min.set("Minute", ofFromString<int>(timeStart.substr(11,2)), 0, 59));
     //
     parameters.add(event);
-    
+
     files.setName("Fichiers");
     //
     files.add(logToFile.set("Log/fichier", 0));
@@ -787,7 +787,7 @@ void ofApp::setupGUI(){
     //
     files.add(questionsFile);
     parameters.add(files);
-    
+
     tickPar.setName("Ticket");
     //
     tickPar.add(print.set("print", 0));
@@ -803,7 +803,7 @@ void ofApp::setupGUI(){
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
     //
     parameters.add(tickPar);
-    
+
     coords.setName("Coordonnees displays");
     // coordonnées du cadre principal
     main.setName("Principal");
@@ -811,28 +811,28 @@ void ofApp::setupGUI(){
     main.add(posMainCamY.set("position Y", 127, 0, ofGetHeight()));
     main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
     main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
-    
+
     // coordonnées du cadre choix gauche
     choiceL.setName("Choix gauche");
     choiceL.add(posLCamX.set("position X", 327, 0, ofGetWidth()));
     choiceL.add(posLCamY.set("position Y", 357, 0, ofGetHeight()));
-    choiceL.add(sizeLCamX.set("taille X", 519, 0, ofGetWidth()));
-    choiceL.add(sizeLCamY.set("taille Y", 519, 0, ofGetHeight()));
+    choiceL.add(sizeLCamX.set("taille X", 1280, 0, ofGetWidth()));
+    choiceL.add(sizeLCamY.set("taille Y", 720, 0, ofGetHeight()));
     // coordonnées du cadre choix droit
     choiceR.setName("Choix droit");
     choiceR.add(posRCamX.set("position X", 1073, 0, ofGetWidth()));
     choiceR.add(posRCamY.set("position Y", 357, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 519, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 519, 0, ofGetHeight()));
-    
+    choiceR.add(sizeRCamX.set("taille X", 1280, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 720, 0, ofGetHeight()));
+
     // coordonnées du cadre résultat
     res.setName("Resultat");
     res.add(posResCamX.set("position X", 686, 0, ofGetWidth()));
     res.add(posResCamY.set("position Y", 279, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 548, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 548, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 1280, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 720, 0, ofGetHeight()));
     //
-    
+
     // coordonnées du countdown
     countdown.setName("CountDown");
     countdown.add(posCDX.set("position X", 860, 0, ofGetWidth()));
@@ -847,7 +847,7 @@ void ofApp::setupGUI(){
     timerPos.add(sizeTimerX.set("taille X", 200, 0, ofGetWidth()));
     timerPos.add(sizeTimerY.set("taille Y", 200, 0, ofGetHeight()));
     //
-    
+
     coords.add(main);
     coords.add(choiceL);
     coords.add(choiceR);
@@ -855,15 +855,15 @@ void ofApp::setupGUI(){
     coords.add(countdown);
     coords.add(timerPos);
     parameters.add(coords);
-    
+
     cams.setup_GUI();
     //
     parameters.add(cams.cameras);
-    
+
     leds.setup_GUI();
     //
     parameters.add(leds.LEDs);
-    
+
     timers.setName("Timers");
     //
     timers.add(frameRate.set("FPS",  30, 0, 150));
@@ -879,9 +879,9 @@ void ofApp::setupGUI(){
     //timers.add(antibounceTimer.set("Anti-rebonds",  30, 0, maxTimer));
     //
     parameters.add(timers);
-    
+
     gui.setup(parameters);
-    
+
     gui.setSize(300, gui.getHeight());
 
     gui.getGroup("Evenement").setSize(300, gui.getHeight());
@@ -898,43 +898,43 @@ void ofApp::setupGUI(){
     gui.getGroup("Cameras").setWidthElements(300);
     gui.getGroup("LEDs").setSize(300, gui.getGroup("LEDs").getHeight());
     gui.getGroup("LEDs").setWidthElements(300);
-    
+
     gui.getGroup("LEDs").minimize();
     gui.getGroup("LEDs").getGroup("visualisation LEDs").minimize();
     gui.getGroup("Coordonnees displays").minimize();
     gui.getGroup("Fichiers").getGroup("Questions").minimize();
-    
+
     gui.loadFromFile("settings.xml");
-    
+
     settings.load("settings.xml");
     ofDeserialize(settings, parameters);
-    
-    
+
+
     year = ofFromString<int>(timeStart.substr(0,4));
     month = ofFromString<int>(timeStart.substr(5,2));
     day = ofFromString<int>(timeStart.substr(8,2));
     hour = ofFromString<int>(timeStart.substr(11,2));
     min =ofFromString<int>(timeStart.substr(14,2));
-    
+
     ofLog() << year << " " << month << " " << day << " " << hour << " " << min;
 
 }
 
 //--------------------------------------------------------------
 void ofApp::loadCSV(){
-    
+
     ofLog() << "log to File";
     if (logToFile){
         string logPath = eventName;
         ofLogToFile("/data/logs/"+logPath+".txt", true);
     }
-    
+
     ofLog() << "load CSV";
     // Load a CSV File for profiles weights for questions
     string csvPath = weightsFilePath;
     csv.load(ofToDataPath(""+csvPath));
     ofLog() << '\n';
-    
+
     ofLog() << "profiles";
     for(int j=0; j<nProfiles; j++) {
         profileNames[j] = csv[0][j+weightsCSVcolOffset];
