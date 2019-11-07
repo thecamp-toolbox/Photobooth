@@ -307,7 +307,7 @@ void ofApp::draw(){
         case INIT: {
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
-            cams.draw_one(posRCamX, posRCamY, 1280, 720);
+            cams.draw_one(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             ofSetColor(250, 250, 0, 250);
@@ -465,7 +465,7 @@ void ofApp::draw(){
         }
         case CAM_CHOICE: {
             ofSetColor(255, 255, 255, 255);
-            cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
+          cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
              bg.draw();
 
             if (buttonRPressed) {
@@ -810,17 +810,17 @@ void ofApp::setupGUI(){
     choiceL.add(sizeLCamY.set("taille Y", 330, 0, ofGetHeight()));
     // coordonnées du cadre choix droit
     choiceR.setName("Choix droit");
-    choiceR.add(posRCamX.set("position X", 1500, 0, ofGetWidth()));
+    choiceR.add(posRCamX.set("position X", 1000, 0, ofGetWidth()));
     choiceR.add(posRCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 330, 0, ofGetHeight()));
+    choiceR.add(sizeRCamX.set("taille X", 640, 0, ofGetWidth()));
+    choiceR.add(sizeRCamY.set("taille Y", 360, 0, ofGetHeight()));
 
     // coordonnées du cadre résultat
     res.setName("Resultat");
     res.add(posResCamX.set("position X", 1500, 0, ofGetWidth()));
     res.add(posResCamY.set("position Y", 677, 0, ofGetHeight()));
-    res.add(sizeResCamX.set("taille X", 330, 0, ofGetWidth()));
-    res.add(sizeResCamY.set("taille Y", 330, 0, ofGetHeight()));
+    res.add(sizeResCamX.set("taille X", 640, 0, ofGetWidth()));
+    res.add(sizeResCamY.set("taille Y", 360, 0, ofGetHeight()));
     //
 
     // coordonnées du countdown
