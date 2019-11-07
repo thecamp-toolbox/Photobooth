@@ -306,7 +306,7 @@ void ofApp::draw(){
         case INIT: {
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
-            cams.draw_one(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
+            cams.draw_one(posRCamX, posRCamY, sizeRCamX, sizeRCamY, 90);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
             ofSetColor(250, 250, 0, 250);

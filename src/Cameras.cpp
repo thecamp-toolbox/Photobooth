@@ -78,7 +78,7 @@ void Cameras::update_all(){
 
 }
 
-void Cameras::draw_one(float x, float y, float w, float h){
+void Cameras::draw_one(float x, float y, float w, float h, float angle){
     if (current) {
         if (brightnessB!=1&&contrastB!=1){
             ofTexture& videoTexture1 = USBCam.getTexture();
@@ -101,20 +101,15 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
-
-          ofPushMatrix();           //Store the transformation matrix
-          ofRotate( -90 );         //Applying rotation on 10 degrees
-
-          texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
-
-          ofPopMatrix();            //Restore the transformation
+        ofRotateX(angle);
+        texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 
 
         BCSA_T.end();
     }
 }
 
-void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
+void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2, float angle){
     BCSA_T.begin();
     ofClear(0,0,0);
     BCSA_T.setUniform3f("avgluma",0.62,0.62,0.62);
@@ -136,6 +131,7 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
         BCSA_B.setUniform1f("saturation", 0);
         BCSA_B.setUniform1f("alpha", 1.);
         BCSA_B.setUniformTexture("image", videoTexture2,1);
+        ofRotateX(angle);
         videoTexture2.draw(x1+w1, y1, -w1, h1);
         BCSA_B.end();
     }
