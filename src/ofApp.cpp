@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    ofSetFrameRate(20);
+    ofSetFrameRate(10);
 
     setupGUI();
 
