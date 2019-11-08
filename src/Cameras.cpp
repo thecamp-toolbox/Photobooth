@@ -45,7 +45,7 @@ void Cameras::setup(){
     omxCameraSettings.doRecording = false;   //default false
 
     piCam.setup(omxCameraSettings);
-    piCam.setRotation(-ROTATION_90);
+    piCam.setRotation(ROTATION_270);
 
 
 #else
