@@ -78,6 +78,7 @@ void Cameras::update_all(){
 
 }
 
+
 void Cameras::draw_one(float x, float y, float w, float h){
     if (current) {
         if (brightnessB!=1&&contrastB!=1){
