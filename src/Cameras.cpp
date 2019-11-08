@@ -101,7 +101,14 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
+
+        ofPushMatrix();
+        ofRotate(-90);//What is drawn is roated by 45
+        setAnchorPoint(x/2,y/2) //changes drawing point to 50, 50. Therefore will rotate 45 from this point
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
+
+        ofPopMatrix();
+
         BCSA_T.end();
     }
 }
