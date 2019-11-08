@@ -39,8 +39,8 @@ void Cameras::setup(){
     USBCam.initGrabber(640, 480);
     ofLog() << "size 1: " << USBCam.getWidth() << " / " << USBCam.getHeight();
 #ifdef TARGET_RASPBERRY_PI
-    omxCameraSettings.width = 1280; //default 1280
-    omxCameraSettings.height = 720; //default 720
+    omxCameraSettings.width = 720; //default 1280
+    omxCameraSettings.height = 1280; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
 
