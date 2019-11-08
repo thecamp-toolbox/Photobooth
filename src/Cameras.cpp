@@ -103,7 +103,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
-        texPicam.drawSubsection(x, y+h, w, -h, 0, 0, 0, 0);
+        texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
         BCSA_T.end();
     }
 }
@@ -117,7 +117,7 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
     BCSA_T.setUniform1f("saturation", 0);
     BCSA_T.setUniform1f("alpha", 1.);
     BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
-    texPicam.drawSubsection(x2, y2+w2, w2, -h2, 0, 0, 0, 0);
+    texPicam.drawSubsection(x2, y2+w2, w2, -h2, camXOffset, camYOffset, camXsize, camYsize);
     BCSA_T.end();
 
     if (brightnessB!=1&&contrastB!=1){
