@@ -138,7 +138,6 @@ void Cameras::draw_all(float x1, float y1, float w1, float h1, float x2, float y
 
 void Cameras::setup_GUI(){
     cameras.setName("Cameras");
-    cameras.rotate(90, cameras.getUpDir());
 
     cameras.add(camXOffset.set ("crop offset X", 320, 0, 360));
     cameras.add(camYOffset.set("crop offset Y", 120, 0, 640));
