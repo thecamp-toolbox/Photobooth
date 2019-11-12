@@ -104,8 +104,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
 
         glPushMatrix();
         glTranslatef(200,200,0);
-        glRotatef(90, 0, 0, 1); //only rotate around the z axis
-      
+        glRotatef(180, 0, 0, 1); //only rotate around the z axis
+
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 
         ofPopMatrix();
