@@ -103,8 +103,14 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
 
         glPushMatrix();
-        glTranslatef(200,200,0);
-        glRotatef(180, 0, 0, 1); //only rotate around the z axis
+
+        texPicam.setAnchorPercent(0.5, 0.5);
+        float deg = 0.0;
+        float w2 = (ofGetWidth() - texPicam.getWidth())/2;
+        float h2 = (ofGetHeight() - texPicam.getHeight())/2;
+        ofTranslate(w2, h2);
+        ofScale(1, -1);
+        ofRotateZ(deg);
 
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 
