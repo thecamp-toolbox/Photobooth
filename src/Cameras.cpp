@@ -111,6 +111,9 @@ void Cameras::draw_one(float x, float y, float w, float h){
         ofRotateZ(deg);
 
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
+
+        ofPopMatrix();
+
         BCSA_T.end();
     }
 }
