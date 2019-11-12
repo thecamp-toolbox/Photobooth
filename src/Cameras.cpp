@@ -103,13 +103,13 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
 
         texPicam.setAnchorPercent(0.5, 0.5);
-        deg +=0.1;
-        w2 = (ofGetWidth() - texture.getWidth())/2;
-        h2 = (ofGetHeight() - texture.getHeight())/2;
+        deg = 0.0;
+        w2 = (ofGetWidth() - texPicam.getWidth())/2;
+        h2 = (ofGetHeight() - texPicam.getHeight())/2;
         ofTranslate(w2, h2);
         ofScale(1, -1);
         ofRotateZ(deg);
-        
+
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
         BCSA_T.end();
     }
