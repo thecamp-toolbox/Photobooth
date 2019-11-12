@@ -96,12 +96,6 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
-        float angle = 220; //so it rotates
-        ofSetRectMode(OF_RECTMODE_CENTER);
-        ofSetColor(100,20,20);
-        glPushMatrix();
-        glTranslatef(200,200,0);
-        glRotatef(angle, 1, 0, 0); //only rotate around the z axis
 
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
@@ -111,7 +105,10 @@ void Cameras::draw_one(float x, float y, float w, float h){
 
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 
-        glPopMatrix();
+        float wid2 = texPicam.getWidth();
+        float heig2 = texPicam.getHeight();
+        std::cout << "value width: " << wid2 << endl;
+        std::cout << "value height: " << heig2 << endl;
 
         BCSA_T.end();
     }
