@@ -44,7 +44,11 @@ void Cameras::setup(){
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
 
+    piCam.setRotation(ROTATION_270);
+
     piCam.setup(omxCameraSettings);
+
+
 #else
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
     piCam.setDeviceID(piCamNr);
