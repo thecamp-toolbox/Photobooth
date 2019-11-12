@@ -20,8 +20,8 @@ public:
     ofParameterGroup cameras;
     // Tailes des caméras:
     ofParameter<int>
-    camXOffset{320}, camYOffset{120},
-    camXsize{640}, camYsize{480};
+    camXOffset{0}, camYOffset{0},
+    camXsize{1280}, camYsize{720};
 
     ofParameter<float>
     brightnessT{2}, contrastT{2},
