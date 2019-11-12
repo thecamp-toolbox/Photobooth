@@ -101,7 +101,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         ofSetColor(100,20,20);
         glPushMatrix();
         glTranslatef(200,200,0);
-        glRotatef(angle, 0, 0, 1); //only rotate around the z axis
+        glRotatef(angle, 1, 0, 0); //only rotate around the z axis
 
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
