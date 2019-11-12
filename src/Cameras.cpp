@@ -96,25 +96,22 @@ void Cameras::draw_one(float x, float y, float w, float h){
     else {
         BCSA_T.begin();
         ofClear(0,0,0);
+        float angle = 220; //so it rotates
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        ofSetColor(100,20,20);
+        glPushMatrix();
+        glTranslatef(200,200,0);
+        glRotatef(angle, 0, 0, 1); //only rotate around the z axis
+
         BCSA_T.setUniform1f("brightness", brightnessT);
         BCSA_T.setUniform1f("contrast", contrastT);
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
 
-        glPushMatrix();
-
-        texPicam.setAnchorPercent(0.5, 0.5);
-        float deg = 0.0;
-        float w2 = (ofGetWidth() - texPicam.getWidth())/2;
-        float h2 = (ofGetHeight() - texPicam.getHeight())/2;
-        ofTranslate(w2, h2);
-        ofScale(1, -1);
-        ofRotateZ(deg);
-
         texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
 
-        ofPopMatrix();
+        glPopMatrix();
 
         BCSA_T.end();
     }
