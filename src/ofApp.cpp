@@ -273,7 +273,7 @@ void ofApp::update(){
                 ticket.save(photoPath+fileName);
 
                 if (print){
-                    string printCommand = "lp -o speed:@\"4\" ";
+                    string printCommand = "lp -o TmxPrintingSpeed=4 ";
                     printCommand +=photoPath+fileName;
                     ofSystem(printCommand);
                 }
