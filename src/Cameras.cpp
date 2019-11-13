@@ -43,8 +43,6 @@ void Cameras::setup(){
     omxCameraSettings.height = 720; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
-
-    piCam.setRotation(ROTATION_90);
     piCam.setup(omxCameraSettings);
 
 #else
