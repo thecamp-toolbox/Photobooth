@@ -43,8 +43,9 @@ void Cameras::setup(){
     omxCameraSettings.height = 720; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
-    piCam.setup(omxCameraSettings);
+
     piCam.setRotation(ROTATION_90);
+    piCam.setup(omxCameraSettings);
 
 #else
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
@@ -105,14 +106,11 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
 
 
-        float heightJu = texPicam.getWidth();
-        float widJu = texPicam.getHeight();
+        float widJu = texPicam.getWidth();
+        float heightJu = texPicam.getHeight();
 
-        int drawWidth = widJu/4;
-        int drawHeight = heightJu/4;
-
-        ofLog() << "VAR WIDTH : " << drawWidth << endl;
-        ofLog() << "VAR height : " << drawHeight << endl;
+        int drawWidth = widJu/3;
+        int drawHeight = heightJu/3;
 
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
         texPicam.draw(x, y, drawWidth, drawHeight);
