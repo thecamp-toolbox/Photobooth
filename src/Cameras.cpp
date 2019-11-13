@@ -115,8 +115,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         ofPushMatrix();
         texPicam.setAnchorPercent(0.5, 0.5);
         float deg = 0.0; // float
-        w2 = (ofGetWidth() - widJu)/2;
-        h2 = (ofGetHeight() - heightJu)/2;
+        float w2 = (ofGetWidth() - widJu)/2;
+        float h2 = (ofGetHeight() - heightJu)/2;
 
         ofTranslate(w2, h2);
         ofScale(1, -1);
