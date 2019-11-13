@@ -492,7 +492,7 @@ void ofApp::draw(){
             cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0,1920,1080);
 
-        /*    if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+            /*    if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
 
                 resetButtons();
                 currentState = COUNTDOWN;
