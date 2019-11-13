@@ -107,7 +107,7 @@ void ofApp::update(){
                 leds.currentAnimation = leds.INIT;
                 bg.next();
                 ofLog() << "STANDBY";
-                bg.load("/data/BG-simple/"+backgroundFiles[CAM_CHOICE]);
+                bg.load("/data/BG-simple/"+backgroundFiles[FRAME]);
                 ledButtons(1, 1);
             }
 
