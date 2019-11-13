@@ -113,7 +113,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
 
         ofPushMatrix();
-        ofRotate(45);//What is drawn is roated by 45
+        ofRotate(90);//What is drawn is roated by 45
         texPicam.draw(x, y, drawWidth, drawHeight);
         ofPopMatrix();
 
