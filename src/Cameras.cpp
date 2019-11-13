@@ -40,12 +40,10 @@ void Cameras::setup(){
     ofLog() << "size 1: " << USBCam.getWidth() << " / " << USBCam.getHeight();
 #ifdef TARGET_RASPBERRY_PI
     omxCameraSettings.width = 1280; //default 1280
-    omxCameraSettings.height = 700; //default 720
+    omxCameraSettings.height = 720; //default 720
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
-
     piCam.setup(omxCameraSettings);
-    piCam.setRotation(ROTATION_90);
 
 #else
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
@@ -104,11 +102,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
-
-        float wid2 = texPicam.getWidth();
-        float heig2 = texPicam.getHeight();
-
-        texPicam.draw(x, y, heig2, wid2);
+        texPicam.allocate(393, 700, GL_LUMINANCE);
+        texPicam.draw(x, y, 393, 700);
 
         BCSA_T.end();
     }
