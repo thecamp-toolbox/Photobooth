@@ -3,13 +3,13 @@
 	<Evenement>
 		<Nom>theCamp</Nom>
 		<Annee>2019</Annee>
-		<Mois>5</Mois>
-		<Jour>30</Jour>
-		<Heure>18</Heure>
-		<Minute>31</Minute>
+		<Mois>11</Mois>
+		<Jour>13</Jour>
+		<Heure>12</Heure>
+		<Minute>17</Minute>
 	</Evenement>
 	<Fichiers>
-		<Log_fichier>0</Log_fichier>
+		<Log_fichier>1</Log_fichier>
 		<Questions>
 			<Chemin>questions.csv</Chemin>
 			<Col_offset>2</Col_offset>
@@ -19,26 +19,26 @@
 		<Principal>
 			<position_X>485</position_X>
 			<position_Y>57</position_Y>
-			<taille_X>952</taille_X>
-			<taille_Y>952</taille_Y>
+			<taille_X>360</taille_X>
+			<taille_Y>640</taille_Y>
 		</Principal>
 		<Choix_gauche>
 			<position_X>327</position_X>
-			<position_Y>357</position_Y>
-			<taille_X>519</taille_X>
-			<taille_Y>519</taille_Y>
+			<position_Y>303</position_Y>
+			<taille_X>640</taille_X>
+			<taille_Y>360</taille_Y>
 		</Choix_gauche>
 		<Choix_droit>
-			<position_X>1073</position_X>
-			<position_Y>357</position_Y>
-			<taille_X>519</taille_X>
-			<taille_Y>519</taille_Y>
+			<position_X>800</position_X>
+			<position_Y>303</position_Y>
+			<taille_X>640</taille_X>
+			<taille_Y>360</taille_Y>
 		</Choix_droit>
 		<Resultat>
 			<position_X>602</position_X>
 			<position_Y>127</position_Y>
-			<taille_X>718</taille_X>
-			<taille_Y>718</taille_Y>
+			<taille_X>540</taille_X>
+			<taille_Y>960</taille_Y>
 		</Resultat>
 		<CountDown>
 			<position_X>860</position_X>
@@ -54,10 +54,14 @@
 		</Timer>
 	</Coordonnees_displays>
 	<Cameras>
-		<crop_offset_X>372</crop_offset_X>
-		<crop_offset_Y>121</crop_offset_Y>
-		<crop_largeur>502</crop_largeur>
-		<crop_hauteur>479</crop_hauteur>
+		<crop_offset_X>0</crop_offset_X>
+		<crop_offset_Y>0</crop_offset_Y>
+		<crop_largeur>1920</crop_largeur>
+		<crop_hauteur>1442</crop_hauteur>
+		<luminosité_cam_Ht>2</luminosité_cam_Ht>
+		<contraste_cam_Ht>1</contraste_cam_Ht>
+		<luminosité_cam_Bas>1</luminosité_cam_Bas>
+		<contraste_cam_Bas>1</contraste_cam_Bas>
 	</Cameras>
 	<Timers>
 		<FPS>20</FPS>
@@ -71,7 +75,7 @@
 		<Draw_FPS>0</Draw_FPS>
 	</Timers>
 	<Ticket>
-		<print>0</print>
+		<print>1</print>
 		<Marge_Gauche>10</Marge_Gauche>
 		<Marge_Droite>10</Marge_Droite>
 		<Marge_Haut>10</Marge_Haut>

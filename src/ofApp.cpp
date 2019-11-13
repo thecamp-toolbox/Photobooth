@@ -273,7 +273,7 @@ void ofApp::update(){
                 ticket.save(photoPath+fileName);
 
                 if (print){
-                    string printCommand = "lp -o TmtSpeed=4 ";
+                    string printCommand = "lp ";
                     printCommand +=photoPath+fileName;
                     ofSystem(printCommand);
                 }
@@ -342,7 +342,7 @@ void ofApp::draw(){
 
             if (buttonLPressed || buttonRPressed){
                 resetButtons();
-                currentState = CAM_CHOICE;
+                currentState = FRAME;
                 PBtimer = 0;
                 // reset profile accounts
                 for (size_t j = 0; j < nProfiles; ++j) {
