@@ -109,8 +109,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
 
         float wid2 = texPicam.getWidth();
         float heig2 = texPicam.getHeight();
-        std::cout << "value width: " << wid2 << endl;
-        std::cout << "value height: " << heig2 << endl;
+        ofLog() << "value width: " << wid2 << endl;
+        ofLog() << "value height: " << heig2 << endl;
 
         BCSA_T.end();
     }
