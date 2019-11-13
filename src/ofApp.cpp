@@ -489,15 +489,15 @@ void ofApp::draw(){
         }
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
-            cams.draw_one(585, 100, 360, 600);
+            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
             frame.draw(0,0,1920,1080);
 
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
+        /*    if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
 
                 resetButtons();
                 currentState = COUNTDOWN;
                 PBtimer = 0;
-            }
+            }*/
 
             break;
         }
