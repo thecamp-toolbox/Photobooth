@@ -113,8 +113,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
 
         ofPushMatrix();
-        texPicam.draw(x, y, drawWidth, drawHeight);
-        ofRotate(90);//What is drawn is roated by 45
+        ofRotate(90);
+        texPicam.draw();
         ofPopMatrix();
 
         BCSA_T.end();
