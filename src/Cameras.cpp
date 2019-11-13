@@ -103,8 +103,20 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
-        texPicam.allocate(w, h, GL_LUMINANCE);
-        texPicam.draw(x, y, w, h);
+
+
+        float widJu = texPicam.getWidth();
+        float heightJu = texPicam.getHeight();
+
+        int drawWidth = widJu/4;
+        int drawHeight = heightJu/4;
+
+        ofLog() << "VAR WIDTH : " << drawWidth << endl;
+        ofLog() << "VAR height : " << drawHeight << endl;
+
+
+        texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
+        texPicam.draw(x, y, drawWidth, drawHeight);
 
         BCSA_T.end();
     }
