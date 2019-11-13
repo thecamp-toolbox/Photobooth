@@ -108,7 +108,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         float wid2 = texPicam.getWidth();
         float heig2 = texPicam.getHeight();
 
-        texPicam.draw(x, y, wid2, heig2);
+        texPicam.draw(x, y, heig2, wid2);
 
         BCSA_T.end();
     }
