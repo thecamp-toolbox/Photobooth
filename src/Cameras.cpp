@@ -103,14 +103,9 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("contrast", contrastT);
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
-        BCSA_T.setUniformTexture("image", texPicam,texPicam.getTextureData().textureID);
+        BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
 
-        texPicam.drawSubsection(x, y+h, w, -h, camXOffset, camYOffset, camXsize, camYsize);
-
-        float wid2 = texPicam.getWidth();
-        float heig2 = texPicam.getHeight();
-        ofLog() << "value width: " << wid2 << endl;
-        ofLog() << "value height: " << heig2 << endl;
+        texPicam.draw(x, y);
 
         BCSA_T.end();
     }
