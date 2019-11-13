@@ -105,15 +105,14 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
 
 
-        float widJu = texPicam.getWidth();
-        float heightJu = texPicam.getHeight();
+        float heightJu = texPicam.getWidth();
+        float widJu = texPicam.getHeight();
 
         int drawWidth = widJu/4;
         int drawHeight = heightJu/4;
 
         ofLog() << "VAR WIDTH : " << drawWidth << endl;
         ofLog() << "VAR height : " << drawHeight << endl;
-
 
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
         texPicam.draw(x, y, drawWidth, drawHeight);
