@@ -103,8 +103,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         BCSA_T.setUniform1f("saturation", 0);
         BCSA_T.setUniform1f("alpha", 1.);
         BCSA_T.setUniformTexture("image", texPicam, texPicam.getTextureData().textureID);
-        texPicam.allocate(393, 700, GL_LUMINANCE);
-        texPicam.draw(x, y, 393, 700);
+        texPicam.allocate(525, 700, GL_LUMINANCE);
+        texPicam.draw(x, y, 525, 700);
 
         BCSA_T.end();
     }
