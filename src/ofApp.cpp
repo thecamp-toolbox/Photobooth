@@ -348,7 +348,6 @@ void ofApp::draw(){
                 for (size_t j = 0; j < nProfiles; ++j) {
                     profileCounts[j] = 0;
                 }
-                bg.next();
             }
             break;
 
