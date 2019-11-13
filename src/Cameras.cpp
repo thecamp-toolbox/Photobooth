@@ -113,7 +113,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
 
         ofPushMatrix();
-        textPicam.setAnchorPoint(drawWidth/2, drawHeight/2);
+        texPicam.setAnchorPoint(drawWidth/2, drawHeight/2);
         texPicam.draw(x, y, drawWidth, drawHeight);
         ofPopMatrix();
 
