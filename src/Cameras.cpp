@@ -107,8 +107,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         float widJu = texPicam.getWidth();
         float heightJu = texPicam.getHeight();
 
-        int drawWidth = widJu/3;
-        int drawHeight = heightJu/3;
+        int drawWidth = widJu/2;
+        int drawHeight = heightJu/2;
 
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
 
