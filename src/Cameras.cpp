@@ -114,7 +114,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
 
         ofPushMatrix();
         ofRotate(45);//What is drawn is roated by 45
-        setAnchorPoint(50,50) //changes drawing point to 50, 50. Therefore will rotate 45 from this point
+        setAnchorPoint(50,50); //changes drawing point to 50, 50. Therefore will rotate 45 from this point
 
         texPicam.draw(x, y, drawWidth, drawHeight);
         ofPopMatrix();
