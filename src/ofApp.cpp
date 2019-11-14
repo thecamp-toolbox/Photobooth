@@ -240,7 +240,7 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -630, 354);
+                    result.draw(ticketMarginXLeft, ticketMarginYTop, sizeResCamX, sizeResCamY);
                     result.save("/data/screenshot_result.png");
 
                     //ofSetColor(0);
