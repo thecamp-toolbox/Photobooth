@@ -240,15 +240,22 @@ void ofApp::update(){
                     ofSetColor(255,255,255, 255);
                     ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, sizeResCamX, sizeResCamY);
+                    result.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop, -630, 354);
+                    result.save("/data/screenshot_result.png");
+
                     //ofSetColor(0);
                     /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
                                     //ticketMarginXLeft,
                                     (sizeTktX-80-(profileNames[currentProfile].size())*textFontSize)/2,
                                     ticketMarginYTop+sizeTktY+textMargin+textFontSize);*/
+
                     profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
+
+
                 //ofLog() << "print dim" << ticketMarginXLeft << " /" << ticketMarginYTop+sizeTktY+profilMargin  << " /" << sizeTktX << " /" << profilSizeY;
                     ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
+                    ticket.save("/data/screenshot_ticket.png");
+
                 fbo.end();
                 /*
                 fbo.begin();
@@ -534,7 +541,6 @@ void ofApp::draw(){
             if (PBtimer>flashTimer*ofGetFrameRate()){
                 //if (PBtimer==2){
                 result.grabScreen(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
-                result.save("/data/screenshot.png");
                 //}
                 bg.next();
                 resetButtons();
