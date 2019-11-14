@@ -563,14 +563,14 @@ void ofApp::draw(){
                     currentState = COUNTDOWN;
 
                 } else {
-                    bg.load("/data/BG-simple/"+backgroundFiles[PRINTING]);
+                    bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
                     bg.next();
                     currentState = PRINTING;
                 }
                 PBtimer = 0;
             }
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed){
-                bg.load("/data/BG-simple/"+backgroundFiles[PRINTING]);
+                bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
                 bg.next();
                 resetButtons();
                 currentState = PRINTING;
