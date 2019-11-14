@@ -110,8 +110,11 @@ void Cameras::draw_one(float x, float y, float w, float h){
         float drawWidth = widJu/2;
         float drawHeight = heightJu/2;
 
+        unsigned char* pixels;
+
+
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
-        pixels = new unsigned char[drawWidth*drawHeight*3];
+        pixels = new unsigned char[(int)drawWidth*(int)drawHeight*3];
          for(int i=0; i<drawHeight; i++){
              int value = 255.0*(float)i/drawHeight;
              memset(pixels+i*drawWidth*3,value,drawWidth*3);
