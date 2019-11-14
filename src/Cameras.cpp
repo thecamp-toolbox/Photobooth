@@ -117,7 +117,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
         pixels = new unsigned char[(int)drawWidth*(int)drawHeight*3];
          for(int i=0; i<drawHeight; i++){
              int value = 255.0*(float)i/drawHeight;
-             memset(pixels+i*drawWidth*3,value,drawWidth*3);
+             memset(pixels+i*(int)drawWidth*3,value,(int)drawWidth*3);
          }
          texPicam.loadData(pixels, (int)drawWidth, (int)drawHeight,GL_RGB);
 
