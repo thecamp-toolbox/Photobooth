@@ -110,17 +110,8 @@ void Cameras::draw_one(float x, float y, float w, float h){
         float drawWidth = widJu/2;
         float drawHeight = heightJu/2;
 
-        unsigned char* pixels;
-
-
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
-        pixels = new unsigned char[(int)drawWidth*(int)drawHeight*3];
-         for(int i=0; i<drawHeight; i++){
-             int value = 255.0*(float)i/drawHeight;
-             memset(pixels+i*(int)drawWidth*3,value,(int)drawWidth*3);
-         }
-         texPicam.loadData(pixels, (int)drawWidth, (int)drawHeight,GL_RGB);
-
+        texPicam.getTextureReference().getTextureData().bFlipTexture = true;
 
         ofPushMatrix();
         ofRotate(90);//What is drawn is roated by 45
