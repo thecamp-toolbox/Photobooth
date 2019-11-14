@@ -44,7 +44,7 @@ void Cameras::setup(){
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
     piCam.setup(omxCameraSettings);
-    piCam.getTextureReference().getTextureData().bFlipTexture = true;
+    piCam.setMirror(MIRROR_VERTICAL);
 
 
 #else
