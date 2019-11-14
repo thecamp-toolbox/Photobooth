@@ -119,7 +119,7 @@ void Cameras::draw_one(float x, float y, float w, float h){
              int value = 255.0*(float)i/drawHeight;
              memset(pixels+i*drawWidth*3,value,drawWidth*3);
          }
-         texPicam.loadData(pixels,drawWidth,drawHeight,GL_RGB);
+         texPicam.loadData(pixels, (int)drawWidth, (int)drawHeight,GL_RGB);
 
 
         ofPushMatrix();
