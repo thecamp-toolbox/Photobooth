@@ -215,7 +215,6 @@ void ofApp::update(){
                 ofLog() << "FLASH";
             }
 
-
             break;
         }
         case RESULT: {
@@ -236,41 +235,23 @@ void ofApp::update(){
                 bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
 
                 fbo.begin();
-                    ofClear(255,255,255, 0);
-                    ofSetColor(255,255,255, 255);
-                    ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                    result.draw(ticketMarginXLeft, ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                    result.save("/data/screenshot_result.png");
+                ofClear(255,255,255, 0);
+                ofSetColor(255,255,255, 255);
+                ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                    //ofSetColor(0);
-                    /*font.drawString("rendez-vous sur http://vyv.app/"+profileNames[currentProfile],
-                                    //ticketMarginXLeft,
-                                    (sizeTktX-80-(profileNames[currentProfile].size())*textFontSize)/2,
-                                    ticketMarginYTop+sizeTktY+textMargin+textFontSize);*/
+                result.draw(ticketMarginXLeft, ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
+                profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
 
-                    profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
-
-
-                //ofLog() << "print dim" << ticketMarginXLeft << " /" << ticketMarginYTop+sizeTktY+profilMargin  << " /" << sizeTktX << " /" << profilSizeY;
-                    ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
-                    ticket.save("/data/screenshot_ticket.png");
+                ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
+                ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
-                /*
-                fbo.begin();
-                    ticket.draw(ticketWidth, ticketHeight, -ticketWidth, -ticketHeight);
-                    result.grabScreen(0, 0, ticketWidth, ticketHeight);
-                fbo.end();
-                //ofEnableAlphaBlending();
-                 */
 
                 Poco::Timestamp now;
                 Poco::LocalDateTime nowLocal(now);
 
                 Poco::Timestamp saveTime;
-
-                //saveTime = nowLocal+timeOffset.getTimespan();
 
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
@@ -542,6 +523,7 @@ void ofApp::draw(){
                 //if (PBtimer==2){
                 result.grabScreen(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
                 //}
+                bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
                 bg.next();
                 resetButtons();
                 currentState = RESULT;
@@ -561,21 +543,8 @@ void ofApp::draw(){
 
             drawTimer(mainTimer);
 
-            if (buttonRPressed) {
-                resetButtons();
-                resultCount++;
-                if (resultCount<3){
-                    bg.load("/data/BG-simple/"+backgroundFiles[RESULT]+to_string(resultCount+1)+".png");
-                    currentState = COUNTDOWN;
 
-                } else {
-                    bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
-                    bg.next();
-                    currentState = PRINTING;
-                }
-                PBtimer = 0;
-            }
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed){
+            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed ){
                 bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
                 bg.next();
                 resetButtons();
