@@ -112,6 +112,35 @@ void Cameras::draw_one(float x, float y, float w, float h){
 
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
 
+        ofTexture mirrorTexture;
+        unsigned char * videoMirror;
+
+        piCam.grabFrame();
+        videoMirror = new unsigned char[widJu*heightJu*3];
+        mirrorTexture.allocate(widJu, heightJu, GL_RGB);
+
+
+        if (piCam.isFrameNew()) {
+            unsigned char * pixels = piCam.getPixels();
+            for (int i = 0; i < heightJu; i++) {
+                for (int j = 0; j < widJu*3; j+=3) {
+                    // pixel number
+                    int pix1 = (i*widJu*3) + j;
+                    int pix2 = (i*widJu*3) + (j+1);
+                    int pix3 = (i*widJu*3) + (j+2);
+                    // mirror pixel number
+                    int mir1 = (i*widJu*3)+1 * (widJu*3 - j-3);
+                    int mir2 = (i*widJu*3)+1 * (widJu*3 - j-2);
+                    int mir3 = (i*widJu*3)+1 * (widJu*3 - j-1);
+                    // swap pixels
+                    videoMirror[pix1] = pixels[mir1];
+                    videoMirror[pix2] = pixels[mir2];
+                    videoMirror[pix3] = pixels[mir3];
+                }
+            }
+            mirrorTexture.loadData(videoMirror, widJu, heightJu, GL_RGB);
+        }
+
         ofPushMatrix();
         ofRotate(90);//What is drawn is roated by 45
         texPicam.draw(x, y, drawWidth, drawHeight);
