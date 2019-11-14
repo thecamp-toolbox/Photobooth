@@ -533,7 +533,8 @@ void ofApp::draw(){
 
             if (PBtimer>flashTimer*ofGetFrameRate()){
                 //if (PBtimer==2){
-                result.grabScreen(posMainCamY, posMainCamX, sizeMainCamY, sizeMainCamX);
+                result.grabScreen(600, 116, 260, 473);
+                result.save("/data/screenshot.png");
                 //}
                 bg.next();
                 resetButtons();
