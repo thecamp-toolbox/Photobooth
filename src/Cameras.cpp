@@ -44,6 +44,8 @@ void Cameras::setup(){
     omxCameraSettings.enableTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
     piCam.setup(omxCameraSettings);
+    piCam.getTextureReference().getTextureData().bFlipTexture = true;
+
 
 #else
     ofLog() << " Setup Cam 2 (Facetime) with Device#" << piCamNr;
@@ -111,7 +113,6 @@ void Cameras::draw_one(float x, float y, float w, float h){
         float drawHeight = heightJu/2;
 
         texPicam.allocate(drawWidth, drawHeight, GL_LUMINANCE);
-        texPicam.getTextureReference().getTextureData().bFlipTexture = true;
 
         ofPushMatrix();
         ofRotate(90);//What is drawn is roated by 45
