@@ -240,7 +240,7 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                result.draw(ticketMarginXLeft, profilSizeX + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
+                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicket.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
 
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
