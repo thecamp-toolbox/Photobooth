@@ -237,6 +237,12 @@ void ofApp::update(){
                 ofLog() << "PRINTING";
                 bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
 
+                Poco::Timestamp now;
+                Poco::LocalDateTime nowLocal(now);
+                Poco::Timestamp saveTime;
+
+                string readableDate = ofToString(day)+'/'+ofToString(month)+'/'+ofToString(year);
+
                 fbo.begin();
 
                 float marginXLogo = (ticketWidth-profilTicketThecamp.getWidth()) / 2;
@@ -244,7 +250,8 @@ void ofApp::update(){
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
-
+                font.drawString(readableDate ,0, 40);
+                font.drawString("The Base Camp For Exploring the Future" ,0, 0);
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
 
@@ -254,10 +261,6 @@ void ofApp::update(){
 
                 fbo.end();
 
-                Poco::Timestamp now;
-                Poco::LocalDateTime nowLocal(now);
-
-                Poco::Timestamp saveTime;
 
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
