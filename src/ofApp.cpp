@@ -254,7 +254,7 @@ void ofApp::update(){
 
                 ticket.grabScreen(0, 0, ticketWidth, 1800);
                 ticket.save("/data/screenshot_ticket.png");
-                fbo.draw();
+                fbo.draw(ticketWidth, 1800);
 
                 fbo.end();
 
