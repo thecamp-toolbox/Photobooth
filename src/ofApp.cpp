@@ -250,9 +250,6 @@ void ofApp::update(){
                 result.draw(ticketMarginXLeft, profilSizeY   + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
 
-                float widthLogoClient = profilTicketClient.getWidth();
-                float heightLogoClient = profilTicketClient.getHeight();
-                float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
                 profilTicketClient.draw(marginXLogoClient, profilMarginY, widthLogoClient, heightLogoClient);
 
                 ticket.grabScreen(0, 0, ticketWidth, realTicketHeight);
