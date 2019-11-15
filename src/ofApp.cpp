@@ -246,14 +246,12 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                profilTicketClient.mirror(1,0);
-                profilTicketThecamp.mirror(1,0);
-
                 profilTicketClient.draw(marginXLogoClient, profilSizeY + ticketMarginYTop + (sizeResCamY*1.5)+ profilMarginY, widthLogoClient, heightLogoClient);
                 result.draw(ticketMarginXLeft, ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
 
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
+                ticket.mirror(1,0);
                 ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
