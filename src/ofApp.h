@@ -78,7 +78,7 @@ public:
     ticketMarginXLeft{10}, ticketMarginXRight{10},
     ticketMarginYTop{10},  ticketMarginYBottom{10},
     sizeTktX{635}, sizeTktY{635},
-    profilMarginX{20}, profilMarginY{20}, profilSizeX{180}, profilSizeY{180}, textFontSize{30};
+      profilMarginX{20}, profilMarginY{20}, z{180}, profilSizeY{180}, textFontSize{30};
     ofParameter<string> fontName {"sans-serif"};
 
     ofParameterGroup timers;
@@ -204,7 +204,9 @@ public:
 
     ofTexture profile;
     ofTexture frame;
-    ofTexture profilTicket;
+    ofTexture profilTicketThecamp;
+    ofTexture profilTicketClient;
+
     ofTexture countdowns[nCountdown];
     ofTexture timerV[nTimer];
 

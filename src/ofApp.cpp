@@ -21,7 +21,8 @@ void ofApp::setup(){
         ofLoadImage(timerV[j], ("/data/BG-simple/timer"+to_string(j+1)+".png"));
         ofLog() << ("/data/BG-simple/timer"+to_string(j+1)+".png");
     }
-    ofLoadImage(profilTicket,   ("/data/BG-simple/profil.png"));
+    ofLoadImage(profilTicketThecamp,   ("/data/BG-simple/profil.png"));
+    ofLoadImage(profilTicketClient,   ("/data/logo_client.png"));
 
     //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
 
@@ -238,12 +239,23 @@ void ofApp::update(){
 
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
-                ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                profilTicket.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
+                float widthLogoClient = profilTicketClient.getWidth();
+                float heightLogoClient = profilTicketClient.getHeight();
+                float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
 
-                ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
+                float realTicketHeight = profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + profilMarginY;
+                ofDrawRectangle(0, 0, ticketWidth, realTicketHeight);
+
+                result.draw(ticketMarginXLeft, profilSizeY   + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
+                profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
+
+                float widthLogoClient = profilTicketClient.getWidth();
+                float heightLogoClient = profilTicketClient.getHeight();
+                float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
+                profilTicketClient.draw(marginXLogoClient, profilMarginY, widthLogoClient, heightLogoClient);
+
+                ticket.grabScreen(0, 0, ticketWidth, realTicketHeight);
                 ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
