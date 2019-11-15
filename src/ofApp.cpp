@@ -86,7 +86,7 @@ void ofApp::update(){
                 GUIhide = 1;
                 ofHideCursor();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
-                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+profilMarginY+profilSizeY;
+                ticketHeight= profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + profilMarginY ;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
@@ -241,20 +241,17 @@ void ofApp::update(){
                 float heightLogoClient = profilTicketClient.getHeight();
                 float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
 
-              //  float realTicketHeight = profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + heightLogoClient ;
-
 
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
-                ofDrawRectangle(0, 0, ticketWidth, 1800);
+                ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
                 profilTicketClient.draw(marginXLogoClient, profilSizeY + ticketMarginYTop + (sizeResCamY*1.5)+ profilMarginY, widthLogoClient, heightLogoClient);
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
 
-                ticket.grabScreen(0, 0, ticketWidth, 1800);
+                ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.save("/data/screenshot_ticket.png");
-                fbo.draw(ticketWidth, 1800);
 
                 fbo.end();
 
