@@ -85,7 +85,7 @@ void ofApp::update(){
                 GUIhide = 1;
                 ofHideCursor();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
-                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+profilMargin+profilSizeY;
+                ticketHeight= ticketMarginYTop+ticketMarginYBottom+sizeTktY+profilMarginY+profilSizeY;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
