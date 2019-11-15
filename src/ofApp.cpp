@@ -251,7 +251,6 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                ofSetColor(0,0,0,0);
                 fontTicket.load( OF_TTF_SANS, 8, true,true);
                 fontTicket.drawString(readableDate ,0, 40);
                 fontTicket.drawString("The Base Camp For Exploring the Future" ,0, 100);
