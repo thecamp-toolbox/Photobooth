@@ -256,7 +256,7 @@ void ofApp::update(){
                 profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
 
                 float marginDate = (ticketWidth-fontTicket.stringWidth(readableDate)) / 2;
-                float dateHeight = ontTicket.stringHeight(readableDate)
+                float dateHeight = fontTicket.stringHeight(readableDate)
                 float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
 
                 ofSetHexColor(0x000000);
