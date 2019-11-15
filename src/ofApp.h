@@ -137,6 +137,8 @@ public:
     int fboMaxSizeX{1000},fboMaxSizeY{1000};
 
     ofTrueTypeFont font;
+    ofTrueTypeFont fontTicket;
+
 
     LEDs leds;
 
