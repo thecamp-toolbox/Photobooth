@@ -241,13 +241,12 @@ void ofApp::update(){
 
                 float marginXLogo = (ticketWidth-profilTicketThecamp.getWidth()) / 2;
 
-
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
+                profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
 
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.mirror(1,0);
