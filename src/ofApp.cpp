@@ -251,12 +251,15 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                fontTicket.load( OF_TTF_SANS, 8, true,true);
-                fontTicket.drawString(readableDate ,0, 40);
-                fontTicket.drawString("The Base Camp For Exploring the Future" ,0, 100);
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
 
+                ofSetHexColor(0x000000);
+                fontTicket.load( OF_TTF_SANS, 12, true,true);
+                fontTicket.drawString(readableDate ,0, 40);
+                fontTicket.drawString("The Base Camp For Exploring the Future" ,0, 100);
+
+                ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.mirror(1,0);
                 ticket.save("/data/screenshot_ticket.png");
