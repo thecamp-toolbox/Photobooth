@@ -239,7 +239,7 @@ void ofApp::update(){
 
                 fbo.begin();
 
-                float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
+                float marginXLogo = (ticketWidth-profilTicketThecamp.getWidth()) / 2;
 
 
                 ofClear(255,255,255, 0);
