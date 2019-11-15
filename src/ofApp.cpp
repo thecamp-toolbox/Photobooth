@@ -237,21 +237,23 @@ void ofApp::update(){
 
                 fbo.begin();
 
-                ofClear(255,255,255, 0);
-                ofSetColor(255,255,255, 255);
 
                 float widthLogoClient = profilTicketClient.getWidth();
                 float heightLogoClient = profilTicketClient.getHeight();
                 float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
 
-                float realTicketHeight = profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + heightLogoClient ;
-                ofDrawRectangle(0, 0, ticketWidth, ticketHeight+heightLogoClient);
+              //  float realTicketHeight = profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + heightLogoClient ;
 
-                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
+
+                ofClear(255,255,255, 0);
+                ofSetColor(255,255,255, 255);
+                ofDrawRectangle(0, 0, ticketWidth, ticketHeight+heightLogoClient + profilMarginY);
+
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
+                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketClient.draw(marginXLogoClient, profilSizeY + ticketMarginYTop + (sizeResCamY*1.5)+ profilMarginY, widthLogoClient, heightLogoClient);
 
-                ticket.grabScreen(0, 0, ticketWidth, ticketHeight+heightLogoClient);
+                ticket.grabScreen(0, 0, ticketWidth, ticketHeight+heightLogoClient + profilMarginY);
                 ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
