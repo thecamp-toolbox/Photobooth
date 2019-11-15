@@ -85,6 +85,8 @@ void ofApp::update(){
                 settings.save("/data/settings-simple.xml");
                 GUIhide = 1;
                 ofHideCursor();
+                float widthLogoClient = profilTicketClient.getWidth();
+                float heightLogoClient = profilTicketClient.getHeight();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
                 ticketHeight= profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + profilMarginY ;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
@@ -237,8 +239,6 @@ void ofApp::update(){
 
                 fbo.begin();
 
-                float widthLogoClient = profilTicketClient.getWidth();
-                float heightLogoClient = profilTicketClient.getHeight();
                 float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
 
 
