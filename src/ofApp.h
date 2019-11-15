@@ -230,6 +230,8 @@ public:
     int weightsR[nQuestions][nProfiles];
 
     float score;
+    float heightLogoClient;
+    float widthLogoClient;
     float profileCounts[nProfiles];
     int   profileScores[nProfiles];
 
