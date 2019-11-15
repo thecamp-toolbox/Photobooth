@@ -240,8 +240,8 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                result.draw(ticketMarginXLeft, ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                profilTicket.draw(ticketMarginXLeft+sizeTktX, ticketMarginYTop+sizeTktY+profilMargin, -sizeTktX, profilSizeY);
+                result.draw(ticketMarginXLeft, profilSizeX + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
+                profilTicket.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
 
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.save("/data/screenshot_ticket.png");
@@ -760,10 +760,15 @@ void ofApp::setupGUI(){
     tickPar.add(ticketMarginYBottom.set("Marge Bas", 100, 0, fboMaxSizeY/5));
     tickPar.add(sizeTktX.set("Largeur", 635, 0, fboMaxSizeX));
     tickPar.add(sizeTktY.set("Hauteur", 635, 0, fboMaxSizeY));
-    tickPar.add(profilMargin.set("Marge Y profil", 20, 0, fboMaxSizeY/5));
+    tickPar.add(profilMarginX.set("Marge Y profil", 20, 0, fboMaxSizeY/5));
+    tickPar.add(profilMarginY.set("Marge X profil", 20, 0, fboMaxSizeY/5));
+
+
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
     //tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
+    tickPar.add(profilSizeX.set("Taille X profil", 180, 0, 80));
+
     //
     parameters.add(tickPar);
 
