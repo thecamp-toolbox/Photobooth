@@ -247,6 +247,7 @@ void ofApp::update(){
 
                 float marginXLogo = (ticketWidth-profilTicketThecamp.getWidth()) / 2;
 
+
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
@@ -254,10 +255,14 @@ void ofApp::update(){
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
 
+                float marginDate = (ticketWidth-fontTicket.stringWidth(readableDate)) / 2;
+                float dateHeight = ontTicket.stringHeight(readableDate)
+                float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
+
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 12, true,true);
-                fontTicket.drawString(readableDate ,0, 40);
-                fontTicket.drawString("The Base Camp For Exploring the Future" ,0, 100);
+                fontTicket.drawString(readableDate, marginDate, profilSizeY + ticketMarginYTop + sizeResCamY*1.5 + ticketMarginYTop);
+                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, profilSizeY + ticketMarginYTop + sizeResCamY*1.5 + ticketMarginYTop + dateHeight + ticketMarginYTop);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
