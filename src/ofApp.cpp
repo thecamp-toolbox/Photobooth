@@ -251,7 +251,7 @@ void ofApp::update(){
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
                 profilTicketClient.draw(marginXLogoClient, profilSizeY + ticketMarginYTop + (sizeResCamY*1.5)+ profilMarginY, widthLogoClient, heightLogoClient);
 
-                ticket.grabScreen(0, -50, ticketWidth, realTicketHeight);
+                ticket.grabScreen(0, -80, ticketWidth, realTicketHeight);
                 ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
