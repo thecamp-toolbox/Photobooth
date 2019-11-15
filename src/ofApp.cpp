@@ -261,8 +261,8 @@ void ofApp::update(){
 
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 12, true,true);
-                fontTicket.drawString(readableDate, marginDate, profilSizeY + ticketMarginYTop + sizeResCamY*1.5 + ticketMarginYTop);
-                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, profilSizeY + ticketMarginYTop + sizeResCamY*1.5 + ticketMarginYTop + dateHeight + ticketMarginYTop);
+                fontTicket.drawString(readableDate, marginDate, positionYDate);
+                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
@@ -787,6 +787,9 @@ void ofApp::setupGUI(){
     //tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
     tickPar.add(profilSizeX.set("Taille X profil", 180, 0, 80));
+
+    tickPar.add(positionYDate.set("Position Y date", 180, 0, 80));
+    tickPar.add(positionYText.set("Position Y text", 180, 0, 80));
 
     //
     parameters.add(tickPar);

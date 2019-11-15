@@ -200,6 +200,9 @@ public:
     static const int nCountdown{5};
     int currentCountdown{0};
 
+    int positionYDate;
+    int positionYText;
+
     static const int nTimer{12};
 
     int resultCount{0};
