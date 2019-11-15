@@ -245,13 +245,13 @@ void ofApp::update(){
                 float marginXLogoClient = (ticketWidth-widthLogoClient) / 2;
 
                 float realTicketHeight = profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + heightLogoClient ;
-                ofDrawRectangle(0, 0, ticketWidth, realTicketHeight);
+                ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketThecamp.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
                 profilTicketClient.draw(marginXLogoClient, profilSizeY + ticketMarginYTop + (sizeResCamY*1.5)+ profilMarginY, widthLogoClient, heightLogoClient);
 
-                ticket.grabScreen(0, 0, ticketWidth, realTicketHeight);
+                ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
