@@ -256,7 +256,7 @@ void ofApp::update(){
                 profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC);
 
                 ofSetHexColor(0x000000);
-                fontTicket.load( fontName, 24, true,true);
+                fontTicket.load( OF_TTF_SANS, 24, true,true);
                 fontTicket.drawString(readableDate, positionXDate, positionYDate);
                 fontTicket.drawString(customerText, positionXText, positionYText);
 
@@ -780,7 +780,6 @@ void ofApp::setupGUI(){
 
 
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
-
     tickPar.add(customerText.set("Customer text", "A base camp to explore the future"));
 
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
