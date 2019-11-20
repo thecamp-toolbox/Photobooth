@@ -88,7 +88,7 @@ void ofApp::update(){
                 widthLogoClient = profilTicketClient.getWidth();
                 heightLogoClient = profilTicketClient.getHeight();
                 ticketWidth = ticketMarginXLeft+ticketMarginXRight+sizeTktX;
-                ticketHeight= profilSizeY + profilMarginY + ticketMarginYTop + sizeResCamY*1.5 + profilMarginY + heightLogoClient + profilMarginY ;
+                ticketHeight= sizeTktY ;
                 fbo.allocate(ticketWidth, ticketHeight, GL_RGBA );
                 font.load( OF_TTF_SANS,textFontSize,true,true);
                 leds.setup();
