@@ -251,7 +251,7 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.75, sizeResCamY*1.75);
+                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*2.3, sizeResCamY*2.3);
                 profilTicketClient.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
                 profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC, 235, 37);
 
