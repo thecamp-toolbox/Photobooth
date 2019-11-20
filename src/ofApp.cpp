@@ -253,7 +253,7 @@ void ofApp::update(){
 
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
                 profilTicketClient.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
-                profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC);
+                profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC, 60, 10);
 
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 24, true,true);
