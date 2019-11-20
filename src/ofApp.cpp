@@ -261,8 +261,8 @@ void ofApp::update(){
 
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 12, true,true);
-                fontTicket.drawString(readableDate, 0, positionYDate);
-                fontTicket.drawString("The Base Camp For Exploring the Future", 0, positionYText);
+                fontTicket.drawString(readableDate, marginDate, positionYDate);
+                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
