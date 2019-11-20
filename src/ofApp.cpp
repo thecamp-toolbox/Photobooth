@@ -260,9 +260,9 @@ void ofApp::update(){
                 float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
 
                 ofSetHexColor(0x000000);
-                fontTicket.load( OF_TTF_SANS, 12, true,true);
-                fontTicket.drawString(readableDate, 0, positionYDate);
-                fontTicket.drawString("The Base Camp For Exploring the Future", 0, positionYText);
+                fontTicket.load( OF_TTF_SANS, 24, true,true);
+                fontTicket.drawString(readableDate, marginDate, positionYDate);
+                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
