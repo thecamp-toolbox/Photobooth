@@ -790,8 +790,8 @@ void ofApp::setupGUI(){
     tickPar.add(positionYText.set("Position Y text", 180, 0, 80));
     tickPar.add(positionXText.set("Position X text", 180, 0, 80));
 
-    tickPar.add(positionXLogoTC.set("Position Y logoTheCamp", 180, 0, 80));
-    tickPar.add(positionYLogoTC.set("Position X logoTheCamp", 180, 0, 80));
+    tickPar.add(positionXLogoTC.set("Position X logoTheCamp", 180, 0, 80));
+    tickPar.add(positionYLogoTC.set("Position Y logoTheCamp", 180, 0, 80));
 
     //
     parameters.add(tickPar);
