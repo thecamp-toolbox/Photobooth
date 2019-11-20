@@ -252,7 +252,7 @@ void ofApp::update(){
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                profilTicketClient.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
+                profilTicketClient.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
                 profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC, 235, 37);
 
                 ofSetHexColor(0x000000);
@@ -775,12 +775,12 @@ void ofApp::setupGUI(){
     tickPar.add(ticketMarginYBottom.set("Marge Bas", 100, 0, fboMaxSizeY/5));
     tickPar.add(sizeTktX.set("Largeur", 635, 0, fboMaxSizeX));
     tickPar.add(sizeTktY.set("Hauteur", 635, 0, fboMaxSizeY));
-    tickPar.add(profilMarginX.set("Marge Y profil", 20, 0, fboMaxSizeY/5));
-    tickPar.add(profilMarginY.set("Marge X profil", 20, 0, fboMaxSizeY/5));
+    tickPar.add(profilMarginX.set("Position X logoClient", 20, 0, fboMaxSizeY/5));
+    tickPar.add(profilMarginY.set("Position Y logoClient", 20, 0, fboMaxSizeY/5));
 
 
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
-    tickPar.add(customerText.set("Customer text", "A base camp to explore the future"));
+    tickPar.add(customerText.set("Customer text", "A base camp for exploring the future"));
 
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
     tickPar.add(profilSizeX.set("Taille X profil", 180, 0, 80));
