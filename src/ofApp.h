@@ -81,8 +81,9 @@ public:
     profilMarginX{20}, profilMarginY{20},
     profilSizeX{180}, profilSizeY{180},
     textFontSize{30}, positionYText{180},
-    positionYDate{190}, positionXText{30}, positionXDate{30};
-    ofParameter<string> fontName {"sans-serif"};
+    positionYDate{190}, positionXText{30},
+    positionXDate{30} , positionXLogoTC{190}, positionYLogoTC{190};
+    ofParameter<string> fontName {"sans-serif"}, customerText{"A base camp to explore the future"};
 
     ofParameterGroup timers;
     ofParameter<int> frameRate;

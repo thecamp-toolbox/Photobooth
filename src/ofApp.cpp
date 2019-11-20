@@ -21,7 +21,7 @@ void ofApp::setup(){
         ofLoadImage(timerV[j], ("/data/BG-simple/timer"+to_string(j+1)+".png"));
         ofLog() << ("/data/BG-simple/timer"+to_string(j+1)+".png");
     }
-    ofLoadImage(profilTicketThecamp,   ("/data/BG-simple/profil.png"));
+    ofLoadImage(profilTicketThecamp,   ("/data/logo_thecamp.png"));
     ofLoadImage(profilTicketClient,   ("/data/logo_client.png"));
 
     //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
@@ -245,24 +245,20 @@ void ofApp::update(){
 
                 fbo.begin();
 
-                float marginXLogo = (ticketWidth-profilTicketThecamp.getWidth()) / 2;
-
+                float marginXLogo = (ticketWidth-profilTicketClient.getWidth()) / 2;
 
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
                 result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.5, sizeResCamY*1.5);
-                profilTicketThecamp.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
-
-                float marginDate = (ticketWidth-fontTicket.stringWidth(readableDate)) / 2;
-                float dateHeight = fontTicket.stringHeight(readableDate);
-                float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
+                profilTicketClient.draw(marginXLogo, profilMarginY, profilSizeX, profilSizeY);
+                profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC);
 
                 ofSetHexColor(0x000000);
-                fontTicket.load( OF_TTF_SANS, 24, true,true);
+                fontTicket.load( fontName, 24, true,true);
                 fontTicket.drawString(readableDate, positionXDate, positionYDate);
-                fontTicket.drawString("The Base Camp For Exploring the Future", positionXText, positionYText);
+                fontTicket.drawString(customerText, positionXText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
@@ -784,7 +780,10 @@ void ofApp::setupGUI(){
 
 
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
-    //tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
+
+    tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
+    tickPar.add(customerText.set("Customer text", "A base camp to explore the future"));
+
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
     tickPar.add(profilSizeX.set("Taille X profil", 180, 0, 80));
 
@@ -792,6 +791,9 @@ void ofApp::setupGUI(){
     tickPar.add(positionXDate.set("Position X date", 180, 0, 80));
     tickPar.add(positionYText.set("Position Y text", 180, 0, 80));
     tickPar.add(positionXText.set("Position X text", 180, 0, 80));
+
+    tickPar.add(positionXLogoTC.set("Position Y logoTheCamp", 180, 0, 80));
+    tickPar.add(positionYLogoTC.set("Position X logoTheCamp", 180, 0, 80));
 
     //
     parameters.add(tickPar);
