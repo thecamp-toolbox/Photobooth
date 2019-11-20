@@ -781,7 +781,6 @@ void ofApp::setupGUI(){
 
     //tickPar.add(textOffsetX.set("Offset X texte", 100, 0, fboMaxSizeX/2));
 
-    tickPar.add(fontName.set("Nom police", OF_TTF_SANS));
     tickPar.add(customerText.set("Customer text", "A base camp to explore the future"));
 
     tickPar.add(profilSizeY.set("Taille Y profil", 180, 0, 80));
