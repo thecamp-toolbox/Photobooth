@@ -80,7 +80,8 @@ public:
     sizeTktX{635}, sizeTktY{635},
     profilMarginX{20}, profilMarginY{20},
     profilSizeX{180}, profilSizeY{180},
-    textFontSize{30}, positionYText{180}, positionYDate{190};
+    textFontSize{30}, positionYText{180},
+    positionYDate{190}, positionXText{30}, positionXDate{30};
     ofParameter<string> fontName {"sans-serif"};
 
     ofParameterGroup timers;

@@ -259,13 +259,10 @@ void ofApp::update(){
                 float dateHeight = fontTicket.stringHeight(readableDate);
                 float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
 
-                ofLog() << marginDate;
-                  ofLog() << marginText;
-
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 24, true,true);
-                fontTicket.drawString(readableDate, marginDate, positionYDate);
-                fontTicket.drawString("The Base Camp For Exploring the Future", marginText, positionYText);
+                fontTicket.drawString(readableDate, positionXDate, positionYDate);
+                fontTicket.drawString("The Base Camp For Exploring the Future", positionXText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
@@ -792,7 +789,9 @@ void ofApp::setupGUI(){
     tickPar.add(profilSizeX.set("Taille X profil", 180, 0, 80));
 
     tickPar.add(positionYDate.set("Position Y date", 180, 0, 80));
+    tickPar.add(positionXDate.set("Position X date", 180, 0, 80));
     tickPar.add(positionYText.set("Position Y text", 180, 0, 80));
+    tickPar.add(positionXText.set("Position X text", 180, 0, 80));
 
     //
     parameters.add(tickPar);
