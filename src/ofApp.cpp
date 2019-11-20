@@ -259,6 +259,9 @@ void ofApp::update(){
                 float dateHeight = fontTicket.stringHeight(readableDate);
                 float marginText = (ticketWidth-fontTicket.stringWidth("The Base Camp For Exploring the Future")) / 2;
 
+                ofLog() << marginDate;
+                  ofLog() << marginText;
+
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 24, true,true);
                 fontTicket.drawString(readableDate, marginDate, positionYDate);
