@@ -510,7 +510,7 @@ void ofApp::draw(){
             countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
                                                            sizeCDX, sizeCDY);
 
-            countdowns[nCountdown-1-currentCountdown].draw(posCDX + posLCamY, posCDY, sizeCDX, sizeCDY);
+            countdowns[nCountdown-1-currentCountdown].draw(posCDX + 1000, posCDY, sizeCDX, sizeCDY);
 
             if (PBtimer>countDownTimer*ofGetFrameRate()){
                 currentCountdown++;
@@ -521,6 +521,27 @@ void ofApp::draw(){
                     flash(1);
                     currentState = FLASH;
                     currentCountdown=0;
+
+
+                    ofSetColor(255, 255, 255, 255);
+                    //bg.draw();
+              //      cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+                //    frame.draw(0,0,1920,1080);
+                    //buffer[textureToken].draw(0,0);
+
+                    if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+
+                    if (PBtimer>flashTimer*ofGetFrameRate()){
+                        //if (PBtimer==2){
+                        result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+                        //}
+                      //  bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
+                        bg.next();
+                        resetButtons();
+                        currentState = RESULT;
+                        flash(0);
+                        PBtimer = 0;
+                    }
                 }
             }
 
