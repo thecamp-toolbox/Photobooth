@@ -201,7 +201,7 @@ public:
     };
     int currentProfile {0};
 
-    static const int nCountdown{5};
+    static const int nCountdown{4};
     int currentCountdown{0};
 
     static const int nTimer{12};
