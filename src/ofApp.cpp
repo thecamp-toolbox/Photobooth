@@ -514,7 +514,7 @@ void ofApp::draw(){
                 currentCountdown++;
                 resetButtons();
                 PBtimer = 0;
-                if (currentCountdown==5){
+                if (currentCountdown==4){
                     leds.currentAnimation = leds.FLASH;
                     flash(1);
                     currentState = FLASH;
