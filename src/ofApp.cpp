@@ -519,7 +519,6 @@ void ofApp::draw(){
                 if (currentCountdown==4){
                     leds.currentAnimation = leds.FLASH;
                     flash(1);
-                    currentState = FLASH;
                     currentCountdown=0;
 
 
