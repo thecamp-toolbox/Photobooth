@@ -555,11 +555,11 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
             bg.draw();
 
-          //  result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
+            result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
 
             //drawTimer(mainTimer);
-
             bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
+            bg.next();
             resetButtons();
             currentState = PRINTING;
             PBtimer = 0;
