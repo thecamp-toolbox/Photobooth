@@ -553,22 +553,20 @@ void ofApp::draw(){
         case RESULT: {
 
             ofSetColor(255, 255, 255, 255);
-            frame.draw(0,0,1920,1080);
-//            bg.draw();
+            bg.draw();
 
           //  result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
 
             //drawTimer(mainTimer);
 
 
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed ){
-                bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
-                bg.next();
-                resetButtons();
-                currentState = PRINTING;
-                PBtimer = 0;
-                resultCount = 0;
-            }
+
+            bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
+            bg.next();
+            resetButtons();
+            currentState = PRINTING;
+            PBtimer = 0;
+            resultCount = 0;
 
             break;
         }
