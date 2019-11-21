@@ -555,7 +555,7 @@ void ofApp::draw(){
             ofSetColor(255, 255, 255, 255);
           //  bg.draw();
 
-            result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            result.draw(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
             frame.draw(0,0,1920,1080);
             //drawTimer(mainTimer);
             bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
