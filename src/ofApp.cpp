@@ -539,8 +539,8 @@ void ofApp::draw(){
                 //if (PBtimer==2){
                 result.grabScreen(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
                 //}
-                bg.load("/data/BG-simple/"+backgroundFiles[FRAME]);
-                bg.next();
+              //  bg.load("/data/BG-simple/"+backgroundFiles[FRAME]);
+              //  bg.next();
                 resetButtons();
                 currentState = RESULT;
                 flash(0);
@@ -553,11 +553,11 @@ void ofApp::draw(){
         case RESULT: {
 
             ofSetColor(255, 255, 255, 255);
-            bg.draw();
+//            bg.draw();
 
-            result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
+          //  result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
 
-            drawTimer(mainTimer);
+            //drawTimer(mainTimer);
 
 
             if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed ){
