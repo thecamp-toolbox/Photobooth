@@ -519,23 +519,7 @@ void ofApp::draw(){
                 if (currentCountdown==4){
                     leds.currentAnimation = leds.FLASH;
                     flash(1);
-
-
-                    if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-
-                    if (PBtimer>flashTimer*ofGetFrameRate()){
-                        //if (PBtimer==2){
-                        result.grabScreen(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-                        //}
-                        //bg.load("/data/BG-simple/"+backgroundFiles[INIT]);
-                        //bg.next();
-                        resetButtons();
-                        currentState = RESULT;
-                        flash(0);
-                        PBtimer = 0;
-                    }
-
-                    currentState = RESULT;
+                    currentState = FLASH;
                     currentCountdown=0;
                 }
             }
@@ -545,10 +529,23 @@ void ofApp::draw(){
         case FLASH: {
             ofSetColor(255, 255, 255, 255);
             //bg.draw();
-          //  cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-          //  frame.draw(0,0,1920,1080);
+            cams.draw_one(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
+            frame.draw(0,0,1920,1080);
             //buffer[textureToken].draw(0,0);
 
+            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
+
+            if (PBtimer>flashTimer*ofGetFrameRate()){
+                //if (PBtimer==2){
+                result.grabScreen(posResCamX, posResCamY, sizeResCamX, sizeResCamY);
+                //}
+                bg.load("/data/BG-simple/"+backgroundFiles[FRAME]);
+                bg.next();
+                resetButtons();
+                currentState = RESULT;
+                flash(0);
+                PBtimer = 0;
+            }
 
             break;
         }
