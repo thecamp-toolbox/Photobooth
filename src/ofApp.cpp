@@ -559,10 +559,7 @@ void ofApp::draw(){
 
             //drawTimer(mainTimer);
 
-
-
             bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
-            bg.next();
             resetButtons();
             currentState = PRINTING;
             PBtimer = 0;
