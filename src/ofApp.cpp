@@ -510,6 +510,8 @@ void ofApp::draw(){
             countdowns[nCountdown-1-currentCountdown].draw(posCDX, posCDY,
                                                            sizeCDX, sizeCDY);
 
+            countdowns[nCountdown-1-currentCountdown].draw(posCDX + posLCamY, posCDY, sizeCDX, sizeCDY);
+
             if (PBtimer>countDownTimer*ofGetFrameRate()){
                 currentCountdown++;
                 resetButtons();
