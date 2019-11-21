@@ -499,9 +499,9 @@ void ofApp::draw(){
                 resetButtons();
                 currentState = COUNTDOWN;
                 PBtimer = 0;
-            }*/
+            }
 
-            break;
+            break;*/
         }
         case COUNTDOWN: {
             ofSetColor(255, 255, 255, 255);
