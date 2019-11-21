@@ -553,10 +553,10 @@ void ofApp::draw(){
         case RESULT: {
 
             ofSetColor(255, 255, 255, 255);
-            bg.draw();
+          //  bg.draw();
 
             result.draw(posMainCamX, posMainCamY, sizeMainCamX, sizeMainCamY);
-
+            frame.draw(0,0,1920,1080);
             //drawTimer(mainTimer);
             bg.load("/data/BG-simple/"+backgroundFiles[BYE]);
             bg.next();
