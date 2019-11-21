@@ -553,6 +553,7 @@ void ofApp::draw(){
         case RESULT: {
 
             ofSetColor(255, 255, 255, 255);
+            frame.draw(0,0,1920,1080);
 //            bg.draw();
 
           //  result.draw(posResCamX+sizeResCamX, posResCamY, -sizeResCamX, sizeResCamY);
