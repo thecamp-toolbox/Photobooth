@@ -75,8 +75,7 @@ void ofApp::update(){
                 font.load( OF_TTF_SANS,30,true,true);
                 ledButtons(1, 1);
             }
-            if (buttonLPressed || buttonRPressed){
-                resetButtons();
+
                 currentState = STANDBY;
                 PBtimer = 0;
                 loadCSV();
@@ -100,8 +99,6 @@ void ofApp::update(){
                 Poco::LocalDateTime nowLocal(now);
 
                 //timeOffset =  setTime.timestamp() - nowLocal.timestamp();
-
-            }
 
             break;
         }
