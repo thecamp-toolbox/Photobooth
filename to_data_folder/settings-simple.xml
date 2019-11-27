@@ -4,9 +4,9 @@
 		<Nom>theCamp</Nom>
 		<Annee>2019</Annee>
 		<Mois>11</Mois>
-		<Jour>13</Jour>
-		<Heure>12</Heure>
-		<Minute>17</Minute>
+		<Jour>27</Jour>
+		<Heure>16</Heure>
+		<Minute>44</Minute>
 	</Evenement>
 	<Fichiers>
 		<Log_fichier>1</Log_fichier>
@@ -17,47 +17,47 @@
 	</Fichiers>
 	<Coordonnees_displays>
 		<Principal>
-			<position_X>485</position_X>
-			<position_Y>57</position_Y>
-			<taille_X>360</taille_X>
-			<taille_Y>640</taille_Y>
+			<position_X>220</position_X>
+			<position_Y>-1133</position_Y>
+			<taille_X>720</taille_X>
+			<taille_Y>1280</taille_Y>
 		</Principal>
 		<Choix_gauche>
 			<position_X>327</position_X>
-			<position_Y>303</position_Y>
-			<taille_X>640</taille_X>
-			<taille_Y>360</taille_Y>
+			<position_Y>1000</position_Y>
+			<taille_X>600</taille_X>
+			<taille_Y>1100</taille_Y>
 		</Choix_gauche>
 		<Choix_droit>
 			<position_X>800</position_X>
 			<position_Y>303</position_Y>
-			<taille_X>640</taille_X>
-			<taille_Y>360</taille_Y>
+			<taille_X>600</taille_X>
+			<taille_Y>400</taille_Y>
 		</Choix_droit>
 		<Resultat>
-			<position_X>602</position_X>
-			<position_Y>127</position_Y>
-			<taille_X>540</taille_X>
-			<taille_Y>960</taille_Y>
+			<position_X>775</position_X>
+			<position_Y>155</position_Y>
+			<taille_X>375</taille_X>
+			<taille_Y>750</taille_Y>
 		</Resultat>
 		<CountDown>
-			<position_X>860</position_X>
-			<position_Y>200</position_Y>
-			<taille_X>200</taille_X>
-			<taille_Y>200</taille_Y>
+			<position_X>300</position_X>
+			<position_Y>400</position_Y>
+			<taille_X>300</taille_X>
+			<taille_Y>300</taille_Y>
 		</CountDown>
 		<Timer>
-			<position_X>860</position_X>
-			<position_Y>200</position_Y>
-			<taille_X>200</taille_X>
-			<taille_Y>200</taille_Y>
+			<position_X>925</position_X>
+			<position_Y>800</position_Y>
+			<taille_X>100</taille_X>
+			<taille_Y>100</taille_Y>
 		</Timer>
 	</Coordonnees_displays>
 	<Cameras>
 		<crop_offset_X>0</crop_offset_X>
 		<crop_offset_Y>0</crop_offset_Y>
-		<crop_largeur>1920</crop_largeur>
-		<crop_hauteur>1442</crop_hauteur>
+		<crop_largeur>720</crop_largeur>
+		<crop_hauteur>720</crop_hauteur>
 		<luminosité_cam_Ht>2</luminosité_cam_Ht>
 		<contraste_cam_Ht>1</contraste_cam_Ht>
 		<luminosité_cam_Bas>1</luminosité_cam_Bas>
@@ -69,22 +69,32 @@
 		<Compilation>5.8</Compilation>
 		<profil>3.46667</profil>
 		<flash>0.233333</flash>
-		<countdown>0.4</countdown>
+		<countdown>1</countdown>
 		<Print>2.95918</Print>
 		<question>4.33333</question>
 		<Draw_FPS>0</Draw_FPS>
 	</Timers>
 	<Ticket>
 		<print>1</print>
-		<Marge_Gauche>10</Marge_Gauche>
+		<Marge_Gauche>40</Marge_Gauche>
 		<Marge_Droite>10</Marge_Droite>
-		<Marge_Haut>10</Marge_Haut>
+		<Marge_Haut>-40</Marge_Haut>
 		<Marge_Bas>10</Marge_Bas>
-		<Largeur>635</Largeur>
-		<Hauteur>635</Hauteur>
+		<Largeur>639</Largeur>
+		<Hauteur>2000</Hauteur>
 		<Offset_X_texte>70</Offset_X_texte>
-		<Marge_Y_profil>10</Marge_Y_profil>
-		<Taille_Y_profil>180</Taille_Y_profil>
+		<Position_X_date>270</Position_X_date>
+		<Position_Y_date>1600</Position_Y_date>
+		<Position_X_text>190</Position_X_text>
+		<Position_Y_text>1700</Position_Y_text>
+		<Position_Y_logoClient>10</Position_Y_logoClient>
+		<Position_X_logoClient>160</Position_X_logoClient>
+		<Taille_Y_profil>319</Taille_Y_profil>
+		<Taille_X_profil>361</Taille_X_profil>
+		<Customer_text> The Base Camp For
+Exploring the Future </Customer_text>
+		<Position_X_logoTheCamp>220</Position_X_logoTheCamp>
+		<Position_Y_logoTheCamp>1850</Position_Y_logoTheCamp>
 	</Ticket>
 	<LEDs>
 		<nb_de_LEDs_par_strip>30</nb_de_LEDs_par_strip>
