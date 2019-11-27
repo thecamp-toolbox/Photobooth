@@ -153,11 +153,6 @@ public:
     enum States {
         INIT,
         STANDBY,
-        WELCOME,
-        EXPLAIN,
-        QUESTION,
-        COMPILING,
-        PROFILE,
         CAM_CHOICE,
         FRAME,
         COUNTDOWN,
@@ -172,11 +167,6 @@ public:
     {
         "init.png",
         "standby.png",
-        "welcome.png",
-        "explain.png",
-        "question",
-        "compiling.png",
-        "profile",
         "cam_choice.png",
         "frame",
         "countdown",
@@ -186,19 +176,7 @@ public:
         "bye.png"
     };
 
-    static const int nQuestions{10};
-    int currentQuestion {0};
 
-    static const int nProfiles{7};
-    string profileNames[nProfiles]{
-        "agrikool",
-        "ecowarrior",
-        "sportify",
-        "educulteur",
-        "gik2point0",
-        "habitateur",
-        "essejivé"
-    };
     int currentProfile {0};
 
     static const int nCountdown{4};
