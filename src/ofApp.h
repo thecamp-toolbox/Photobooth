@@ -31,10 +31,6 @@ public:
     ofParameter<bool> logToFile{false}; // set this to true to write the Log to a file
     ofParameter<bool> print{false};
 
-    ofParameterGroup questionsFile;
-    // CSV file for questions weights
-    ofParameter<string> weightsFilePath {"questions.csv"};
-    ofParameter<int> weightsCSVcolOffset {2}; // the number of cols to offset in the  spreadsheet
 
     ofParameterGroup coords;
     // coordonnées du cadre principal
@@ -43,16 +39,6 @@ public:
     posMainCamX{493}, posMainCamY{73},
     sizeMainCamX{934}, sizeMainCamY{934};
 
-    ofParameterGroup choiceL;
-    // coordonnées du cadre de choix gauche
-    ofParameter<int>
-    posLCamX{1500}, posLCamY{677},
-    sizeLCamX{330}, sizeLCamY{330};
-    ofParameterGroup choiceR;
-    // coordonnées du cadre de choix gauche
-    ofParameter<int>
-    posRCamX{1000}, posRCamY{677},
-    sizeRCamX{360}, sizeRCamY{640};
 
     ofParameterGroup res;
     // coordonnées du cadre résultats
@@ -153,12 +139,6 @@ public:
     enum States {
         INIT,
         STANDBY,
-        WELCOME,
-        EXPLAIN,
-        QUESTION,
-        COMPILING,
-        PROFILE,
-        CAM_CHOICE,
         FRAME,
         COUNTDOWN,
         FLASH,
@@ -172,12 +152,6 @@ public:
     {
         "init.png",
         "standby.png",
-        "welcome.png",
-        "explain.png",
-        "question",
-        "compiling.png",
-        "profile",
-        "cam_choice.png",
         "frame",
         "countdown",
         "flash.png",
@@ -186,20 +160,6 @@ public:
         "bye.png"
     };
 
-    static const int nQuestions{10};
-    int currentQuestion {0};
-
-    static const int nProfiles{7};
-    string profileNames[nProfiles]{
-        "agrikool",
-        "ecowarrior",
-        "sportify",
-        "educulteur",
-        "gik2point0",
-        "habitateur",
-        "essejivé"
-    };
-    int currentProfile {0};
 
     static const int nCountdown{4};
     int currentCountdown{0};
@@ -232,14 +192,9 @@ public:
 
     ofxCsv csv;
 
-    int weightsL[nQuestions][nProfiles];
-    int weightsR[nQuestions][nProfiles];
-
     float score;
     float heightLogoClient;
     float widthLogoClient;
-    float profileCounts[nProfiles];
-    int   profileScores[nProfiles];
 
     std::string timeStart;
     std::string timeNow;
