@@ -192,6 +192,8 @@ void ofApp::update(){
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
                 fileName+=".png";
                 ofLog() << "Photo saved as: " << fileName;
+
+                ticket.resize(512, 1486);
                 ticket.save(photoPath+fileName);
 
                 if (print){
