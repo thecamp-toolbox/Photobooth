@@ -113,81 +113,6 @@ void ofApp::update(){
 
             break;
         }
-        case WELCOME: {
-            if (PBtimer==1) {
-                ofLog() << "WELCOME";
-                bg.load("/data/BG-simple/"+backgroundFiles[EXPLAIN]);
-                ledButtons(1, 1);
-            }
-
-            break;
-        }
-        case EXPLAIN: {
-            if (PBtimer==1) {
-                ofLog() << "EXPLAIN";
-                bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+1) + ".png");
-                ledButtons(1, 1);
-            }
-
-            break;
-        }
-        case QUESTION: {
-            if (PBtimer==1) {
-                ledButtons(1, 1);
-                ofLog() << "QUESTION #" << currentQuestion+1;
-            }
-
-            leds.index = float(PBtimer)/float(questionTimer*frameRate);
-
-            break;
-        }
-        case COMPILING: {
-            if (PBtimer==1) {
-                //bg.next();
-                ofLog() << "COMPILING";
-                float max=0;
-                for (size_t i =0; i< nProfiles;++i){
-                    ofLog() << "compte pour profil " << profileNames[i] << " : " << profileCounts[i]
-                    << " -> " << (profileScores[i] = floor(profileCounts[i]/111));
-                    leds.profileCounts[i] = profileCounts[i]/1200.;
-                    leds.profileCounts[nProfiles] += leds.profileCounts[i]/nProfiles;
-                    if (profileCounts[i]>max) {
-                        max=profileCounts[i];
-                        currentProfile = i;
-                    }
-                }
-                ofLog() << "Profil choisi: " << profileNames[currentProfile];
-                ofLoadImage(profile, ("/data/BG-simple/"+backgroundFiles[PROFILE]+to_string(currentProfile+1)+".png"));
-                ofLoadImage(frame,   ("/data/BG-simple/"+backgroundFiles[FRAME]+to_string(currentProfile+1)+".png"));
-                bg.load("/data/BG-simple/"+backgroundFiles[CAM_CHOICE]);
-            }
-
-            leds.index = float(PBtimer)/float(compileTimer*frameRate);
-
-            break;
-        }
-        case PROFILE: {
-            if (PBtimer==1) {
-                ledButtons(1, 1);
-                ofLog() << "PROFILE #" << currentProfile+1;
-
-            }
-
-            break;
-        }
-        case CAM_CHOICE: {
-            ledButtons(1, 1);
-            cams.update_all();
-            leds.currentAnimation = leds.NONE;
-
-            if (PBtimer==1) {
-                ofLog() << "CAM_CHOICE";
-                bg.load("/data/BG-simple/" + backgroundFiles[RESULT] + to_string(resultCount+1)+".png");
-
-            }
-
-            break;
-        }
         case FRAME: {
             ledButtons(1, 1);
             cams.update_one();
@@ -242,8 +167,6 @@ void ofApp::update(){
 
                 fbo.begin();
 
-                float marginXLogo = (ticketWidth-profilTicketClient.getWidth()) / 2;
-
                 ofClear(255,255,255, 0);
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
@@ -260,7 +183,6 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
                 ticket.mirror(1,0);
-                ticket.save("/data/screenshot_ticket.png");
 
                 fbo.end();
 
@@ -309,14 +231,6 @@ void ofApp::draw(){
             cams.draw_one(posRCamX, posRCamY, sizeRCamX, sizeRCamY);
             // gui.draw();
             if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-            ofSetColor(250, 250, 0, 250);
-            font.drawString("<- changer le nom de l'événement, la date et l'heure ci-contre" ,350, 80);
-            ofSetColor(250, 250, 250, 250);
-            string displayName = "Nom de l'événement: ";
-            displayName+= eventName;
-            font.drawString(displayName ,450, 150);
-
-            std::string ts0 = "2000-01-01T12:00:00+01:00";        // Poco::DateTimeFormat::ISO8601_FORMAT
 
             const std::string DATE_FORMAT = "%Y %b %f %H:%M";
 
@@ -329,10 +243,9 @@ void ofApp::draw(){
 
             timeNow = "Date et heure: " + ofxTime::Utils::format(setTime, DATE_FORMAT);
 
-            font.drawString( timeNow ,450, 210);
-            ofSetColor(250, 250, 0, 250);
-            font.drawString("appuyer sur un des boutons pour lancer l'application" ,350, 280);
-            ofSetColor(255, 255, 255, 255);
+//            ofSetColor(250, 250, 0, 250);
+//            font.drawString("appuyer sur un des boutons pour lancer l'application" ,350, 280);
+//            ofSetColor(255, 255, 255, 255);
 
             break;
         }
@@ -344,148 +257,10 @@ void ofApp::draw(){
                 resetButtons();
                 currentState = FRAME;
                 PBtimer = 0;
-                // reset profile accounts
-                for (size_t j = 0; j < nProfiles; ++j) {
-                    profileCounts[j] = 0;
-                }
+
             }
             break;
 
-        }
-        case EXPLAIN:{
-            ofSetColor(255, 255, 255, 255);
-            bg.draw();
-
-            if (PBtimer>mainTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentQuestion = 0;
-                bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                leds.currentAnimation = leds.QUESTION;
-                currentState = QUESTION;
-                PBtimer = 0;
-                bg.next();
-            }
-            break;
-        }
-        case QUESTION:{
-            ofSetColor(255, 255, 255, 255);
-            bg.draw();
-            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-
-            if (PBtimer>questionTimer*ofGetFrameRate()) {
-                resetButtons();
-                PBtimer = 0;
-                //bg.next();
-                if (currentQuestion<nQuestions-2) {
-                    currentQuestion++;
-                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    ofLog() << "No Choice for Question: " << currentQuestion;
-                    bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-
-            } else if (buttonLPressed) {
-                resetButtons();
-                //bg.next();
-                score = float(100-100*PBtimer/(questionTimer*frameRate));
-                ofLog() << "Choice A for Question: " << currentQuestion+1 << " with Score: " << score << "%";
-                for (size_t i = 0; i<nProfiles; ++i){
-                    profileCounts[i]+=score*weightsL[currentQuestion][i];
-                }
-                PBtimer = 0;
-                if (currentQuestion<nQuestions-2) {
-                    currentQuestion++;
-                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-
-            } else if (buttonRPressed) {
-                resetButtons();
-                //bg.next();
-                score = float(100-100*PBtimer/(questionTimer*frameRate));
-                ofLog() << "Choice B for Question: " << currentQuestion+1 << " with Score: " <<  score << "%";
-                for (size_t i = 0; i<nProfiles; ++i){
-                    profileCounts[i]+=score*weightsR[currentQuestion][i];
-                }
-                PBtimer = 0;
-                if (currentQuestion<nQuestions-2) {
-                    currentQuestion++;
-                    bg.load("/data/BG-simple/" + backgroundFiles[QUESTION] + to_string(currentQuestion+2) + ".png");
-                    bg.next();
-                } else {
-                    ledButtons(0, 0);
-                    bg.load("/data/BG-simple/"+backgroundFiles[COMPILING]);
-                    bg.next();
-                    leds.currentAnimation = leds.COMPILE;
-                    currentQuestion = 0;
-                    currentState = COMPILING;
-                }
-            }
-            break;
-        }
-        case COMPILING:{
-            ofSetColor(255, 255, 255, 255);
-            bg.draw();
-            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-
-            if (PBtimer>compileTimer*ofGetFrameRate()){
-                bg.next();
-                currentState = PROFILE;
-                resetButtons();
-                PBtimer = 0;
-            }
-            break;
-        }
-        case PROFILE: {
-            ofSetColor(255, 255, 255, 255);
-            profile.draw(0,0,1920,1080);
-            if (leds.draw) leds.img.draw(leds.X, leds.Y, leds.W, leds.H);
-
-            if (PBtimer>profileTimer*ofGetFrameRate() || buttonLPressed || buttonRPressed){
-                resetButtons();
-                currentState = CAM_CHOICE;
-                PBtimer = 0;
-            }
-            break;
-        }
-        case CAM_CHOICE: {
-            ofSetColor(255, 255, 255, 255);
-          cams.draw_all(posLCamX, posLCamY, sizeLCamX, sizeLCamY, posRCamX, posRCamY, sizeRCamX, sizeRCamY);
-             bg.draw();
-
-            if (buttonRPressed) {
-                //bg.next();
-                resetButtons();
-                cams.current = 0;
-                currentState = FRAME;
-                PBtimer = 0;
-            } else if (buttonLPressed){
-                //bg.next();
-                resetButtons();
-                cams.current = 1;
-                currentState = FRAME;
-                PBtimer = 0;
-            } else if (PBtimer>mainTimer*frameRate){
-                //bg.next();
-                resetButtons();
-                currentState = FRAME;
-                PBtimer = 0;
-            }
-
-            break;
         }
         case FRAME: {
             ofSetColor(255, 255, 255, 255);
@@ -799,18 +574,6 @@ void ofApp::setupGUI(){
     main.add(sizeMainCamX.set("taille X", 934, 0, ofGetWidth()));
     main.add(sizeMainCamY.set("taille Y", 934, 0, ofGetHeight()));
 
-    // coordonnées du cadre choix gauche
-    choiceL.setName("Choix gauche");
-    choiceL.add(posLCamX.set("position X", 1500, 0, ofGetWidth()));
-    choiceL.add(posLCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceL.add(sizeLCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceL.add(sizeLCamY.set("taille Y", 330, 0, ofGetHeight()));
-    // coordonnées du cadre choix droit
-    choiceR.setName("Choix droit");
-    choiceR.add(posRCamX.set("position X", 1500, 0, ofGetWidth()));
-    choiceR.add(posRCamY.set("position Y", 677, 0, ofGetHeight()));
-    choiceR.add(sizeRCamX.set("taille X", 330, 0, ofGetWidth()));
-    choiceR.add(sizeRCamY.set("taille Y", 330, 0, ofGetHeight()));
 
     // coordonnées du cadre résultat
     res.setName("Resultat");
@@ -836,8 +599,6 @@ void ofApp::setupGUI(){
     //
 
     coords.add(main);
-    coords.add(choiceL);
-    coords.add(choiceR);
     coords.add(res);
     coords.add(countdown);
     coords.add(timerPos);
@@ -912,28 +673,6 @@ void ofApp::loadCSV(){
     if (logToFile){
         string logPath = eventName;
         ofLogToFile("/data/logs/"+logPath+".txt", true);
-    }
-
-    // Load a CSV File for profiles weights for questions
-    string csvPath = weightsFilePath;
-    csv.load(ofToDataPath("/data/"+csvPath));
-    ofLog() << '\n';
-
-    for(int j=0; j<nProfiles; j++) {
-        profileNames[j] = csv[0][j+weightsCSVcolOffset];
-    }
-    // Print out all rows and cols.
-    for(int i=0; i<nQuestions; i++) {
-        ofLog() << "Question #"  << i+1 << " :  " << '\t' << '\t'  << csv[i*2+1][1] << " / " << csv[i*2+2][1] << " : ";
-        for(int j=0; j<nProfiles; j++) {
-            ofLog() << "-> " <<
-            tabText(profileNames[j],17) <<'\t' << '\t' <<
-            //profileNames[j] <<'\t' << '\t' <<
-            (weightsL[i][j] = ofFromString<int>(csv[i*2+1][j+weightsCSVcolOffset]))
-            << " __ ou __ " <<
-            (weightsR[i][j] = ofFromString<int>(csv[i*2+2][j+weightsCSVcolOffset])) ;
-        }
-        ofLog() << '\n';
     }
 }
 
