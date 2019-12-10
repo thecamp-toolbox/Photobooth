@@ -193,7 +193,7 @@ void ofApp::update(){
                 fileName+=".png";
                 ofLog() << "Photo saved as: " << fileName;
 
-                ticket.resize(512, 1486);
+                //ticket.resize(512, 1486);
                 ticket.save(photoPath+fileName);
 
                 if (print){
