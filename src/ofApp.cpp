@@ -290,7 +290,7 @@ void ofApp::draw(){
                 PBtimer = 0;
                 if (currentCountdown==4){
                     leds.currentAnimation = leds.FLASH;
-                    flash(0);
+                    flash(1);
                     currentState = FLASH;
                     currentCountdown=0;
                 }
