@@ -198,7 +198,7 @@ void ofApp::update(){
                 ticket.save(photoPath+fileName);
 
                 if (print){
-                    string printCommandCamera = "png2pos -p -s 3 "+photoPath+fileName2+"  > /dev/usb/lp0";
+                    string printCommandCamera = "png2pos -p -s 1 "+photoPath+fileName2+"  > /dev/usb/lp0";
                     string printCommand = "lp "+photoPath+fileName;
                     ofSystem(printCommandCamera);
                     ofSystem(printCommand);
