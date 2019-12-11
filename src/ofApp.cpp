@@ -171,14 +171,14 @@ void ofApp::update(){
                 ofSetColor(255,255,255, 255);
                 ofDrawRectangle(0, 0, ticketWidth, ticketHeight);
 
-                //result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.8, sizeResCamY*1.8);
-                //profilTicketClient.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
-                profilTicketThecamp.draw(positionXLogoTC, 150, 235, 37);
+                result.draw(ticketMarginXLeft, profilSizeY + ticketMarginYTop, sizeResCamX*1.8, sizeResCamY*1.8);
+                profilTicketClient.draw(profilMarginX, profilMarginY, profilSizeX, profilSizeY);
+                profilTicketThecamp.draw(positionXLogoTC, positionYLogoTC, 235, 37);
 
                 ofSetHexColor(0x000000);
                 fontTicket.load( OF_TTF_SANS, 24, true,true);
-                fontTicket.drawString(readableDate, positionXDate, 30);
-                fontTicket.drawString(customerText, positionXText, 50);
+                fontTicket.drawString(readableDate, positionXDate, positionYDate);
+                fontTicket.drawString(customerText, positionXText, positionYText);
 
                 ofSetColor(255,255,255, 255);
                 ticket.grabScreen(0, 0, ticketWidth, ticketHeight);
@@ -186,7 +186,7 @@ void ofApp::update(){
 
                 fbo.end();
 
-                string fileName2 = "camera.png";
+
                 string fileName = eventName;
                 fileName+='-'+ofToString(year)+'-'+ofToString(month)+'-'+ofToString(day)
                 +'-'+ofToString(hour)+'h'+ofToString(min)+'-'+ofToString(ofGetElapsedTimeMillis())+'-';
@@ -194,15 +194,11 @@ void ofApp::update(){
                 ofLog() << "Photo saved as: " << fileName;
 
                 //ticket.resize(512, 1486);
-                result.save(photoPath+fileName2);
                 ticket.save(photoPath+fileName);
 
                 if (print){
-                    string printCommandCamera = "png2pos -p -s 1 "+photoPath+fileName2+"  > /dev/usb/lp0";
                     string printCommand = "lp "+photoPath+fileName;
-                    ofSystem(printCommandCamera);
                     ofSystem(printCommand);
-
                 }
             }
 
